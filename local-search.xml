@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>fyp</title>
+    <link href="/2024/10/07/fyp/"/>
+    <url>/2024/10/07/fyp/</url>
+    
+    <content type="html"><![CDATA[<p><strong>使用的mcu：</strong><br>esp32<br><strong>历史设备：</strong><br>Kinect for Windows<br><a href="https://learn.microsoft.com/en-us/windows/apps/design/devices/kinect-for-windows">https://learn.microsoft.com/en-us/windows/apps/design/devices/kinect-for-windows</a><br>Nintendo Wii<br><a href="https://www.nintendo.com/en-gb/Wii/Wii-94559.html?srsltid=AfmBOor8Xo1tet1IBXyGMjGHbShVLkBfER8bSEsyGtisKmdRG3AfMNrp">https://www.nintendo.com/en-gb/Wii/Wii-94559.html?srsltid=AfmBOor8Xo1tet1IBXyGMjGHbShVLkBfER8bSEsyGtisKmdRG3AfMNrp</a><br><strong>相关仓库：</strong></p><ul><li><strong>MediaPipe Solutions（重点参考应用案例）:</strong> Google 开发的跨平台框架，包含多种机器学习解决方案，其中手势识别解决方案非常强大，提供了实时、高精度的手势跟踪和分类功能。<ul><li><strong>链接:</strong> <a href="https://github.com/google/mediapipe">https://github.com/google/mediapipe</a></li></ul></li><li><strong>OpenPose:</strong> 一个实时多人二维姿态估计库，可以用于手势识别。它可以准确地检测人体关键点，为手势识别提供基础数据。<ul><li><strong>链接:</strong> <a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose">https://github.com/CMU-Perceptual-Computing-Lab/openpose</a></li></ul></li><li><strong>TensorFlow Examples:</strong> TensorFlow 官方提供的示例代码，包含多个手势识别相关的示例，如使用 TensorFlow 和 Keras 实现手势分类。<ul><li><strong>链接:</strong> <a href="https://github.com/tensorflow/examples">https://github.com/tensorflow/examples</a></li></ul></li><li><strong>RealGes:</strong> 一个基于视觉的实时动态手势识别系统，包含数据采集、模型训练、实时预测等完整流程。<ul><li><strong>链接:</strong> <a href="https://github.com/wzh99/RealGes">https://github.com/wzh99/RealGes</a><br><strong>编程和平台：</strong><br>arduino（功能较弱）<br><strong>Arduino IDE：</strong> Arduino IDE 是一个开源的集成开发环境，通过安装 ESP32 的核心库，可以方便地进行开发。<br>vscode上可以装插件用C++编程。<br><strong>学习：</strong><br>不要看forest和svm，要从cnn、rnn、gan等开始看起。从类似项目中找使用cnn、rnn的方法，从中入手学习。每个人都要交单独的report。中期报告的时候要有设计方案和初步产品。汇报进度时准备PPT。<br><strong>理想流程：</strong><br>先做图像处理，再把数据放进learing model中处理，观察得到的结果。</li></ul></li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>The Shell</title>
     <link href="/2024/10/04/The%20Shell/"/>
     <url>/2024/10/04/The%20Shell/</url>
