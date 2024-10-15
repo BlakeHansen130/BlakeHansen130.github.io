@@ -19,16 +19,16 @@
   <meta name="author" content="">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MLP（Multi-Layer Perceptron），即多层感知机，是深度学习中最基础的神经网络模型之一。它可以看作是感知机的扩展，通过引入多个隐藏层，使得网络能够学习到更加复杂的非线性映射关系。 MLP的结构 输入层： 接收原始数据，每个神经元对应一个输入特征。 隐藏层： 位于输入层和输出层之间，包含多个神经元。隐藏层的神经元通过非线性激活函数对输入数据进行变换，从而提取出数据的特征。 输出层">
+    <meta name="description" content="Deep Learning by 3Blue1BrownMLP的结构 输入层： 接收原始数据，每个神经元对应一个输入特征。 隐藏层： 位于输入层和输出层之间，包含多个神经元。隐藏层的神经元通过非线性激活函数对输入数据进行变换，从而提取出数据的特征。 输出层： 输出网络的预测结果，神经元的个数取决于任务类型（分类、回归等）。MLP（Multi-Layer Perceptron），即多层感知机，是深度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Deep Learning by 3Blue1Brown">
 <meta property="og:url" content="https://blakehansen130.github.io/2024/10/15/3Blue1Brown/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="MLP（Multi-Layer Perceptron），即多层感知机，是深度学习中最基础的神经网络模型之一。它可以看作是感知机的扩展，通过引入多个隐藏层，使得网络能够学习到更加复杂的非线性映射关系。 MLP的结构 输入层： 接收原始数据，每个神经元对应一个输入特征。 隐藏层： 位于输入层和输出层之间，包含多个神经元。隐藏层的神经元通过非线性激活函数对输入数据进行变换，从而提取出数据的特征。 输出层">
+<meta property="og:description" content="Deep Learning by 3Blue1BrownMLP的结构 输入层： 接收原始数据，每个神经元对应一个输入特征。 隐藏层： 位于输入层和输出层之间，包含多个神经元。隐藏层的神经元通过非线性激活函数对输入数据进行变换，从而提取出数据的特征。 输出层： 输出网络的预测结果，神经元的个数取决于任务类型（分类、回归等）。MLP（Multi-Layer Perceptron），即多层感知机，是深度">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blakehansen130.github.io/img/123273111_14801956_0.jpg">
 <meta property="article:published_time" content="2024-10-15T15:29:47.361Z">
-<meta property="article:modified_time" content="2024-10-15T15:35:18.303Z">
+<meta property="article:modified_time" content="2024-10-15T15:48:48.941Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blakehansen130.github.io/img/123273111_14801956_0.jpg">
   
@@ -246,7 +246,7 @@
         
         
         
-          14 分钟
+          13 分钟
         
       </span>
     
@@ -288,11 +288,10 @@
             
               <div class="markdown-body">
                 
-                <p><strong>MLP（Multi-Layer Perceptron）</strong>，即<strong>多层感知机</strong>，是深度学习中最基础的神经网络模型之一。它可以看作是感知机的扩展，通过引入多个隐藏层，使得网络能够学习到更加复杂的非线性映射关系。</p>
-<h3 id="MLP的结构"><a href="#MLP的结构" class="headerlink" title="MLP的结构"></a>MLP的结构</h3><ul>
+                <h1 id="Deep-Learning-by-3Blue1Brown"><a href="#Deep-Learning-by-3Blue1Brown" class="headerlink" title="Deep Learning by 3Blue1Brown"></a>Deep Learning by 3Blue1Brown</h1><h3 id="MLP的结构"><a href="#MLP的结构" class="headerlink" title="MLP的结构"></a>MLP的结构</h3><ul>
 <li><strong>输入层：</strong> 接收原始数据，每个神经元对应一个输入特征。</li>
 <li><strong>隐藏层：</strong> 位于输入层和输出层之间，包含多个神经元。隐藏层的神经元通过非线性激活函数对输入数据进行变换，从而提取出数据的特征。</li>
-<li><strong>输出层：</strong> 输出网络的预测结果，神经元的个数取决于任务类型（分类、回归等）。</li>
+<li><strong>输出层：</strong> 输出网络的预测结果，神经元的个数取决于任务类型（分类、回归等）。<br><strong>MLP（Multi-Layer Perceptron）</strong>，即<strong>多层感知机</strong>，是深度学习中最基础的神经网络模型之一。它可以看作是感知机的扩展，通过引入多个隐藏层，使得网络能够学习到更加复杂的非线性映射关系。</li>
 </ul>
 <h3 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h3><p>也称为<strong>S型函数</strong>或<strong>逻辑斯蒂函数</strong>，是一种在生物学、信息科学、神经网络等多个领域广泛应用的数学函数。<br>表达式：<code>f(x) = 1 / (1 + e^(-x))</code></p>
 <ul>
@@ -300,7 +299,7 @@
 <li><strong>连续性：</strong> Sigmoid函数是连续可导的，这使得它可以用于梯度下降等优化算法。</li>
 <li><strong>非线性：</strong> Sigmoid函数是非线性的，这使得神经网络能够拟合复杂的非线性关系。<br>Sigmoid函数在神经网络中的作用</li>
 <li><strong>作为激活函数：</strong> Sigmoid函数是早期神经网络中常用的激活函数。它可以将线性输入转化为非线性输出，从而使神经网络具有学习复杂模式的能力。</li>
-<li><strong>将输出限制在0-1之间：</strong> 在二分类问题中，Sigmoid函数可以将输出解释为属于正类的概率。<br><strong>机器学习即是要找到正确的权重的偏置，使代价函数最小化。<br>神经网络本身就是一个大型函数。</strong><br>![](&#x2F;img&#x2F;Pasted image 20241014220021.png)</li>
+<li><strong>将输出限制在0-1之间：</strong> 在二分类问题中，Sigmoid函数可以将输出解释为属于正类的概率。<br><strong>机器学习即是要找到正确的权重的偏置，使代价函数最小化。<br>神经网络本身就是一个大型函数。</strong><br><img src="/img/20241014220021.png" srcset="/img/123096189_42399563_0.gif" lazyload></li>
 </ul>
 <h3 id="反向传播算法（Backpropagation，BP）"><a href="#反向传播算法（Backpropagation，BP）" class="headerlink" title="反向传播算法（Backpropagation，BP）"></a>反向传播算法（Backpropagation，BP）</h3><p>工作原理：</p>
 <ol>
@@ -340,8 +339,8 @@
 </ul>
 <h3 id="随机梯度下降（Stochastic-Gradient-Descent，SGD）"><a href="#随机梯度下降（Stochastic-Gradient-Descent，SGD）" class="headerlink" title="随机梯度下降（Stochastic Gradient Descent，SGD）"></a>随机梯度下降（Stochastic Gradient Descent，SGD）</h3><p>SGD 的主要特点在于每次迭代只随机选取一个样本（或一小批样本）来计算梯度，并根据这个梯度来更新参数。</p>
 <h3 id="gpt"><a href="#gpt" class="headerlink" title="gpt"></a>gpt</h3><p>GPT，全称Generative Pre-trained Transformer，中文翻译为生成式预训练变换器。<br><strong>Transformer架构:</strong> GPT模型的核心是Transformer架构。Transformer是一种神经网络架构，特别适合处理序列数据，如文本。它利用自注意力机制，让模型能够关注输入序列的不同部分，从而更好地理解文本的上下文。<br>word embedding过后方向可以代表语义。</p>
-<h3 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h3><p>它的作用是将一个任意实数的K维向量“压缩”到另一个K维实向量中，使得每一个元素的范围都在(0,1)之间，并且所有元素的和为1。换句话说，它将输入的数值转化为一个概率分布。其输入称为logits，输出称为probabilities。</p>
-<h3 id="Softmax函数引入温度参数后的形式"><a href="#Softmax函数引入温度参数后的形式" class="headerlink" title="Softmax函数引入温度参数后的形式"></a>Softmax函数引入温度参数后的形式</h3><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs excel">y_i = <span class="hljs-built_in">exp</span>(z_i / <span class="hljs-built_in">T</span>) / Σ(<span class="hljs-built_in">exp</span>(z_j / <span class="hljs-built_in">T</span>))<br></code></pre></td></tr></table></figure>
+<h3 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h3><p>它的作用是将一个任意实数的K维向量“压缩”到另一个K维实向量中，使得每一个元素的范围都在(0,1)之间，并且所有元素的和为1。换句话说，它将输入的数值转化为一个概率分布。其输入称为logits，输出称为probabilities。<br>Softmax函数引入温度参数后的形式：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs excel">y_i = <span class="hljs-built_in">exp</span>(z_i / <span class="hljs-built_in">T</span>) / Σ(<span class="hljs-built_in">exp</span>(z_j / <span class="hljs-built_in">T</span>))<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li><code>y_i</code>: 输出向量y的第i个元素，表示输入数据属于第i类的概率。</li>
