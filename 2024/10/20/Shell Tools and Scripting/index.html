@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Shell Tools and Scripting变量 函数在shell中要注意空格的使用，尤其是在进行与名字字符串中带有空格的文件有关的操作时。&quot;$ variable name&quot;可以使用变量。source function可以在shell中执行函数，然后function folder&#x2F;file就可以检验了。$0是脚本名称，$?获取上一个命令的错误代码，$_获取上一个命令参数，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell Tools and Scripting">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/10/20/Shell%20Tools%20and%20Scripting/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="Shell Tools and Scripting变量 函数在shell中要注意空格的使用，尤其是在进行与名字字符串中带有空格的文件有关的操作时。&quot;$ variable name&quot;可以使用变量。source function可以在shell中执行函数，然后function folder&#x2F;file就可以检验了。$0是脚本名称，$?获取上一个命令的错误代码，$_获取上一个命令参数，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/123427332_429077_1.jpg">
+<meta property="article:published_time" content="2024-10-20T07:10:32.878Z">
+<meta property="article:modified_time" content="2024-10-20T07:25:13.281Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/123427332_429077_1.jpg">
+  
+  
+  
+  <title>Shell Tools and Scripting - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/123484681_31658209_0.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Shell Tools and Scripting"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-20 15:10" pubdate>
+          2024年10月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Shell Tools and Scripting</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Shell-Tools-and-Scripting"><a href="#Shell-Tools-and-Scripting" class="headerlink" title="Shell Tools and Scripting"></a>Shell Tools and Scripting</h1><h2 id="变量-函数"><a href="#变量-函数" class="headerlink" title="变量 函数"></a>变量 函数</h2><p>在shell中要注意空格的使用，尤其是在进行与名字字符串中带有空格的文件有关的操作时。<br><code>&quot;$ variable name&quot;</code>可以使用变量。<br><code>source function</code>可以在shell中执行函数，然后<code>function folder/file</code>就可以检验了。<br><code>$0</code>是脚本名称，<code>$?</code>获取上一个命令的错误代码，<code>$_</code>获取上一个命令参数，例如文件或文件夹等，<code>$#</code>给出的参数数量，<code>$$</code>获取pid(process id)，<code>$@</code>扩展到所有参数。<br>常见的退出状态码示例：</p>
+<ul>
+<li><strong>1：</strong> 一般表示命令执行时出现了错误。</li>
+<li><strong>2：</strong> 可能表示命令使用不正确，例如参数错误。</li>
+<li><strong>127：</strong> 表示命令未找到。</li>
+<li><strong>126：</strong> 表示命令找到，但无法执行（例如没有执行权限）。<br><img src="/img/20241006222138.png" srcset="/img/123096189_42399563_0.gif" lazyload><br><code>!!</code>表示获取上一段命令，例如上一段命令执行结果是没有管理员权限，那么可以<code>sudo !!</code>来解决。</li>
+</ul>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p><code>||</code>或，<code>&amp;&amp;</code>与，<code>;</code>分隔多个命令，顺序执行。<br><code>$(command)</code>也可以代表相应的输出内容，<code>cat &lt;(command)</code>也可以实现输出内容。</p>
+<h3 id="dev-null"><a href="#dev-null" class="headerlink" title="&#x2F;dev&#x2F;null"></a>&#x2F;dev&#x2F;null</h3><p>在类Unix系统中是一个特殊的设备文件，常被称为“空设备”或“比特桶”。你可以把它想象成一个无底洞，任何写入到它的数据都会被丢弃，而从它读取数据永远只会得到一个空的回应。<br>&#x2F;dev&#x2F;null 的作用</p>
+<ul>
+<li><strong>丢弃输出：</strong> 当你执行一个命令，但不想看到它的输出结果时，可以将输出重定向到 &#x2F;dev&#x2F;null。这在自动化脚本或批量处理任务中非常常见。</li>
+<li><strong>抑制错误信息：</strong> 某些命令执行时可能会产生错误信息。如果这些错误信息对你来说无关紧要，可以将错误信息重定向到 &#x2F;dev&#x2F;null。</li>
+<li><strong>创建空文件：</strong> 可以通过将特定内容写入 &#x2F;dev&#x2F;null 来创建一个空文件。<br>例如：<code>find / -name &quot;*.tmp&quot; -delete &gt; /dev/null 2&gt;&amp;1</code>这条命令会查找系统中所有以 <code>.tmp</code> 结尾的文件并删除，同时将命令的标准输出和标准错误输出都重定向到 &#x2F;dev&#x2F;null，避免在终端显示任何信息。<code>2&gt;&amp;1</code>这是一个在 Shell 脚本中经常用到的重定向符号，用于 <strong>将标准错误输出重定向到标准输出</strong>。**<code>2&gt;&amp;1</code> 的意思就是：** 把标准错误输出（2）重定向到标准输出（1）。也就是说，原本应该显示在终端上的错误信息，现在也会和正常的输出信息一起显示。</li>
+<li><strong>标准输出（stdout）：</strong> 通常是显示在终端上的输出信息，用数字 1 表示。</li>
+<li><strong>标准错误输出（stderr）：</strong> 通常是显示在终端上的错误信息，用数字 2 表示。</li>
+</ul>
+<h2 id="查看、修改文件"><a href="#查看、修改文件" class="headerlink" title="查看、修改文件"></a>查看、修改文件</h2><p><code>*.sh</code>是大多数sehll文件扩展名。<br><code>ls filename?</code>可以查看相应问号位数名字的文件。<br><code>convert filename.&#123;png.jpg&#125;</code>可以把图片格式从png转化成jpg，也可以加名字序号。<br><code>touch &#123;folder1,folder2&#125;/&#123;file1..filen&#125;</code>可以遍历这两个文件夹中的所有名字中含有某个字符的文件。<br><strong>touch</strong> 命令是一个常用的 Linux&#x2F;Unix 命令，主要用于 <strong>修改文件的时间戳</strong> 或 <strong>创建新文件</strong>。<br><strong>mv -i</strong> 命令在移动或重命名文件时会 <strong>先询问用户</strong>，以避免误操作导致数据丢失。<br>convert可用于转换图片，ffmep可用于处理视频。</p>
+<h2 id="shebang"><a href="#shebang" class="headerlink" title="shebang"></a>shebang</h2><p><strong>&#x2F;usr&#x2F;bin&#x2F;env</strong>： 这部分告诉系统使用 <code>env</code> 命令来查找指定的可执行程序。<code>env</code> 命令会搜索当前用户的环境变量 <code>PATH</code>，找到第一个匹配的程序。<br>例如：</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs d"><span class="hljs-meta">#!/usr/bin/env python3</span><br>print(<span class="hljs-string">&quot;Hello, world!&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>用系统环境中的 Python3 解释器来执行这个脚本。</p>
+<h2 id="调试-查找"><a href="#调试-查找" class="headerlink" title="调试 查找"></a>调试 查找</h2><p><code>shellcheck *.sh</code>检查警告和语法错误等。<br><strong><code>tldr command</code></strong> 查询命令用法，是一个为命令行工具提供简明易懂的使用说明的工具。它从冗长的 <code>man</code> 手册中提取出最常用的用法和示例，让用户能快速上手各种命令。<br><code>find</code>或<code>fd</code>用于查找文件名字，<code>locate</code>用于查找并列出所有，<code>grep</code>用于查找文件或文件夹中的具体内容，<code>rg</code>是ripgrep的缩写，是比grep更快的文本搜索工具，<code>fzf</code>模糊查找。<br>例如：<code>rg -U --files-without-match &quot;^#\!&quot; -t sh</code>表示<strong>在当前目录及其子目录中，查找所有的 shell 脚本文件（.sh），并找出那些</strong>第一行不是以 <code>#</code> 和 <code>!</code> 开头的的文件。其中<code>^</code>: 表示行首。<code>#</code>: 匹配字符#。<code>\!</code>: 匹配字符 !。<br><code>Ctrl+R</code>可以查找历史中出现要查找的字符的代码，每按一次就出现一条。<br><code>zsh</code>可以提供历史推荐代码。<br><code>tree</code>和<code>broot</code>都是很好的文件搜索和管理工具。</p>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><p>1、要求我们使用 <code>ls</code> 命令，并通过添加不同的参数来实现以下功能：</p>
+<ul>
+<li><strong>显示所有文件（包括隐藏文件）</strong></li>
+<li><strong>以人类可读的格式显示文件大小</strong></li>
+<li><strong>按照文件访问时间排序</strong></li>
+<li><strong>使用彩色输出</strong><br>答：ls -lah –color&#x3D;auto<br>-l 以长格式显示；-a 显示所有文件，包括隐藏文件；-h 以人类可读的格式显示文件大小。</li>
+</ul>
+<p>2、编写两个 bash 函数 <code>marco</code> 和 <code>polo</code> 执行下面的操作。 每当你执行 <code>marco</code> 时，当前的工作目录应当以某种形式保存，当执行 <code>polo</code> 时，无论现在处在什么目录下，都应当 <code>cd</code> 回到当时执行 <code>marco</code> 的目录。 为了方便 debug，你可以把代码写在单独的文件 <code>marco.sh</code> 中，并通过 <code>source marco.sh</code> 命令，（重新）加载函数。<br>答：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># marco.sh</span><br><span class="hljs-comment"># marco 函数：保存当前目录路径</span><br><span class="hljs-function"><span class="hljs-title">marco</span></span>() &#123;<br><span class="hljs-built_in">export</span> SAVED_DIR=<span class="hljs-string">&quot;<span class="hljs-subst">$(pwd)</span>&quot;</span> <span class="hljs-comment"># 使用 export 将变量导出，使得它可以被其他 shell 访问</span><br>&#125;<br><span class="hljs-comment"># polo 函数：跳转回保存的目录</span><br><span class="hljs-function"><span class="hljs-title">polo</span></span>() &#123;<br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;<span class="hljs-variable">$SAVED_DIR</span>&quot;</span> ]; <span class="hljs-keyword">then</span> <span class="hljs-comment"># 检查 SAVED_DIR 是否为空，其中-z STRING：如果字符串STRING的长度为零（即为空字符串），则返回真（true），否则返回假（false）。</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Error: No directory saved. Please run &#x27;marco&#x27; first.&quot;</span><br><span class="hljs-keyword">else</span><br><span class="hljs-built_in">cd</span> <span class="hljs-string">&quot;<span class="hljs-variable">$SAVED_DIR</span>&quot;</span> || <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Error: Could not change to directory <span class="hljs-variable">$SAVED_DIR</span>&quot;</span><br><span class="hljs-keyword">fi</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3、假设您有一个命令，它很少出错。因此为了在出错时能够对其进行调试，需要花费大量的时间重现错误并捕获输出。 编写一段 bash 脚本，运行如下的脚本直到它出错，将它的标准输出和标准错误流记录到文件，并在最后输出所有内容。<br>答：修改后的代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/usr/bin/env bash</span><br><br>  <br><br><span class="hljs-comment"># 初始化计数器</span><br><br>count=0<br><br>log_file=<span class="hljs-string">&quot;command_log.txt&quot;</span> <span class="hljs-comment"># 定义一个变量 log_file ，用来存储日志文件路径</span><br><br>  <br><br><span class="hljs-comment"># 清空或创建日志文件</span><br><br>&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$log_file</span>&quot;</span> <span class="hljs-comment"># 将日志文件清空，如果文件不存在则创建。</span><br><br>  <br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>; <span class="hljs-keyword">do</span><br><br><span class="hljs-comment"># 运行给定的命令，同时捕获标准输出和标准错误</span><br><br>n=$((RANDOM % <span class="hljs-number">100</span>)) <span class="hljs-comment"># 生成一个 0 到 99 之间的随机数，并赋值给变量 n。</span><br><br><span class="hljs-keyword">if</span> [[ n -eq 42 ]]; <span class="hljs-keyword">then</span> <span class="hljs-comment"># 判断 n 是否等于 42，如果等于，则执行 then 后面的语句。</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Something went wrong&quot;</span> <span class="hljs-comment"># 标准输出。在bash中如果不指定输出重定向，则echo默认标准输出，因此不需要显式指定&gt;&amp;1。</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;The error was using magic numbers&quot;</span> &gt;&amp;2 <span class="hljs-comment"># 标准错误输出</span><br><br><span class="hljs-comment"># 记录错误信息到日志文件</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;执行失败，总共执行了 <span class="hljs-variable">$count</span> 次&quot;</span> &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$log_file</span>&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;最后一次执行的输出：&quot;</span> &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$log_file</span>&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;标准输出：Something went wrong&quot;</span> &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$log_file</span>&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;标准错误：The error was using magic numbers&quot;</span> &gt;&gt; <span class="hljs-string">&quot;<span class="hljs-variable">$log_file</span>&quot;</span><br><br><span class="hljs-comment"># 显示日志文件内容</span><br><br><span class="hljs-built_in">cat</span> <span class="hljs-string">&quot;<span class="hljs-variable">$log_file</span>&quot;</span><br><br><span class="hljs-built_in">exit</span> 1 <span class="hljs-comment"># 退出脚本，并返回一个非零的退出状态，表示程序执行失败。从这里可以跳出while和do的循环。</span><br><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Everything went according to plan&quot;</span><br><br>((count++))<br><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+<p>对于标准输出和标准错误输出，有如下例子：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua"># 将正确的信息输出到 <span class="hljs-built_in">output</span>.txt，错误信息输出到 <span class="hljs-built_in">error</span>.<span class="hljs-built_in">log</span><br>command &gt; <span class="hljs-built_in">output</span>.txt <span class="hljs-number">2</span>&gt; <span class="hljs-built_in">error</span>.<span class="hljs-built_in">log</span><br></code></pre></td></tr></table></figure>
+
+<p>4、您的任务是编写一个命令，它可以递归地查找文件夹中所有的 HTML 文件，并将它们压缩成 zip 文件。注意，即使文件名中包含空格，您的命令也应该能够正确执行。<br>答：<code>find . -type f -name &quot;*.html&quot; -print0 | xargs -0 zip html_files.zip **使用 </code>-print0<code>和</code>xargs -0&#96;：**</p>
+<ul>
+<li><code>-print0</code> 会让 <code>find</code> 输出的文件名之间用<strong>null 字符</strong> (<code>\0</code>) 进行分隔，而不是空格或换行符。</li>
+<li><code>xargs -0</code> 会识别这些 null 字符，并将整个文件名（包括空格在内）作为一个单独的参数传递。</li>
+</ul>
+<p>5、编写一个命令或脚本递归的查找文件夹中最近使用的文件。更通用的做法，你可以按照最近的使用时间列出文件吗？<br>答：&#96;find &#x2F;path -type f -printf “%T+ %p\n” | sort -r<br>其中</p>
+<ul>
+<li><strong><code>-printf &quot;%T+ %p\n&quot;</code>：</strong> 以 “+%Y-%m-%d %H:%M:%S” 格式输出文件的访问时间和路径。</li>
+<li><strong><code>sort -r</code>：</strong> 按时间戳逆序排序，最近访问的文件排在前面。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Shell Tools and Scripting</div>
+      <div>https://blakehansen130.github.io/2024/10/20/Shell Tools and Scripting/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/10/20/vim/" title="vim">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vim</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/15/3Blue1Brown/" title="Deep Learning by 3Blue1Brown">
+                        <span class="hidden-mobile">Deep Learning by 3Blue1Brown</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
