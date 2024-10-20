@@ -19,16 +19,16 @@
   <meta name="author" content="">
   <meta name="keywords" content="">
   
-    <meta name="description" content="vimVim 是一个 多模态 编辑 器：它对于插入文字和操纵文字有不同的模式。Vim 是可编程的（可以使用 Vimscript 或者像 Python 一样的其他程序语言），Vim 的接口本身也是一个程序语言：键入操作（以及其助记名） 是命令，这些命令也是可组合的。normal模式下按i进入insert模式；按r进入replace模式；按v进入visual模式；按ji进入visual-line模式；">
+    <meta name="description" content="vimVim 是一个 多模态 编辑 器：它对于插入文字和操纵文字有不同的模式。Vim 是可编程的（可以使用 Vimscript 或者像 Python 一样的其他程序语言），Vim 的接口本身也是一个程序语言：键入操作（以及其助记名） 是命令，这些命令也是可组合的。normal模式下按i进入insert模式；按r进入replace模式；按v进入visual模式；按&lt;S-V&gt;ji进入vis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim">
 <meta property="og:url" content="https://blakehansen130.github.io/2024/10/20/vim/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="vimVim 是一个 多模态 编辑 器：它对于插入文字和操纵文字有不同的模式。Vim 是可编程的（可以使用 Vimscript 或者像 Python 一样的其他程序语言），Vim 的接口本身也是一个程序语言：键入操作（以及其助记名） 是命令，这些命令也是可组合的。normal模式下按i进入insert模式；按r进入replace模式；按v进入visual模式；按ji进入visual-line模式；">
+<meta property="og:description" content="vimVim 是一个 多模态 编辑 器：它对于插入文字和操纵文字有不同的模式。Vim 是可编程的（可以使用 Vimscript 或者像 Python 一样的其他程序语言），Vim 的接口本身也是一个程序语言：键入操作（以及其助记名） 是命令，这些命令也是可组合的。normal模式下按i进入insert模式；按r进入replace模式；按v进入visual模式；按&lt;S-V&gt;ji进入vis">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blakehansen130.github.io/img/123428279_19542913_0.jpg">
 <meta property="article:published_time" content="2024-10-20T07:10:43.850Z">
-<meta property="article:modified_time" content="2024-10-20T07:21:18.328Z">
+<meta property="article:modified_time" content="2024-10-20T07:29:02.600Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blakehansen130.github.io/img/123428279_19542913_0.jpg">
   
@@ -246,7 +246,7 @@
         
         
         
-          17 分钟
+          18 分钟
         
       </span>
     
@@ -288,8 +288,8 @@
             
               <div class="markdown-body">
                 
-                <h1 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h1><p>Vim 是一个 <em>多模态</em> 编辑 器：它对于插入文字和操纵文字有不同的模式。Vim 是可编程的（可以使用 Vimscript 或者像 Python 一样的其他程序语言），Vim 的接口本身也是一个程序语言：键入操作（以及其助记名） 是命令，这些命令也是可组合的。<br>normal模式下按i进入insert模式；按r进入replace模式；按v进入visual模式；按<S-V>ji进入visual-line模式；按^V进入visual-block模式，，再按esc返回normal。<br>按：进入command-line模式，输入q<enter>退出当前选项卡，qa<enter>退出所有。</p>
-<h2 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h2><p>control+v的三种表示方法：^V Ctrl-V <C-V></p>
+                <h1 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h1><p>Vim 是一个 <em>多模态</em> 编辑 器：它对于插入文字和操纵文字有不同的模式。Vim 是可编程的（可以使用 Vimscript 或者像 Python 一样的其他程序语言），Vim 的接口本身也是一个程序语言：键入操作（以及其助记名） 是命令，这些命令也是可组合的。<br>normal模式下按i进入insert模式；按r进入replace模式；按v进入visual模式；按&lt;S-V&gt;ji进入visual-line模式；按^V进入visual-block模式，，再按esc返回normal。<br>按：进入command-line模式，输入q&lt;enter&gt;退出当前选项卡，qa&lt;enter&gt;退出所有。</p>
+<h2 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h2><p>control+v的三种表示方法：^V Ctrl-V &lt;C-V&gt;</p>
 <h3 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h3><p>命令行模式下，:help 后输入想查询的内容可看到功能，注意要问带冒号的命令则也要带冒号，例如:help :w。<code>:w</code>表示保存更改。</p>
 <h3 id="打开文件和缓存"><a href="#打开文件和缓存" class="headerlink" title="打开文件和缓存"></a>打开文件和缓存</h3><ul>
 <li><code>:e &#123;文件名&#125;</code> 打开要编辑的文件</li>
@@ -360,7 +360,7 @@
 <li><strong>Ctrl+f:</strong> 向下滚动一屏</li>
 <li><strong>Ctrl+b:</strong> 向上滚动一屏</li>
 <li><strong>跳转：</strong> 使用<code>f</code>或<code>t</code>可以跳转到当前行中下一个或上一个出现的指定字符。例如，<code>fx</code> 表示跳转到下一个出现的字母x。</li>
-<li>行数： <code>:&#123;行数&#125;&lt;CR&gt;</code> 或者 <code>&#123;行数&#125;G</code> ({行数}为行数)</li>
+<li>行数： <code>:&#123;行数&#125;\&lt;CR&gt;</code> 或者 <code>&#123;行数&#125;G</code> ({行数}为行数)</li>
 <li>杂项： <code>%</code> （找到配对，比如括号或者 &#x2F;* *&#x2F; 之类的注释对）</li>
 </ul>
 <h3 id="f命令"><a href="#f命令" class="headerlink" title="f命令"></a>f命令</h3><ul>
