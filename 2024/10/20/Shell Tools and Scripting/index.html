@@ -26,11 +26,11 @@
 <meta property="og:site_name">
 <meta property="og:description" content="Shell Tools and Scripting变量 函数在shell中要注意空格的使用，尤其是在进行与名字字符串中带有空格的文件有关的操作时。&quot;$ variable name&quot;可以使用变量。source function可以在shell中执行函数，然后function folder&#x2F;file就可以检验了。$0是脚本名称，$?获取上一个命令的错误代码，$_获取上一个命令参数，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blakehansen130.github.io/img/123427332_429077_1.jpg">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/123427332_429077_1.jpg">
 <meta property="article:published_time" content="2024-10-20T07:10:32.878Z">
-<meta property="article:modified_time" content="2024-10-20T07:25:13.281Z">
+<meta property="article:modified_time" content="2024-10-21T20:37:05.092Z">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blakehansen130.github.io/img/123427332_429077_1.jpg">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/123427332_429077_1.jpg">
   
   
   
@@ -72,7 +72,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -206,7 +206,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/123484681_31658209_0.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/fun/123484681_31658209_0.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -293,7 +293,7 @@
 <li><strong>1：</strong> 一般表示命令执行时出现了错误。</li>
 <li><strong>2：</strong> 可能表示命令使用不正确，例如参数错误。</li>
 <li><strong>127：</strong> 表示命令未找到。</li>
-<li><strong>126：</strong> 表示命令找到，但无法执行（例如没有执行权限）。<br><img src="/img/20241006222138.png" srcset="/img/123096189_42399563_0.gif" lazyload><br><code>!!</code>表示获取上一段命令，例如上一段命令执行结果是没有管理员权限，那么可以<code>sudo !!</code>来解决。</li>
+<li><strong>126：</strong> 表示命令找到，但无法执行（例如没有执行权限）。<br><img src="/img/learn/20241006222138.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br><code>!!</code>表示获取上一段命令，例如上一段命令执行结果是没有管理员权限，那么可以<code>sudo !!</code>来解决。</li>
 </ul>
 <h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p><code>||</code>或，<code>&amp;&amp;</code>与，<code>;</code>分隔多个命令，顺序执行。<br><code>$(command)</code>也可以代表相应的输出内容，<code>cat &lt;(command)</code>也可以实现输出内容。</p>
 <h3 id="dev-null"><a href="#dev-null" class="headerlink" title="&#x2F;dev&#x2F;null"></a>&#x2F;dev&#x2F;null</h3><p>在类Unix系统中是一个特殊的设备文件，常被称为“空设备”或“比特桶”。你可以把它想象成一个无底洞，任何写入到它的数据都会被丢弃，而从它读取数据永远只会得到一个空的回应。<br>&#x2F;dev&#x2F;null 的作用</p>

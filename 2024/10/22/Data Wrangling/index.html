@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Data Wranglingsedsed 是 stream editor 的缩写，中文译为 流编辑器。它是一种强大的文本处理工具，可以在命令行下编辑文本文件或管道中的数据。 sed的常用命令格式Bash 1sed [选项] &#x27;命令&#x27; 输入文本   选项：  -n: 静默模式，只有经过sed命令处理的行才会被输出。 -e: 直接在命令行上进行sed的编辑。 -f: 从指定文件中读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Wrangling">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/10/22/Data%20Wrangling/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="Data Wranglingsedsed 是 stream editor 的缩写，中文译为 流编辑器。它是一种强大的文本处理工具，可以在命令行下编辑文本文件或管道中的数据。 sed的常用命令格式Bash 1sed [选项] &#x27;命令&#x27; 输入文本   选项：  -n: 静默模式，只有经过sed命令处理的行才会被输出。 -e: 直接在命令行上进行sed的编辑。 -f: 从指定文件中读">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/123542612_67093476_0.jpg">
+<meta property="article:published_time" content="2024-10-21T20:33:01.883Z">
+<meta property="article:modified_time" content="2024-10-21T20:45:05.465Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/123542612_67093476_0.jpg">
+  
+  
+  
+  <title>Data Wrangling - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/123521427_55321046_0.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Data Wrangling"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-22 04:33" pubdate>
+          2024年10月22日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Data Wrangling</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Data-Wrangling"><a href="#Data-Wrangling" class="headerlink" title="Data Wrangling"></a>Data Wrangling</h1><h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p><strong>sed</strong> 是 <strong>stream editor</strong> 的缩写，中文译为 <strong>流编辑器</strong>。它是一种强大的文本处理工具，可以在命令行下编辑文本文件或管道中的数据。</p>
+<h3 id="sed的常用命令格式"><a href="#sed的常用命令格式" class="headerlink" title="sed的常用命令格式"></a>sed的常用命令格式</h3><p>Bash</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">sed</span> [选项] <span class="hljs-string">&#x27;命令&#x27;</span> 输入文本<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>选项</strong>：</p>
+<ul>
+<li><code>-n</code>: 静默模式，只有经过sed命令处理的行才会被输出。</li>
+<li><code>-e</code>: 直接在命令行上进行sed的编辑。</li>
+<li><code>-f</code>: 从指定文件中读取sed命令。</li>
+<li><code>-r</code>: 支持扩展正则表达式。</li>
+</ul>
+</li>
+<li><p><strong>命令</strong>：</p>
+<ul>
+<li><code>s/pattern/replacement/</code>: 搜索并替换，其中<code>pattern</code>是正则表达式，<code>replacement</code>是替换字符串。</li>
+<li><code>d</code>: 删除行。</li>
+<li><code>p</code>: 打印行。</li>
+<li><code>a\text</code>: 在行后追加文本。</li>
+<li><code>i\text</code>: 在行前插入文本。</li>
+<li><code>c\text</code>: 用新文本替换行。</li>
+<li><code>n</code>: 读取下一行，并输出pattern space中的行。</li>
+<li><code>g：</code> global 的缩写，表示用于在<strong>同一行</strong>中对所有符合条件的子字符串进行全局替换。</li>
+<li><code>y</code>：替换命令，两个字符集中的字符必须一一对应。</li>
+</ul>
+</li>
+</ul>
+<p>例如：<code>sed &#39;s/old/new/g&#39; file.txt</code>表示在每行行首添加“prefix_”。<br><img src="/img/learn/20241021142246.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br>第一段意思是去掉含有a或b的内容；第三段是去掉含有“ab”的内容；第二段失败是因为没有对小括号进行转义，-E是表明采用扩展正则表达式（可以理解为整句转义），也可以采用\(\)的方法。</p>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>假设有一个字符串 “Hello, World!”，那么：</p>
+<ul>
+<li><p><code>.*</code> 可以匹配整个字符串 “Hello, World!”</p>
+</li>
+<li><p><code>.*World</code> 可以匹配 “Hello, World”</p>
+</li>
+<li><p><code>^.*World$</code> 可以精确匹配整个字符串 “Hello, World!”</p>
+</li>
+<li><p><strong>贪婪匹配：</strong> 默认情况下，<code>. *</code> 是贪婪匹配的，也就是会尽可能匹配更多的字符。</p>
+</li>
+<li><p><strong>非贪婪匹配：</strong> 如果想让它匹配尽可能少的字符，可以在 <code>*</code> 后加 <code>?</code>，变成 <code>.*?</code>。</p>
+</li>
+<li><p><strong>匹配顺序：</strong> 正则表达式引擎是从左向右进行匹配的。一旦找到一个匹配 <code>.*World</code> 的子串，它就会认为匹配成功，而不会继续向后查找。</p>
+</li>
+</ul>
+<h3 id="正则表达式的常见模式："><a href="#正则表达式的常见模式：" class="headerlink" title="正则表达式的常见模式："></a>正则表达式的常见模式：</h3><ul>
+<li><code>.</code> 除换行符之外的 “任意单个字符”，即通配符。而.用专门的\.来表示。问号<code>?</code>同理。</li>
+<li><code>*</code> 匹配前面字符零次或多次</li>
+<li><code>+</code> 匹配前面字符一次或多次</li>
+<li><code>[abc]</code> 匹配 <code>a</code>, <code>b</code> 和 <code>c</code> 中的任意一个。</li>
+<li><code>(RX1|RX2)</code> 任何能够匹配 <code>RX1</code> 或 <code>RX2</code> 的结果</li>
+<li><code>^</code> 行首</li>
+<li><code>$</code> 行尾</li>
+<li>字符\d可用于代替0 到 9 之间的任何数字。</li>
+<li>在正则表达式中使用的最常见空格形式是空格( ␣ <em>)<em>、_制表符</em>( \t )、_换行符</em>( \n ) 和回车符 ( \r )（在 Windows 环境中很有用），这些特殊字符可匹配其各自的空格。此外，空格特殊字符\s可匹配上述<strong>任何</strong>特定空格，</li>
+<li>\b，它匹配单词和非单词字符之间的边界。它在捕获整个单词时非常有用（例如，通过使用模式\w+\b）。<br><img src="/img/learn/20241021224424.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload></li>
+</ul>
+<h2 id="less"><a href="#less" class="headerlink" title="less"></a>less</h2><p>主要用于分页显示文件内容。</p>
+<h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><ul>
+<li><strong>基本操作：</strong><ul>
+<li><code>less filename</code>: 打开文件</li>
+<li>空格键：向下翻一页</li>
+<li>b：向上翻一页</li>
+<li>G：跳到文件末尾</li>
+<li>g：跳到文件开头</li>
+<li>&#x2F;pattern：向下搜索 pattern</li>
+<li>?pattern：向上搜索 pattern</li>
+<li>n：重复上一次搜索</li>
+<li>N：反向重复上一次搜索</li>
+</ul>
+</li>
+<li><strong>退出：</strong><ul>
+<li>q：退出 less</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码详解部分"><a href="#代码详解部分" class="headerlink" title="代码详解部分"></a>代码详解部分</h2><h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><p><code>cat ssh.log | sed -E &#39;s/^.*Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/&#39; | head -n100</code><br><strong>正则表达式部分：</strong><br>这是一个匹配 SSH 日志中特定行的正则表达式：</p>
+<ul>
+<li>**<code>^</code>**：表示行的开头。</li>
+<li>**<code>.*</code>**：匹配任意数量的字符。</li>
+<li>**<code>Disconnected from</code>**：匹配具体的 “Disconnected from” 这部分文本。</li>
+<li>**<code>(invalid |authenticating )?</code>**：可选地匹配 “invalid “ 或 “authenticating “（有空格）。<code>?</code> 表示这部分是可选的。这是第一捕获组，如果这部分存在就作为<code>\1</code></li>
+<li>**<code>user (.*)</code>**：匹配 “user “ 后的用户名，并捕获用户名为 **<code>\2</code>**。</li>
+<li>**<code>[0-9.]</code>**：匹配 IP 地址中的数字和点号。</li>
+<li>**<code>port [0-9]</code>**：匹配端口信息。</li>
+<li><code>+</code>：表示前面的表达式 <strong>必须至少出现一次，且可以多次出现</strong>。所以，**<code>[0-9]+</code>** 匹配的是<strong>由一位或多位数字组成的数字序列</strong>，即 1 位、2 位、3 位……或更多位的数字。如果只写成 <strong><code>[0-9]</code></strong> 而没有 <strong><code>+</code><strong>，那么只能匹配</strong>一位数字</strong>的端口号，如 <code>0</code>、<code>1</code>、<code>9</code> 等。</li>
+<li><strong><code>( \[preauth\])?</code><strong>：可选地匹配 “[preauth]”。这是</strong>第三捕获组</strong>，匹配可选的 <code>&quot;[preauth]&quot;</code> 部分。由于这部分不影响用户的提取，因此在替换时没有用到它。</li>
+<li><strong><code>\2</code> 替换：</strong> 提取匹配的用户名，并作为最终输出。<br>**<code>| head -n100</code>**：</li>
+<li>将处理后的结果传递给 <code>head</code>，并只显示前 100 行。</li>
+</ul>
+<h3 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h3><p>正则表达式测试工具<a target="_blank" rel="noopener" href="https://regex101.com/">https://regex101.com/</a> <strong>强烈推荐！！！</strong><br><code>/.* Disconnected from (invalid |authenticating )?user (.*)[^ ]+ port [0-9]+( \[preauth\])?$/gm</code><br><img src="/img/learn/20241021181659.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br>其中[^ ]表示除了空格以外的其他字符。这里不表示行首的原因是：<br>^在方括号（也称字符类）外表示行首，即匹配字符串的开头；在方括号内部表示取反，即匹配不属于该字符类的字符。例如：<code>[^a-z]</code>表示匹配非小写字母的字符。<br>我们可以发现此时用户名是“Disconnected from invalid user wp-user 89.134.42.194 port 38866 [preauth]”，但是因为**<code>.*</code>：** 这里的 <code>.</code> 是贪婪的，它会匹配尽可能多的字符。在匹配 “Disconnected from” 之后，它会一直匹配到字符串的结尾，除非后面的模式无法匹配。因此它把用户名截成了“wp-user 89.134.42.194 port 38866 [preauth]”。我们要修改它只需要添加<code>?</code>。<br><img src="/img/learn/20241021182437.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br><strong><code>.*?</code>：</strong> 这里的 <code>?</code> 使 <code>.</code> 变得懒惰（lazy），这意味着它会匹配尽可能少的字符。在匹配 “Disconnected from” 之后，它会尽量匹配最少的字符，直到遇到下一个模式。因此它完整捕获了用户名。<br>但注意sed<strong>不支持该后缀</strong>，因此可以使用perl，例如<code>perl -pe &#39;s/.*?Disconnected from //&#39;</code><br>其中</p>
+<ul>
+<li><strong>-p:</strong> 命令行选项，表示对输入的每一行都执行一次表达式，并将结果输出。</li>
+<li><strong>-e:</strong> 命令行选项，用于在命令行中直接执行Perl表达式。</li>
+</ul>
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><p>用于统计文本文件中的行数、字数和字节数。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">wc</span> [选项] 文件名<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>文件名:</strong> 可以是单个文件，也可以是多个文件，甚至可以是通配符。</li>
+<li><strong>选项:</strong><ul>
+<li><strong>-l:</strong> 统计行数</li>
+<li><strong>-w:</strong> 统计字数（以空格分隔）</li>
+<li><strong>-c:</strong> 统计字节数</li>
+<li><strong>-m:</strong> 统计字符数（与 -c 相似，但处理多字节字符的方式不同）</li>
+<li><strong>-L:</strong> 统计最长行的长度</li>
+</ul>
+</li>
+</ul>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><p>用于对文本文件进行排序的常用工具。</p>
+<h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-built_in">sort</span> [选项] 文件名<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>文件名:</strong> 可以是单个文件，也可以是多个文件，甚至可以是通配符。</li>
+<li><strong>选项:</strong><ul>
+<li><strong>-r:</strong> 反向排序（降序）</li>
+<li><strong>-n:</strong> 按数值排序</li>
+<li><strong>-f:</strong> 忽略大小写</li>
+<li><strong>-u:</strong> 去除重复行</li>
+<li><strong>-t 分隔符:</strong> 指定字段分隔符，默认为空白字符</li>
+<li><strong>-k POS1[,POS2]:</strong> 其中<strong>POS1:</strong> 排序开始的列或字符位置。<strong>POS2:</strong> 排序结束的列或字符位置（可选）。<strong>列号:</strong> 如果数据以特定的分隔符分隔（如逗号、空格），可以使用列号来指定排序范围。例如，<code>-k 2</code> 表示按第二列排序。<strong>字符位置:</strong> 如果数据没有明确的分隔符，可以使用字符位置来指定排序范围。例如，<code>-k 5,10</code> 表示从第5个字符到第10个字符之间的文本作为排序键。例如：<code>-k 3,5: 命令会提取每行数据的第3个到第5个字符作为排序的“键”。</code></li>
+<li><strong>-o 输出文件:</strong> 将排序结果输出到指定文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="uniq"><a href="#uniq" class="headerlink" title="uniq"></a>uniq</h2><p>用于去除文本文件中重复行的工具。### 基本用法</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs perl">uni<span class="hljs-string">q [选项]</span> 文件名<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>文件名:</strong> 可以是单个文件，也可以是多个文件，甚至可以是通配符。</li>
+<li><strong>选项:</strong><ul>
+<li><strong>-c:</strong> 在每行前面显示重复的行数</li>
+<li><strong>-d:</strong> 只显示重复的行</li>
+<li><strong>-u:</strong> 只显示唯一的行</li>
+<li><strong>-i:</strong> 忽略大小写</li>
+<li><strong>-f N:</strong> 忽略前 N 个字段</li>
+<li><strong>-s N:</strong> 忽略前 N 个字符</li>
+<li>-<strong>l</strong>:显示总行数。</li>
+</ul>
+</li>
+</ul>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><p>可以读取文本文件，逐行处理，并对每一行进行各种操作，包括提取、修改、过滤、统计等。适合对列操作。<code>awk</code> 的域分隔符（默认是空格，可以通过 <code>-F</code> 来修改）。</p>
+<h3 id="基本用法-2"><a href="#基本用法-2" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi">awk [选项] <span class="hljs-string">&#x27;pattern &#123; action &#125;&#x27;</span> <span class="hljs-keyword">file</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>选项:</strong><ul>
+<li><strong>-F 分隔符:</strong> 指定字段分隔符，默认为空白字符</li>
+<li><strong>-v 变量&#x3D;值:</strong> 设置变量的值</li>
+</ul>
+</li>
+<li><strong>pattern:</strong> 匹配模式，可以是正则表达式或条件表达式</li>
+<li><strong>action:</strong> 要执行的命令或代码块<br>例如：<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 打印文件 data.txt 的第二列</span><br><span class="hljs-attribute">awk</span> <span class="hljs-string">&#x27;&#123; print <span class="hljs-variable">$2</span> &#125;&#x27;</span> data.txt<br><br><span class="hljs-comment"># 打印文件 data.txt 中包含 &quot;apple&quot; 的行</span><br>awk <span class="hljs-string">&#x27;/apple/ &#123; print &#125;&#x27;</span> data.txt<br><br><span class="hljs-comment"># 计算文件 data.txt 的第三列的总和</span><br>awk <span class="hljs-string">&#x27;&#123; sum += <span class="hljs-variable">$3</span> &#125; END &#123; print sum &#125;&#x27;</span> data.txt<br><br><span class="hljs-comment"># 将文件 data.txt 中的第二列和第三列互换</span><br>awk <span class="hljs-string">&#x27;&#123; temp = <span class="hljs-variable">$2</span>; <span class="hljs-variable">$2</span> = <span class="hljs-variable">$3</span>; <span class="hljs-variable">$3</span> = temp; print &#125;&#x27;</span> data.txt &gt; new_data.txt<br></code></pre></td></tr></table></figure>
+例如：<code>awk &#39;$1 == 1 &amp;&amp; $2 ~ /^c.*e$/ &#123;print $0&#125;&#39;</code>中：<br><code>~</code> 表示正则表达式匹配。<strong>^:</strong> 表示字符串的开头。**.*:** 匹配任意数量的任意字符（包括0个）。**$:** 表示字符串的结尾。<code>$0</code> 表示整个当前行。<br><code>awk &#39;BEGIN &#123; rows = 0 &#125; $1 == 1 &amp;&amp; $2 ~ /^c.*e$/ &#123;rows += 1&#125; END &#123;print rows&#125;&#39;</code><br><code>BEGIN &#123; rows = 0 &#125;</code>: 在处理输入数据之前，初始化一个变量 <code>rows</code>，用于计数。<br><code>&#123;rows += 1&#125;</code>：如果两个条件都满足，则将计数器 <code>rows</code> 加1。</li>
+</ul>
+<h3 id="paste"><a href="#paste" class="headerlink" title="paste"></a>paste</h3><p>将多个文件的内容按照列的形式拼接在一起，形成一个新的文件。</p>
+<h3 id="基本用法-3"><a href="#基本用法-3" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs prolog">paste [选项] 文件<span class="hljs-number">1</span> 文件<span class="hljs-number">2</span> ...<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>选项:</strong><ul>
+<li><strong>-d &lt;间隔字符&gt;:</strong> 指定列与列之间的分隔符，默认为制表符。</li>
+<li><strong>-s:</strong> 将每个输入文件的行合并为一行输出。</li>
+<li><strong>-d’字符’：</strong> 指定多个分隔符，如-d’, ‘表示用逗号和空格作为分隔符。</li>
+</ul>
+</li>
+</ul>
+<h2 id="bc"><a href="#bc" class="headerlink" title="bc"></a>bc</h2><p>支持任意精度计算的语言。</p>
+<ul>
+<li><strong>-i:</strong> 强制进入交互式模式，方便输入多条命令。</li>
+<li><strong>-l:</strong> 定义使用的标准数学库，提供了更多的数学函数。</li>
+</ul>
+<h2 id="xargs"><a href="#xargs" class="headerlink" title="xargs"></a>xargs</h2><p>能将一个命令的输出作为另一个命令的参数。</p>
+<h3 id="xargs-的常用选项"><a href="#xargs-的常用选项" class="headerlink" title="xargs 的常用选项"></a>xargs 的常用选项</h3><ul>
+<li><strong>-n num:</strong> 指定每次传递给 command2 的参数个数。</li>
+<li><strong>-p:</strong> 在执行命令前询问用户是否执行。</li>
+<li><strong>-t:</strong> 在执行命令前打印命令行。</li>
+<li><strong>-i{} 或 -I{}:</strong> 将 xargs 的每项名称替换为 {}。</li>
+<li><strong>-d delimiter:</strong> 指定分隔符，默认是空格或换行符。</li>
+<li><strong>-L num:</strong> 从标准输入一次读取 num 行送给 command 命令。<br>例如：<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># 查找当前目录下所有 .txt 文件并删除</span><br><span class="hljs-built_in">find</span> . -name <span class="hljs-string">&quot;*.txt&quot;</span> | xargs rm<br><br><span class="hljs-comment"># 将 find 命令的输出每一行作为参数传递给 echo 命令</span><br><span class="hljs-built_in">find</span> . -name <span class="hljs-string">&quot;*.txt&quot;</span> | xargs echo<br></code></pre></td></tr></table></figure>
+<code>find . -name &quot;*.txt&quot; | xargs -I &#123;&#125; mv &#123;&#125; &#123;&#125;.bak</code><br><code>-I &#123;&#125;</code>: 告诉 <code>xargs</code> 用 <code>&#123;&#125;</code> 来替换每个输入项。<br><code>mv &#123;&#125; &#123;&#125;.bak</code>中：</li>
+<li><strong>第一个 <code>&#123;&#125;</code>：</strong> 代表要被重命名的原始文件名。它会根据 <code>find</code> 命令的输出，逐一替换为找到的每个 .txt 文件名。</li>
+<li><strong>第二个 <code>&#123;&#125;</code>：</strong> 同样代表原始文件名，但在这里，它会被加上 <code>.bak</code> 后缀，形成新的文件名。</li>
+<li>例如<code>mv file1.txt file1.txt.bak</code>，最后的文件名是原来整体的复制后加.bak。</li>
+</ul>
+<h2 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h2><p><code>ffmpeg -loglevel panic -i /dev/video0 -frames 1 -f image2 - | convert - -colorspace gray - | gzip | ssh tsp &#39;gzip -d | tee copy.png&#39; | feh -</code></p>
+<ul>
+<li><code>-loglevel panic</code>: 只显示致命错误信息</li>
+<li><code>-i /dev/video0</code>: 从摄像头设备读取输入</li>
+<li><code>-frames 1</code>: 只捕获一帧</li>
+<li><code>-f image2</code>: 输出为图片格式</li>
+<li>最后的 <code>-</code> 表示输出到标准输出而不是文件</li>
+<li>gray表示将图像转换为灰度图</li>
+<li>convert中第一个 <code>-</code> 表示从标准输入读取</li>
+<li>convert中第二个 <code>-</code> 表示输出到标准输出</li>
+<li><code>gzip</code>表示压缩数据流，<code>gzip -d</code>: 解压缩数据</li>
+<li>远程主机的名字叫做tsp，在tsp上执行<code>gzip -d | tee copy.png</code></li>
+<li><code>tee copy.png</code>: 保存一份数据到copy.png文件，同时继续输出到标准输出</li>
+<li><code>feh -</code> 表示从标准输入读取图像并显示<br>这个命令链实现了从摄像头捕获一帧图像，转换为灰度图，在保存副本的同时显示图像的功能。<br>ssh甚至可以将<code>cat /dev/video0</code>的视频流实时传输到另一个服务器。</li>
+</ul>
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p>用于在不同主机之间安全地复制文件和目录。基于SSH协议。</p>
+<h3 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h3><ul>
+<li><strong>-r:</strong> 递归复制整个目录。</li>
+<li><strong>-p:</strong> 保留源文件的权限、时间戳等属性。</li>
+<li><strong>-P port:</strong> 指定SSH连接使用的端口号。</li>
+<li><strong>-i identity_file:</strong> 指定私钥文件。</li>
+<li><strong>-c cipher:</strong> 指定加密算法。<br>例如：假设你想将本地目录<code>/home/user/documents</code>中的所有文件复制到远程服务器<code>192.168.1.100</code>的<code>/home/user/backup</code>目录下，并保留所有属性，则：<br><code>scp -r -p /home/user/documents user@192.168.1.100:/home/user/backup/</code></li>
+</ul>
+<h2 id="tr"><a href="#tr" class="headerlink" title="tr"></a>tr</h2><h3 id="常用选项-1"><a href="#常用选项-1" class="headerlink" title="常用选项"></a>常用选项</h3><ul>
+<li><strong>-d:</strong> 删除字符集1中的所有字符。</li>
+<li><strong>-s:</strong> 压缩重复字符。</li>
+<li><strong>-c:</strong> 补集，即转换或删除字符集1中字符的补集。</li>
+<li><strong>-t:</strong> 截断字符集1，使其与字符集2长度相同。<br>例如：<code>echo &quot;hello world&quot; | tr &#39;a-z&#39; &#39;A-Z&#39;</code>将小写字母转换为大写字母<br><code>echo &quot;  hello  world  &quot; | tr -d &#39; &#39;</code>删除所有空格</li>
+</ul>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><p>2、统计 words 文件 (<code>/usr/share/dict/words</code>) 中包含至少三个 <code>a</code> 且不以 <code>&#39;s</code> 结尾的单词个数。这些单词中，出现频率前三的末尾两个字母是什么？ <code>sed</code> 的 <code>y</code> 命令，或者 <code>tr</code> 程序也许可以帮你解决大小写的问题。共存在多少种词尾两字母组合？还有一个很 有挑战性的问题：哪个组合从未出现过？<br>答：<br>chatgpt:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 将所有单词转换为小写，并过滤至少包含三个 &#x27;a&#x27; 且不以 &#x27;s&#x27; 结尾的单词</span><br><span class="hljs-comment"># 这里第一行的\无实际作用；()除了有捕获的作用还有分组的租用，这里是吧前面三个看为一组。</span><br><span class="hljs-comment"># `&#x27;s$`: 这是我们使用的模式，它会匹配字符串末尾的撇号(&#x27;)后跟着s。这正是我们要找的所有格形式。</span><br><span class="hljs-comment"># `s$`: 这个模式只会匹配末尾的s，会匹配到太多单词，包括：</span><br>    - 普通的复数形式（books）<br>    - 第三人称单数（walks）<br>    - 恰好以s结尾的单词（gas）<br><span class="hljs-comment"># `&#x27;s$&#x27;`: 这种写法在 grep 中是错误的，因为外层的单引号会被 shell 解释为字符串定界符，使得模式变成了 s$，而不是要匹配的实际字符。</span><br><br><span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27;[:upper:]&#x27;</span> <span class="hljs-string">&#x27;[:lower:]&#x27;</span> &lt; /usr/share/dict/words | \<br><br>grep -E <span class="hljs-string">&#x27;(.*a.*)&#123;3,&#125;&#x27;</span> | grep -v <span class="hljs-string">&quot;&#x27;s$&quot;</span> | <span class="hljs-built_in">sort</span> &gt; filtered_words.txt<br><br>  <br><br><span class="hljs-comment"># 2. 提取最后两个字母并统计频率，其中substr是截取后缀的意思</span><br><br>awk <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">if (length($0) &gt;= 2) # 确保单词长度大于等于2</span><br><span class="hljs-string"></span><br><span class="hljs-string">print substr($0, length($0)-1)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;&#x27;</span> filtered_words.txt | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr &gt; suffix_frequency.txt<br><br>  <br><br><span class="hljs-comment"># 3. 显示频率最高的三个词尾组合</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;频率最高的三个词尾组合：&quot;</span><br><br><span class="hljs-built_in">head</span> -n 3 suffix_frequency.txt<br><br>  <br><br><span class="hljs-comment"># 4. 统计不同的词尾组合数量</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;不同的词尾两字母组合数量：&quot;</span><br><br>awk <span class="hljs-string">&#x27;&#123;print $2&#125;&#x27;</span> suffix_frequency.txt | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> | <span class="hljs-built_in">wc</span> -l<br><br>  <br><br><span class="hljs-comment"># 5. 生成所有可能的两字母组合，并按字典顺序排序</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;a..z&#125;; <span class="hljs-keyword">do</span><br><br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> &#123;a..z&#125;; <span class="hljs-keyword">do</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;$i<span class="hljs-variable">$j</span>&quot;</span><br><br><span class="hljs-keyword">done</span><br><br><span class="hljs-keyword">done</span> | <span class="hljs-built_in">sort</span> &gt; all_combinations.txt<br><br>  <br><br><span class="hljs-comment"># 6. 提取已出现的组合并排序</span><br><br>awk <span class="hljs-string">&#x27;&#123;print $2&#125;&#x27;</span> suffix_frequency.txt | <span class="hljs-built_in">sort</span> &gt; existing_combinations.txt<br><br>  <br><br><span class="hljs-comment"># 7. 找出未出现的组合</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;未出现的词尾两字母组合：&quot;</span><br><br><span class="hljs-built_in">comm</span> -23 all_combinations.txt existing_combinations.txt<br></code></pre></td></tr></table></figure>
+<h3 id="substr"><a href="#substr" class="headerlink" title="substr"></a>substr</h3><p><code>substr(string, start, length)</code> 这个函数在 awk 中有三个参数：</p>
+<ul>
+<li><strong>string:</strong> 要进行截取的字符串。</li>
+<li><strong>start:</strong> 开始截取的位置，从1开始计数。</li>
+<li><strong>length:</strong> 截取的字符数。如果省略，则截取到字符串末尾。</li>
+</ul>
+<h3 id="comm"><a href="#comm" class="headerlink" title="comm"></a>comm</h3><p>用于比较两个已排序的文件，前面的是文件1，后面的是文件2。</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">- </span>-1: 不显示只在第一个文件中出现过的行。<br><span class="hljs-bullet">- </span>-2: 不显示只在第二个文件中出现过的行。<br><span class="hljs-bullet">- </span>-3: 不显示在两个文件中都出现过的行。<br></code></pre></td></tr></table></figure>
+<p>claude:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>  <br><br><span class="hljs-comment"># 1. 首先统计包含至少三个a且不以&#x27;s结尾的单词</span><br><br><span class="hljs-comment"># 使用tr将所有字母转为小写，然后用grep筛选</span><br><br><span class="hljs-built_in">cat</span> /usr/share/dict/words | <span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27;[:upper:]&#x27;</span> <span class="hljs-string">&#x27;[:lower:]&#x27;</span> | \<br><br>grep -E <span class="hljs-string">&#x27;a.*a.*a&#x27;</span> | \<br><br>grep -v <span class="hljs-string">&quot;&#x27;s$&quot;</span> &gt; filtered_words.txt<br><br>  <br><br><span class="hljs-comment"># 打印符合条件的单词总数</span><br><br>total_words=$(<span class="hljs-built_in">wc</span> -l &lt; filtered_words.txt)<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;符合条件的单词总数: <span class="hljs-variable">$total_words</span>&quot;</span><br><br>  <br><br><span class="hljs-comment"># 2. 提取并统计末尾两个字母</span><br><br><span class="hljs-comment"># 使用awk提取最后两个字母并排序计数</span><br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n末尾两字母出现频率前三：&quot;</span><br><br><span class="hljs-built_in">cat</span> filtered_words.txt | \<br><br>awk <span class="hljs-string">&#x27;&#123;print substr($0, length($0)-1)&#125;&#x27;</span> | \<br><br><span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr | <span class="hljs-built_in">head</span> -3<br><br>  <br><br><span class="hljs-comment"># 3. 统计所有出现过的词尾两字母组合数量</span><br><br>total_combinations=$(<span class="hljs-built_in">cat</span> filtered_words.txt | \<br><br>awk <span class="hljs-string">&#x27;&#123;print substr($0, length($0)-1)&#125;&#x27;</span> | \<br><br><span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> | <span class="hljs-built_in">wc</span> -l)<br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n不同的词尾两字母组合总数: <span class="hljs-variable">$total_combinations</span>&quot;</span><br><br>  <br><br><span class="hljs-comment"># 4. 找出未出现过的两字母组合</span><br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n生成所有可能的两字母组合并对比：&quot;</span><br><br><span class="hljs-comment"># 生成所有可能的两字母组合</span><br><br><span class="hljs-keyword">for</span> c1 <span class="hljs-keyword">in</span> &#123;a..z&#125;; <span class="hljs-keyword">do</span><br><br><span class="hljs-keyword">for</span> c2 <span class="hljs-keyword">in</span> &#123;a..z&#125;; <span class="hljs-keyword">do</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;$c1<span class="hljs-variable">$c2</span>&quot;</span><br><br><span class="hljs-keyword">done</span><br><br><span class="hljs-keyword">done</span> &gt; all_combinations.txt<br><br>  <br><br><span class="hljs-comment"># 获取实际出现的组合</span><br><br><span class="hljs-built_in">cat</span> filtered_words.txt | \<br><br>awk <span class="hljs-string">&#x27;&#123;print substr($0, length($0)-1)&#125;&#x27;</span> | \<br><br><span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> &gt; actual_combinations.txt<br><br>  <br><br><span class="hljs-comment"># 找出未出现过的组合</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;部分未出现过的两字母组合示例：&quot;</span><br><br><span class="hljs-built_in">comm</span> -23 all_combinations.txt actual_combinations.txt | <span class="hljs-built_in">head</span> -5<br><br>  <br><br><span class="hljs-comment"># 清理临时文件</span><br><br><span class="hljs-built_in">rm</span> filtered_words.txt all_combinations.txt actual_combinations.txt<br></code></pre></td></tr></table></figure>
+<p>原理类似。<br>3、sed 原地替换的原理：<br>当使用 <code>sed -i &#39;s/REGEX/SUBSTITUTION/ input.txt&#39;</code> 这样的命令时，sed 实际上并不是直接修改原始文件。它的工作流程大致如下：</p>
+<ol>
+<li><strong>读取文件：</strong> sed 将 <code>input.txt</code> 的内容读入内存。</li>
+<li><strong>执行替换：</strong> 根据提供的正则表达式和替换字符串，对内存中的内容进行修改。</li>
+<li><strong>写入临时文件：</strong> 将修改后的内容写入一个临时文件。</li>
+<li><strong>覆盖原文件：</strong> 删除原始的 <code>input.txt</code>，并将临时文件重命名为 <code>input.txt</code>。<br>风险：<br><strong>意外覆盖：</strong> 如果替换命令写错，或者正则表达式匹配不正确，可能会导致大量数据被意外删除或修改，无法恢复。<br>如何安全地进行文本替换：例如：<code>sed &#39;s/REGEX/SUBSTITUTION/g&#39; input.txt &gt; output.txt</code><br>4、找出您最近十次开机的开机时间平均数、中位数和最长时间。在 Linux 上需要用到 <code>journalctl</code> ，而在 macOS 上使用 <code>log show</code>。找到每次起到开始和结束时的时间戳。<br>答：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>  <br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;分析最近10次启动时间...&quot;</span><br><br>  <br><br><span class="hljs-comment"># 使用单独的 --list-boots 来获取可用的启动记录</span><br><br>boot_count=$(journalctl --list-boots | <span class="hljs-built_in">wc</span> -l)<br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$boot_count</span> -eq 0 ]; <span class="hljs-keyword">then</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;未找到启动记录&quot;</span><br><br><span class="hljs-built_in">exit</span> 1<br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># 获取实际的启动时间数据，每次单独查询</span><br><br><span class="hljs-built_in">times</span>=()<br><span class="hljs-comment"># 初始化数组，用于存储每次启动的时间。</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> $(<span class="hljs-built_in">seq</span> 0 -1 -$((boot_count-<span class="hljs-number">1</span>))); <span class="hljs-keyword">do</span><br><br><span class="hljs-comment"># 使用 --boot 参数查询每次启动</span><br><br>boot_time=$(journalctl --boot=<span class="hljs-variable">$i</span> | grep <span class="hljs-string">&quot;Startup finished in&quot;</span> | grep -oP <span class="hljs-string">&#x27;[0-9.]+(?=s)&#x27;</span> | <span class="hljs-built_in">tail</span> -n1)<br><span class="hljs-comment"># seq 0 -1 -$((boot_count-1))：生成一个从 0 开始，步长为 -1，结束值为-boot_count+1的数字序列。这个序列的目的是为了从最新的启动记录开始逆序遍历，以便获取最近的boot_count次启动的时间。</span><br><br><span class="hljs-keyword">if</span> [ ! -z <span class="hljs-string">&quot;<span class="hljs-variable">$boot_time</span>&quot;</span> ]; <span class="hljs-keyword">then</span><br><span class="hljs-comment"># 判断是否找到启动时间：如果boot_time不为空，则表示成功提取到了启动时间。</span><br><br><span class="hljs-built_in">times</span>+=(<span class="hljs-variable">$boot_time</span>)<br><span class="hljs-comment"># 将启动时间添加到数组： 将提取到的启动时间添加到times数组的末尾。</span><br><span class="hljs-comment"># 如果已经收集了10条记录就退出</span><br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$&#123;#times[@]&#125;</span> -eq 10 ]; <span class="hljs-keyword">then</span><br><br><span class="hljs-built_in">break</span><br><br><span class="hljs-keyword">fi</span><br><span class="hljs-comment"># 限制记录数量：如果times数组中的元素个数达到了 10 个，说明已经收集了足够的数据，就跳出循环。</span><br><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">done</span><br><br>  <br><br><span class="hljs-comment"># 检查是否获取到数据</span><br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$&#123;#times[@]&#125;</span> -eq 0 ]; <span class="hljs-keyword">then</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;未能获取到任何启动时间数据&quot;</span><br><br><span class="hljs-built_in">exit</span> 1<br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># 计算总和用于平均值</span><br><br><span class="hljs-built_in">sum</span>=0<br><br><span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;times[@]&#125;</span>&quot;</span>; <span class="hljs-keyword">do</span><br><br><span class="hljs-built_in">sum</span>=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$sum</span> + <span class="hljs-variable">$t</span>&quot;</span> | bc -l)<br><br><span class="hljs-keyword">done</span><br><br>  <br><br><span class="hljs-comment"># 计算平均值</span><br><br>avg=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;scale=2; <span class="hljs-variable">$sum</span> / <span class="hljs-variable">$&#123;#times[@]&#125;</span>&quot;</span> | bc -l)<br><br>  <br><br><span class="hljs-comment"># 排序数组用于计算中位数</span><br><br>IFS=$<span class="hljs-string">&#x27;\n&#x27;</span> sorted=($(<span class="hljs-built_in">sort</span> -n &lt;&lt;&lt;<span class="hljs-string">&quot;<span class="hljs-variable">$&#123;times[*]&#125;</span>&quot;</span>))<br><br><span class="hljs-built_in">unset</span> IFS<br><br>  <br><br><span class="hljs-comment"># 计算中位数</span><br><br>mid=$((<span class="hljs-variable">$&#123;#sorted[@]&#125;</span> / <span class="hljs-number">2</span>))<br><br><span class="hljs-keyword">if</span> [ $((<span class="hljs-variable">$&#123;#sorted[@]&#125;</span> % <span class="hljs-number">2</span>)) -eq 0 ]; <span class="hljs-keyword">then</span><br><br>median=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;scale=2; (<span class="hljs-variable">$&#123;sorted[$mid-1]&#125;</span> + <span class="hljs-variable">$&#123;sorted[$mid]&#125;</span>) / 2&quot;</span> | bc -l)<br><br><span class="hljs-keyword">else</span><br><br>median=<span class="hljs-variable">$&#123;sorted[$mid]&#125;</span><br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># 找出最长时间</span><br><br>max=<span class="hljs-variable">$&#123;sorted[-1]&#125;</span><br><br>  <br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;分析结果：&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;平均启动时间: <span class="hljs-variable">$&#123;avg&#125;</span>秒&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;中位数启动时间: <span class="hljs-variable">$&#123;median&#125;</span>秒&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;最长启动时间: <span class="hljs-variable">$&#123;max&#125;</span>秒&quot;</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;总计分析了 <span class="hljs-variable">$&#123;#times[@]&#125;</span> 次启动记录&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="先行和后行断言"><a href="#先行和后行断言" class="headerlink" title="先行和后行断言"></a>先行和后行断言</h3><ul>
+<li><strong>正向先行断言：</strong> <code>(?=pattern)</code> 表示当前位置的后面必须匹配 pattern。</li>
+<li><strong>负向先行断言：</strong> <code>(?!pattern)</code> 表示当前位置的后面不能匹配 pattern。</li>
+<li><strong>正向后行断言：</strong> <code>(?&lt;=pattern)</code> 表示当前位置的前面必须匹配 pattern。</li>
+<li><strong>负向后行断言：</strong> <code>(?&lt;!pattern)</code> 表示当前位置的前面不能匹配 pattern。<br>例如：假设我们有一个字符串 “This is a test string.”，我们想匹配所有的 “is”，但是要求 “is” 后面必须跟着一个空格。则<code>is(?= )</code></li>
+</ul>
+<h3 id="shell中的数组仍需后续继续学习！！！"><a href="#shell中的数组仍需后续继续学习！！！" class="headerlink" title="shell中的数组仍需后续继续学习！！！"></a>shell中的数组仍需后续继续学习！！！</h3><p>5、1. 查看之前三次重启启动信息中不同的部分(参见 <code>journalctl</code> 的 <code>-b</code> 选项)。将这一任务分为几个步骤，首先获取之前三次启动的启动日志，也许获取启动日志的命令就有合适的选项可以帮助您提取前三次启动的日志，亦或者您可以使用 <code>sed &#39;0,/STRING/d&#39;</code> 来删除 <code>STRING</code> 匹配到的字符串前面的全部内容。然后，过滤掉每次都不相同的部分，例如时间戳。下一步，重复记录输入行并对其计数(可以使用 <code>uniq</code> )。最后，删除所有出现过 3 次的内容（因为这些内容是三次启动日志中的重复部分）。<br>答：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== 错误信息类型统计 ===&quot;</span><br>(journalctl -b 0; journalctl -b -1; journalctl -b -2) | \<br>grep -i <span class="hljs-string">&quot;error\|warning\|failed\|can&#x27;t&quot;</span> | \<br>sed -E <span class="hljs-string">&#x27;s/^[A-Za-z]+ [0-9]+ [0-9:.]+ [^ ]+ [^:]+: //&#x27;</span> | \<br><span class="hljs-comment"># 提取错误信息的主要类型（取每行前40个字符作为关键特征）</span><br>sed -E <span class="hljs-string">&#x27;s/^(.&#123;40&#125;).*/\1.../&#x27;</span> | \<br><span class="hljs-built_in">sort</span> | \<br><span class="hljs-built_in">uniq</span> -c | \<br><span class="hljs-built_in">sort</span> -rn | \<br><span class="hljs-built_in">head</span> -n 5<br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n=== 问题最多的应用 TOP 5 ===&quot;</span><br>(journalctl -b 0; journalctl -b -1; journalctl -b -2) | \<br>grep -i <span class="hljs-string">&quot;error\|warning\|failed\|can&#x27;t&quot;</span> | \<br>sed -E <span class="hljs-string">&#x27;s/^[A-Za-z]+ [0-9]+ [0-9:.]+ [^ ]+ ([^:]+).*/\1/&#x27;</span> | \<br><span class="hljs-built_in">sort</span> | \<br><span class="hljs-built_in">uniq</span> -c | \<br><span class="hljs-built_in">sort</span> -rn | \<br><span class="hljs-built_in">head</span> -n 5<br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\n=== 错误等级分布 ===&quot;</span><br>(journalctl -b 0; journalctl -b -1; journalctl -b -2) | \<br>grep -i <span class="hljs-string">&quot;error\|warning\|failed\|can&#x27;t&quot;</span> | \<br>awk <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    if (tolower($0) ~ /error/) errors++;</span><br><span class="hljs-string">    if (tolower($0) ~ /warning/) warnings++;</span><br><span class="hljs-string">    if (tolower($0) ~ /failed/) failures++;</span><br><span class="hljs-string">    if (tolower($0) ~ /can&#x27;</span>\&#x27;<span class="hljs-string">&#x27;t/) cants++;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">END &#123;</span><br><span class="hljs-string">    print &quot;错误(Error)数量: &quot; errors;</span><br><span class="hljs-string">    print &quot;警告(Warning)数量: &quot; warnings;</span><br><span class="hljs-string">    print &quot;失败(Failed)数量: &quot; failures;</span><br><span class="hljs-string">    print &quot;无法执行(Can&#x27;</span>\&#x27;<span class="hljs-string">&#x27;t)数量: &quot; cants;</span><br><span class="hljs-string">&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>6、</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>  <br><br><span class="hljs-comment"># 下载页面并提取数据</span><br><br><span class="hljs-function"><span class="hljs-title">fetch_and_extract</span></span>() &#123;<br><br><span class="hljs-comment"># 使用curl获取页面内容，使用pup提取表格数据，-s表示静默模式不输出进度信息</span><br><br><span class="hljs-comment"># 安装pup: brew install pup (MacOS) 或 去github下载二进制文件</span><br><br>curl -s <span class="hljs-string">&quot;https://stats.wikimedia.org/EN/TablesWikipediaZH.htm&quot;</span> | \<br><span class="hljs-comment"># 从 HTML 中提取所有&lt;table&gt;标签内的&lt;tr&gt;（表格行）元素，并将其转换为 JSON 格式。</span><br><br>pup <span class="hljs-string">&#x27;table tr json&#123;&#125;&#x27;</span> | \<br><br><span class="hljs-comment"># 使用jq提取文本内容，-r表示原始输出不包含额外的引号</span><br><span class="hljs-comment"># []: 遍历 JSON 数组中的每个元素（即每个表格行）。</span><br><span class="hljs-comment"># [.children[].text]: 提取每个表格行中所有子元素（即表格单元格）的文本内容，并将其作为一个数组。</span><br><span class="hljs-comment"># @tsv: 将数组中的元素以 Tab 分隔符的形式转换为 TSV 格式的字符串。</span><br><br>jq -r <span class="hljs-string">&#x27;.[] | [.children[].text] | @tsv&#x27;</span> | \<br><br><span class="hljs-comment"># 过滤掉空行</span><br><br>grep -v <span class="hljs-string">&#x27;^$&#x27;</span> &gt; wiki_stats.txt<br><br>&#125;<br><br>  <br><br><span class="hljs-comment"># 分析指定列的数据</span><br><br><span class="hljs-function"><span class="hljs-title">analyze_column</span></span>() &#123;<br><br><span class="hljs-built_in">local</span> col=<span class="hljs-variable">$1</span><br><br><span class="hljs-built_in">local</span> title=<span class="hljs-variable">$2</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== 分析 <span class="hljs-variable">$title</span> (第<span class="hljs-variable">$&#123;col&#125;</span>列) ===&quot;</span><br><br><span class="hljs-comment"># 提取指定列的数字数据，移除k后缀并转换为数字</span><br><br><span class="hljs-built_in">cat</span> wiki_stats.txt | \<br><span class="hljs-comment"># 将shell变量$col的值赋给awk变量col</span><br><br>awk -v col=<span class="hljs-string">&quot;<span class="hljs-variable">$col</span>&quot;</span> <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">val = $col;</span><br><span class="hljs-string"></span><br><span class="hljs-string"># 如果值以k结尾，将其转换为数字</span><br><span class="hljs-string"></span><br><span class="hljs-string">if (val ~ /k$/) &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">val = substr(val, 1, length(val)-1) * 1000;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string"># 如果是数字则输出</span><br><span class="hljs-string"></span><br><span class="hljs-string">if (val ~ /^[0-9]+\.?[0-9]*$/) &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">print val;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;&#x27;</span> | \<br><br><span class="hljs-built_in">sort</span> -n | \<br><br>awk <span class="hljs-string">&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">BEGIN &#123;min=999999999; max=-999999999; sum=0; count=0&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">if ($1 &lt; min) min = $1;</span><br><span class="hljs-string"></span><br><span class="hljs-string">if ($1 &gt; max) max = $1;</span><br><span class="hljs-string"></span><br><span class="hljs-string">sum += $1;</span><br><span class="hljs-string"></span><br><span class="hljs-string">count++;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">END &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">printf &quot;最小值: %.2f\n&quot;, min;</span><br><span class="hljs-string"></span><br><span class="hljs-string">printf &quot;最大值: %.2f\n&quot;, max;</span><br><span class="hljs-string"></span><br><span class="hljs-string">printf &quot;平均值: %.2f\n&quot;, sum/count;</span><br><span class="hljs-string"></span><br><span class="hljs-string">printf &quot;总和: %.2f\n&quot;, sum;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;&#x27;</span><br><br>&#125;<br><br>  <br><br><span class="hljs-comment"># 计算两列之差的总和</span><br><br><span class="hljs-function"><span class="hljs-title">calculate_difference</span></span>() &#123;<br><br><span class="hljs-built_in">local</span> col1=<span class="hljs-variable">$1</span><br><br><span class="hljs-built_in">local</span> col2=<span class="hljs-variable">$2</span><br><br><span class="hljs-built_in">local</span> title1=<span class="hljs-variable">$3</span><br><br><span class="hljs-built_in">local</span> title2=<span class="hljs-variable">$4</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;=== 计算 <span class="hljs-variable">$title1</span> 和 <span class="hljs-variable">$title2</span> 的差值总和 ===&quot;</span><br><br><span class="hljs-built_in">cat</span> wiki_stats.txt | \<br><br>awk -v col1=<span class="hljs-string">&quot;<span class="hljs-variable">$col1</span>&quot;</span> -v col2=<span class="hljs-string">&quot;<span class="hljs-variable">$col2</span>&quot;</span> <span class="hljs-string">&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">function convert(val) &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">if (val ~ /k$/) &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">return substr(val, 1, length(val)-1) * 1000;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">return val;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">val1 = convert($col1);</span><br><span class="hljs-string"></span><br><span class="hljs-string">val2 = convert($col2);</span><br><span class="hljs-string"></span><br><span class="hljs-string">if (val1 ~ /^[0-9]+\.?[0-9]*$/ &amp;&amp; val2 ~ /^[0-9]+\.?[0-9]*$/) &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">diff += (val1 - val2);</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">END &#123;</span><br><span class="hljs-string"></span><br><span class="hljs-string">printf &quot;差值总和: %.2f\n&quot;, diff;</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#125;&#x27;</span><br><br>&#125;<br><br>  <br><br><span class="hljs-comment"># 主程序</span><br><br><span class="hljs-function"><span class="hljs-title">main</span></span>() &#123;<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;开始获取维基百科统计数据...&quot;</span><br><br>fetch_and_extract<br><br><span class="hljs-comment"># 分析第2列(total)数据</span><br><br>analyze_column 2 <span class="hljs-string">&quot;总用户数&quot;</span><br><br><span class="hljs-comment"># 分析第3列(new)数据</span><br><br>analyze_column 3 <span class="hljs-string">&quot;新用户数&quot;</span><br><br><span class="hljs-comment"># 计算第2列和第3列的差值总和</span><br><br>calculate_difference 2 3 <span class="hljs-string">&quot;总用户数&quot;</span> <span class="hljs-string">&quot;新用户数&quot;</span><br><br>&#125;<br><br>  <br><br><span class="hljs-comment"># 执行主程序</span><br><br>main<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Data Wrangling</div>
+      <div>https://blakehansen130.github.io/2024/10/22/Data Wrangling/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/20/vim/" title="vim">
+                        <span class="hidden-mobile">vim</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
