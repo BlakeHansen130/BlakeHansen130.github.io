@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Command-line Environment常用信号 SIGTERM: 终止信号，通常用于请求进程正常退出。 SIGINT: 中断信号，通常由用户按下Ctrl+C产生，用于中断正在运行的进程。 SIGKILL: 杀死信号，强制终止进程，无法被进程捕获或忽略。 SIGSTOP: 停止信号，暂停进程的执行。 SIGCONT: 继续信号，继续被暂停的进程。 SIGALRM: 闹钟信号，用于实现定时器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Command-line Environment">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/10/22/Command-line%20Environment/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="Command-line Environment常用信号 SIGTERM: 终止信号，通常用于请求进程正常退出。 SIGINT: 中断信号，通常由用户按下Ctrl+C产生，用于中断正在运行的进程。 SIGKILL: 杀死信号，强制终止进程，无法被进程捕获或忽略。 SIGSTOP: 停止信号，暂停进程的执行。 SIGCONT: 继续信号，继续被暂停的进程。 SIGALRM: 闹钟信号，用于实现定时器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/123513531_2063338_0.jpg">
+<meta property="article:published_time" content="2024-10-22T08:55:06.410Z">
+<meta property="article:modified_time" content="2024-10-22T08:58:31.062Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/123513531_2063338_0.jpg">
+  
+  
+  
+  <title>Command-line Environment - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/123528347_38297201_0.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Command-line Environment"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-22 16:55" pubdate>
+          2024年10月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Command-line Environment</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Command-line-Environment"><a href="#Command-line-Environment" class="headerlink" title="Command-line Environment"></a>Command-line Environment</h1><h2 id="常用信号"><a href="#常用信号" class="headerlink" title="常用信号"></a>常用信号</h2><ul>
+<li><strong>SIGTERM:</strong> 终止信号，通常用于请求进程正常退出。</li>
+<li><strong>SIGINT:</strong> 中断信号，通常由用户按下Ctrl+C产生，用于中断正在运行的进程。</li>
+<li><strong>SIGKILL:</strong> 杀死信号，强制终止进程，<strong>无法被进程捕获或忽略。</strong></li>
+<li><strong>SIGSTOP:</strong> 停止信号，暂停进程的执行。</li>
+<li><strong>SIGCONT:</strong> 继续信号，继续被暂停的进程。</li>
+<li><strong>SIGALRM:</strong> 闹钟信号，用于实现定时器功能。</li>
+<li><strong>SIGCHLD:</strong> 子进程状态改变信号，当子进程终止或停止时，父进程会收到该信号。</li>
+<li><strong>SIGUSR1，SIGUSR2:</strong> 用户自定义信号，可以用来实现进程之间的通信。</li>
+<li><strong>Ctrl+C (SIGINT):</strong> 这是最常用的信号，当你在终端中运行一个程序时，按下Ctrl+C，就会向该程序发送SIGINT信号，通常会终止程序的运行。</li>
+<li><strong>Ctrl+Z (SIGTSTP):</strong> 这个信号会将当前的前台进程挂起，你可以使用命令<code>fg</code>将挂起的进程恢复到前台，或者使用<code>bg</code>将挂起的进程放到后台运行。</li>
+<li><strong>Ctrl+\ (SIGQUIT):</strong> 这个信号除了终止程序外，还会生成一个core dump文件，这个文件可以用来调试程序。</li>
+</ul>
+<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p>用于在终端窗口关闭后继续运行命令。<br><code>nohup command &amp;</code></p>
+<ul>
+<li><code>nohup</code>: 告诉系统在终端窗口关闭后继续运行命令。</li>
+<li><code>command</code>: 要执行的命令。</li>
+<li><code>&amp;</code>: 将命令放到后台运行。</li>
+</ul>
+<h2 id="jobs"><a href="#jobs" class="headerlink" title="jobs"></a>jobs</h2><ul>
+<li><strong>-l 或 –list：</strong> 以长格式显示作业信息，包括作业编号、进程 ID、命令行等。</li>
+<li><strong>-p 或 –pids：</strong> 只显示作业的进程 ID。</li>
+<li><strong>-r 或 –running：</strong> 只显示正在运行的作业。</li>
+<li><strong>-s 或 –stopped：</strong> 只显示已停止的作业。<br>可以使用百分号 + 任务编号（<code>jobs</code> 会打印任务编号）来选取该任务。如果要选择最近的一个任务，可以使用 <code>$!</code> 这一特殊参数。</li>
+</ul>
+<h3 id="与-jobs-命令配合使用的命令"><a href="#与-jobs-命令配合使用的命令" class="headerlink" title="与 jobs 命令配合使用的命令"></a>与 jobs 命令配合使用的命令</h3><ul>
+<li><strong>fg：</strong> 将后台作业调回前台继续运行。</li>
+<li><strong>bg：</strong> 将一个停止的作业放到后台继续运行。</li>
+<li><code>kill [signal] jobspec</code>：其中signal如果不指定，默认发送 <code>SIGTERM</code>。<code>-l</code>可以查看可发送的信号列表。</li>
+</ul>
+<h2 id="pgrep"><a href="#pgrep" class="headerlink" title="pgrep"></a>pgrep</h2><ul>
+<li><strong>-a:</strong> 显示进程的命令行。</li>
+<li><strong>-f:</strong> 根据完整的命令行进行匹配。</li>
+<li><strong>-l:</strong> 显示进程名。</li>
+<li><strong>-u:</strong> 根据用户 ID 匹配。</li>
+<li><strong>-g:</strong> 根据进程组 ID 匹配。</li>
+<li><strong>-P:</strong> 根据父进程 ID 匹配。</li>
+<li><strong>-t:</strong> 根据终端名匹配。</li>
+<li><strong>-x:</strong> 精确匹配进程名。</li>
+<li><strong>-i:</strong> 忽略大小写。</li>
+<li><strong>-v:</strong> 反向匹配，即查找不匹配的进程。</li>
+</ul>
+<h2 id="disown"><a href="#disown" class="headerlink" title="disown"></a>disown</h2><p>用于将后台运行的作业从当前 shell 的作业列表中删除。这意味着，即使你关闭了终端窗口，这些作业仍然会继续运行。<br><code>disown [-r] jobspec</code></p>
+<ul>
+<li><strong>jobspec</strong>：指定要删除的作业。可以使用作业号（如 <code>%1</code>）、作业名（如 <code>myjob</code>）或进程 ID（PID）。</li>
+<li><strong>-r</strong>：删除所有后台作业。</li>
+</ul>
+<h2 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h2><h3 id="tmux-的核心概念"><a href="#tmux-的核心概念" class="headerlink" title="tmux 的核心概念"></a>tmux 的核心概念</h3><ul>
+<li><strong>会话 (session)：</strong> 一个独立的工作环境，可以包含多个窗口。</li>
+<li><strong>窗口 (window)：</strong> 会话中的一个视图，可以包含多个窗格。</li>
+<li><strong>窗格 (pane)：</strong> 窗口中的一个子区域，用于显示不同的命令行。</li>
+</ul>
+<h3 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h3><ul>
+<li><p><strong>会话</strong> - 每个会话都是一个独立的工作区，其中包含一个或多个窗口</p>
+<ul>
+<li><code>tmux</code> 开始一个新的会话</li>
+<li><code>tmux new -s NAME</code> 以指定名称开始一个新的会话</li>
+<li><code>tmux ls</code> 列出当前所有会话</li>
+<li>在 <code>tmux</code> 中输入 <code>&lt;C-b&gt; d</code> ，将当前会话分离</li>
+<li><code>tmux a</code> 重新连接最后一个会话。您也可以通过 <code>-t</code> 来指定具体的会话</li>
+</ul>
+</li>
+<li><p><strong>窗口</strong> - 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分</p>
+<ul>
+<li><code>&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code>&lt;C-d&gt;</code> 关闭</li>
+<li><code>&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li>
+<li><code>&lt;C-b&gt; p</code> 切换到前一个窗口</li>
+<li><code>&lt;C-b&gt; n</code> 切换到下一个窗口</li>
+<li><code>&lt;C-b&gt; ,</code> 重命名当前窗口</li>
+<li><code>&lt;C-b&gt; w</code> 列出当前所有窗口</li>
+</ul>
+</li>
+<li><p><strong>面板</strong> - 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell</p>
+<ul>
+<li><code>&lt;C-b&gt; &quot;</code> 水平分割</li>
+<li><code>&lt;C-b&gt; %</code> 垂直分割</li>
+<li><code>&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键</li>
+<li><code>&lt;C-b&gt; z</code> 切换当前面板的缩放</li>
+<li><code>&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li>
+<li><code>&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li>
+</ul>
+</li>
+</ul>
+<h2 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h2><p>用于创建命令别名。<br>例如：<code>alias ll=&#39;ls -la&#39;</code><strong>注意等号左右都没有空格。</strong><br><code>unalias 别名</code>删除别名 <code>alias</code>查看所有别名<br>为了使自定义的别名在每次打开终端时都生效，可以将它们写入 shell 的配置文件中。</p>
+<ul>
+<li><strong>Bash:</strong> <code>~/.bashrc</code></li>
+<li><strong>Zsh:</strong> <code>~/.zshrc</code></li>
+</ul>
+<h2 id="配置文件dotfiles"><a href="#配置文件dotfiles" class="headerlink" title="配置文件dotfiles"></a>配置文件dotfiles</h2><p>这些文件通常<strong>隐藏</strong>在你的用户目录下，用来存储各种应用程序和操作系统的个性化设置。<br>实际上，很多程序都要求您在 shell 的配置文件中包含一行类似 <code>export PATH=&quot;$PATH:/path/to/program/bin&quot;</code> 的命令，这样才能确保这些程序能够被 shell 找到。</p>
+<h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><h3 id="ssh-keygen"><a href="#ssh-keygen" class="headerlink" title="ssh-keygen"></a>ssh-keygen</h3><p><code>ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;</code></p>
+<ul>
+<li><code>-t rsa</code>：指定使用 RSA 算法。</li>
+<li><code>-b 4096</code>：密钥长度为 4096 位，保证更高的安全性。</li>
+<li><code>-C &quot;your_email@example.com&quot;</code>：注释，用于标识这个密钥，一般填写你的邮箱地址。<br><code>Enter file in which to save the key (/home/your_user/.ssh/id_rsa):</code><br>这里保持默认按enter。<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-built_in">Enter</span> <span class="hljs-variable">passphrase</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">empty</span> <span class="hljs-variable">for</span> <span class="hljs-variable">no</span> <span class="hljs-variable">passphrase</span><span class="hljs-punctuation">)</span><span class="hljs-operator">:</span> <br><span class="hljs-built_in">Enter</span> <span class="hljs-variable">same</span> <span class="hljs-variable">passphrase</span> <span class="hljs-variable">again</span><span class="hljs-operator">:</span><br></code></pre></td></tr></table></figure>
+<code>ls -al ~/.ssh</code>查看密钥文件<br><code>cat ~/.ssh/id_rsa.pub</code><br>将该公钥粘贴到你想要连接的远程服务器或服务上。通常是粘贴到 <code>~/.ssh/authorized_keys</code> 文件或在服务中配置 SSH 公钥。</li>
+</ul>
+<h3 id="ssh-copy-id"><a href="#ssh-copy-id" class="headerlink" title="ssh-copy-id"></a>ssh-copy-id</h3><p>用于将本地主机的公钥复制到远程主机的 <code>authorized_keys</code> 文件中的命令行工具。允许使用 SSH 密钥进行无密码登录。<br><code>ssh-copy-id [options] user@host</code><br><strong>选项：</strong></p>
+<ul>
+<li><code>-i identity_file</code>: 指定要使用的私钥文件（默认为 <code>~/.ssh/id_rsa</code>）。</li>
+<li><code>-f authorized_keys_file</code>: 指定远程主机的 <code>authorized_keys</code> 文件（默认为 <code>~/.ssh/authorized_keys</code>）。</li>
+<li><code>-K</code>: 将公钥添加到远程主机的 <code>known_hosts</code> 文件中。</li>
+<li><code>-R</code>: 从远程主机的 <code>authorized_keys</code> 文件中删除公钥。</li>
+</ul>
+<h3 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h3><ul>
+<li><strong>-r</strong>：递归复制整个目录。</li>
+<li><strong>-p</strong>：保留文件属性（权限、时间戳等）。</li>
+<li><strong>-v</strong>：显示详细的传输过程。</li>
+<li><strong>-q</strong>：静默模式，不显示输出。</li>
+<li><strong>-i identity_file</strong>：指定使用的私钥文件。</li>
+</ul>
+<h3 id="rsync"><a href="#rsync" class="headerlink" title="rsync"></a>rsync</h3><p><code>rsync [options] source destination</code><br><strong>常用选项</strong></p>
+<ul>
+<li><strong>-a</strong>：归档模式，保留文件属性（权限、时间戳等）。</li>
+<li><strong>-v</strong>：详细模式，显示传输过程。</li>
+<li><strong>-z</strong>：压缩传输数据，提高效率。</li>
+<li><strong>-r</strong>：递归同步整个目录。</li>
+<li><strong>-u</strong>：更新模式，仅传输更新的文件。</li>
+<li><strong>-t</strong>：保留文件修改时间。</li>
+<li><strong>-p</strong>：保留文件权限。</li>
+<li><strong>-P</strong>：保留文件所有者和组。</li>
+<li><strong>–progress</strong>：显示传输进度。</li>
+<li><strong>–delete</strong>：删除目标中不存在的源文件。</li>
+</ul>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><p>1、答：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">sleep</span> <span class="hljs-number">10000</span> &amp;<br>pgrep <span class="hljs-literal">-af</span> <span class="hljs-built_in">sleep</span><br>pkill <span class="hljs-operator">-f</span> <span class="hljs-built_in">sleep</span><br></code></pre></td></tr></table></figure>
+<p>2、<code>kill</code> 命令成功退出时其状态码为 0 ，其他状态则是非 0。<code>kill -0</code> 则不会发送信号，但是会在进程不存在时返回一个不为 0 的状态码。<br>答：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>  <br><br><span class="hljs-comment"># 定义 pidwait 函数</span><br><br><span class="hljs-function"><span class="hljs-title">pidwait</span></span>() &#123;<br><br><span class="hljs-built_in">local</span> pid=<span class="hljs-variable">$1</span> <span class="hljs-comment"># 获取进程的 PID</span><br><span class="hljs-comment"># 将标准暑促和标准错误输出丢弃，不输出在终端</span><br><br><span class="hljs-keyword">while</span> ps -p <span class="hljs-string">&quot;<span class="hljs-variable">$pid</span>&quot;</span> &gt; /dev/null 2&gt;&amp;1; <span class="hljs-keyword">do</span> <span class="hljs-comment"># 使用 ps 检查进程是否存在，只要 `ps` 命令的返回值为 0（表示进程存在），就一直循环。</span><br><br><span class="hljs-built_in">sleep</span> 1 <span class="hljs-comment"># 每秒轮询一次，减少 CPU 占用</span><br><br><span class="hljs-keyword">done</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Process <span class="hljs-variable">$pid</span> has finished.&quot;</span><br><br>&#125;<br><br>  <br><br><span class="hljs-comment"># 将函数导出到当前 shell 会话中</span><br><br><span class="hljs-built_in">export</span> -f pidwait<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;pidwait function loaded into the current session.&quot;</span><br></code></pre></td></tr></table></figure>
+<p>然后在当前目录下运行该脚本，并确保它在当前shell会话中定义了pidwait函数<code>source filename.sh</code>。然后再执行pidwait &lt;pid&gt;即可。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Command-line Environment</div>
+      <div>https://blakehansen130.github.io/2024/10/22/Command-line Environment/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/22/Git/" title="Git">
+                        <span class="hidden-mobile">Git</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
