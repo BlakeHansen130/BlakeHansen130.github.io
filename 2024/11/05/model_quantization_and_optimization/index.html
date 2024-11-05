@@ -1,0 +1,1039 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="building_with_espdl-2-failure本人代码正常部分123# 列出当前工作目录中的文件%ls  这部分要注意windows的python库是_.pyd形式，而linux是esp-dl的git库中同名的_.so文件。 1234# 导入必要的库from optimizer import *from calibrator import *from evaluator import">
+<meta property="og:type" content="article">
+<meta property="og:title" content="building_with_espdl-2-failure">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/11/05/model_quantization_and_optimization/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="building_with_espdl-2-failure本人代码正常部分123# 列出当前工作目录中的文件%ls  这部分要注意windows的python库是_.pyd形式，而linux是esp-dl的git库中同名的_.so文件。 1234# 导入必要的库from optimizer import *from calibrator import *from evaluator import">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/123971425_811927_0.jpg">
+<meta property="article:published_time" content="2024-11-05T09:03:36.066Z">
+<meta property="article:modified_time" content="2024-11-05T09:50:54.514Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/123971425_811927_0.jpg">
+  
+  
+  
+  <title>building_with_espdl-2-failure - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/123939353_17429_0.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="building_with_espdl-2-failure"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-05 17:03" pubdate>
+          2024年11月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">building_with_espdl-2-failure</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="building-with-espdl-2-failure"><a href="#building-with-espdl-2-failure" class="headerlink" title="building_with_espdl-2-failure"></a>building_with_espdl-2-failure</h1><h2 id="本人代码"><a href="#本人代码" class="headerlink" title="本人代码"></a>本人代码</h2><h3 id="正常部分"><a href="#正常部分" class="headerlink" title="正常部分"></a>正常部分</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 列出当前工作目录中的文件</span><br>%ls<br><br></code></pre></td></tr></table></figure>
+
+<p>这部分要注意windows的python库是_<strong>.pyd</strong>形式，而linux是esp-dl的git库中同名的_<strong>.so</strong>文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 导入必要的库</span><br><span class="hljs-keyword">from</span> optimizer <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> calibrator <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> evaluator <span class="hljs-keyword">import</span> *<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">onnx_model = onnx.load(<span class="hljs-string">&quot;handrecognition_model.onnx&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">optimized_model_path = optimize_fp_model(<span class="hljs-string">&quot;handrecognition_model.onnx&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+<h4 id="打印模型的计算图信息"><a href="#打印模型的计算图信息" class="headerlink" title="打印模型的计算图信息"></a>打印模型的计算图信息</h4><h5 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">optimized_model = onnx.load(optimized_model_path)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Optimized ONNX model loaded successfully.&quot;</span>)<br><span class="hljs-built_in">print</span>(onnx.helper.printable_graph(optimized_model.graph))<br><br></code></pre></td></tr></table></figure>
+<h5 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h5><pre><code class="hljs">Optimized ONNX model loaded successfully.
+graph tf2onnx (
+  %conv2d_input[FLOAT, unk__33x96x96x1]
+) initializers (
+  %new_shape__31[INT64, 4]
+  %const_fold_opt__32[INT64, 2]
+  %StatefulPartitionedCall/sequential/dense_1/MatMul/ReadVariableOp:0[FLOAT, 128x6]
+  %StatefulPartitionedCall/sequential/dense_1/BiasAdd/ReadVariableOp:0[FLOAT, 6]
+  %StatefulPartitionedCall/sequential/dense/MatMul/ReadVariableOp:0[FLOAT, 6400x128]
+  %StatefulPartitionedCall/sequential/dense/BiasAdd/ReadVariableOp:0[FLOAT, 128]
+  %StatefulPartitionedCall/sequential/conv2d_2/Conv2D/ReadVariableOp:0[FLOAT, 64x64x3x3]
+  %StatefulPartitionedCall/sequential/conv2d_2/BiasAdd/ReadVariableOp:0[FLOAT, 64]
+  %StatefulPartitionedCall/sequential/conv2d_1/Conv2D/ReadVariableOp:0[FLOAT, 64x32x3x3]
+  %StatefulPartitionedCall/sequential/conv2d_1/BiasAdd/ReadVariableOp:0[FLOAT, 64]
+  %StatefulPartitionedCall/sequential/conv2d/Conv2D/ReadVariableOp:0[FLOAT, 32x1x5x5]
+  %StatefulPartitionedCall/sequential/conv2d/BiasAdd/ReadVariableOp:0[FLOAT, 32]
+) &#123;
+  %StatefulPartitionedCall/sequential/conv2d/BiasAdd__6:0 = Reshape(%conv2d_input, %new_shape__31)
+  %StatefulPartitionedCall/sequential/conv2d/BiasAdd:0 = Conv[dilations = [1, 1], group = 1, kernel_shape = [5, 5], strides = [1, 1]](%StatefulPartitionedCall/sequential/conv2d/BiasAdd__6:0, %StatefulPartitionedCall/sequential/conv2d/Conv2D/ReadVariableOp:0, %StatefulPartitionedCall/sequential/conv2d/BiasAdd/ReadVariableOp:0)
+  %StatefulPartitionedCall/sequential/conv2d/Relu:0 = Relu(%StatefulPartitionedCall/sequential/conv2d/BiasAdd:0)
+  %StatefulPartitionedCall/sequential/max_pooling2d/MaxPool:0 = MaxPool[kernel_shape = [2, 2], strides = [2, 2]](%StatefulPartitionedCall/sequential/conv2d/Relu:0)
+  %StatefulPartitionedCall/sequential/conv2d_1/BiasAdd:0 = Conv[dilations = [1, 1], group = 1, kernel_shape = [3, 3], strides = [1, 1]](%StatefulPartitionedCall/sequential/max_pooling2d/MaxPool:0, %StatefulPartitionedCall/sequential/conv2d_1/Conv2D/ReadVariableOp:0, %StatefulPartitionedCall/sequential/conv2d_1/BiasAdd/ReadVariableOp:0)
+  %StatefulPartitionedCall/sequential/conv2d_1/Relu:0 = Relu(%StatefulPartitionedCall/sequential/conv2d_1/BiasAdd:0)
+  %StatefulPartitionedCall/sequential/max_pooling2d_1/MaxPool:0 = MaxPool[kernel_shape = [2, 2], strides = [2, 2]](%StatefulPartitionedCall/sequential/conv2d_1/Relu:0)
+  %StatefulPartitionedCall/sequential/conv2d_2/BiasAdd:0 = Conv[dilations = [1, 1], group = 1, kernel_shape = [3, 3], strides = [1, 1]](%StatefulPartitionedCall/sequential/max_pooling2d_1/MaxPool:0, %StatefulPartitionedCall/sequential/conv2d_2/Conv2D/ReadVariableOp:0, %StatefulPartitionedCall/sequential/conv2d_2/BiasAdd/ReadVariableOp:0)
+  %StatefulPartitionedCall/sequential/conv2d_2/Relu:0 = Relu(%StatefulPartitionedCall/sequential/conv2d_2/BiasAdd:0)
+  %StatefulPartitionedCall/sequential/max_pooling2d_2/MaxPool:0 = MaxPool[kernel_shape = [2, 2], strides = [2, 2]](%StatefulPartitionedCall/sequential/conv2d_2/Relu:0)
+  %StatefulPartitionedCall/sequential/max_pooling2d_2/MaxPool__28:0 = Transpose[perm = [0, 2, 3, 1]](%StatefulPartitionedCall/sequential/max_pooling2d_2/MaxPool:0)
+  %StatefulPartitionedCall/sequential/flatten/Reshape:0 = Reshape(%StatefulPartitionedCall/sequential/max_pooling2d_2/MaxPool__28:0, %const_fold_opt__32)
+  %StatefulPartitionedCall/sequential/dense/MatMul:0 = MatMul(%StatefulPartitionedCall/sequential/flatten/Reshape:0, %StatefulPartitionedCall/sequential/dense/MatMul/ReadVariableOp:0)
+  %StatefulPartitionedCall/sequential/dense/BiasAdd:0 = Add(%StatefulPartitionedCall/sequential/dense/MatMul:0, %StatefulPartitionedCall/sequential/dense/BiasAdd/ReadVariableOp:0)
+  %StatefulPartitionedCall/sequential/dense/Relu:0 = Relu(%StatefulPartitionedCall/sequential/dense/BiasAdd:0)
+  %StatefulPartitionedCall/sequential/dense_1/MatMul:0 = MatMul(%StatefulPartitionedCall/sequential/dense/Relu:0, %StatefulPartitionedCall/sequential/dense_1/MatMul/ReadVariableOp:0)
+  %StatefulPartitionedCall/sequential/dense_1/BiasAdd:0 = Add(%StatefulPartitionedCall/sequential/dense_1/MatMul:0, %StatefulPartitionedCall/sequential/dense_1/BiasAdd/ReadVariableOp:0)
+  %dense_1 = Softmax(%StatefulPartitionedCall/sequential/dense_1/BiasAdd:0)
+  return %dense_1
+&#125;
+</code></pre>
+<h4 id="加载pickle数据集"><a href="#加载pickle数据集" class="headerlink" title="加载pickle数据集"></a>加载pickle数据集</h4><h5 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br><br><span class="hljs-comment"># 加载校准数据集</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;X_cal.pkl&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    test_images = pickle.load(f)<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;y_cal.pkl&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    test_labels = pickle.load(f)<br><br><span class="hljs-comment"># 提取校准数据子集</span><br>calib_dataset = test_images[<span class="hljs-number">0</span>:<span class="hljs-number">1800</span>:<span class="hljs-number">20</span>]<br>pickle_file_path = <span class="hljs-string">&#x27;handrecognition_calib.pickle&#x27;</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Calibration dataset loaded and subset selected.&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+<h5 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h5><pre><code class="hljs">Calibration dataset loaded and subset selected.
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 加载优化后的模型</span><br>model_proto = onnx.load(optimized_model_path)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Generating the quantization table:&#x27;</span>)<br><br><span class="hljs-comment"># 初始化校准器</span><br>calib = Calibrator(<span class="hljs-string">&#x27;int16&#x27;</span>, <span class="hljs-string">&#x27;per-tensor&#x27;</span>, <span class="hljs-string">&#x27;minmax&#x27;</span>)<br><span class="hljs-comment"># 如果需要 int8 量化，可以使用以下替代代码：</span><br><span class="hljs-comment"># calib = Calibrator(&#x27;int8&#x27;, &#x27;per-channel&#x27;, &#x27;minmax&#x27;)</span><br><br><span class="hljs-comment"># 设置执行设备</span><br>calib.set_providers([<span class="hljs-string">&#x27;CPUExecutionProvider&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<h3 id="报错部分"><a href="#报错部分" class="headerlink" title="报错部分"></a>报错部分</h3><h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><p>就是这部分一直报错，不管是使用自己的1通道、10种代码，还是使用自己的3通道、6种代码，甚至直接运行原作者的model_development文件夹的model_development.ipynb和esp_dl_formate_conversionw文件夹的esp_dl_formate_conversion.py，也是失败，显示<code>ValueError: current model is not supported by esp-dl</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成量化参数</span><br>calib.generate_quantization_table(model_proto, calib_dataset, pickle_file_path)<br><br><span class="hljs-comment"># 导出系数文件</span><br>calib.export_coefficient_to_cpp(model_proto, pickle_file_path, <span class="hljs-string">&#x27;esp32s3&#x27;</span>, <span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-string">&#x27;handrecognition_coefficient&#x27;</span>, <span class="hljs-literal">True</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Calibration and quantization completed successfully.&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+<h4 id="报错输出"><a href="#报错输出" class="headerlink" title="报错输出"></a>报错输出</h4><pre><code class="hljs">Generating the quantization table:
+MatMul is not supported on esp-dl yet
+
+
+
+---------------------------------------------------------------------------
+
+ValueError                                Traceback (most recent call last)
+
+/tmp/ipykernel_107082/766837025.py in &lt;module&gt;
+     12 
+     13 # 生成量化参数
+---&gt; 14 calib.generate_quantization_table(model_proto, calib_dataset, pickle_file_path)
+     15 
+     16 # 导出系数文件
+
+
+~/code/gesture recognition/calibrator.so in calibrator.Calibrator.generate_quantization_table()
+
+
+~/code/gesture recognition/calibrator.so in calibrator.Calibrator.generate_output_model()
+
+
+~/code/gesture recognition/calibrator.so in calibrator.Calibrator.check_model()
+（执行到calibrator.Calibrator.check_model的部分有问题）
+
+ValueError: current model is not supported by esp-dl
+</code></pre>
+<h3 id="尝试过的检验方向（均已失败）"><a href="#尝试过的检验方向（均已失败）" class="headerlink" title="尝试过的检验方向（均已失败）"></a>尝试过的检验方向（均已失败）</h3><h4 id="模型有效性"><a href="#模型有效性" class="headerlink" title="模型有效性"></a>模型有效性</h4><h5 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> onnx<br>model_proto = onnx.load(optimized_model_path)<br>onnx.checker.check_model(model_proto)  <span class="hljs-comment"># 验证 ONNX 模型是否有效</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Model loaded and verified successfully.&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+<h5 id="输出-2"><a href="#输出-2" class="headerlink" title="输出"></a>输出</h5><pre><code class="hljs">Model loaded and verified successfully.
+</code></pre>
+<h4 id="数据形状是否符合"><a href="#数据形状是否符合" class="headerlink" title="数据形状是否符合"></a>数据形状是否符合</h4><h5 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(calib_dataset))<br><span class="hljs-built_in">print</span>(calib_dataset.shape)  <span class="hljs-comment"># 确认它的形状</span><br><span class="hljs-built_in">print</span>(calib_dataset[:<span class="hljs-number">5</span>])  <span class="hljs-comment"># 查看部分数据是否符合预期</span><br><br></code></pre></td></tr></table></figure>
+<h5 id="输出-3"><a href="#输出-3" class="headerlink" title="输出"></a>输出</h5><pre><code class="hljs">&lt;class &#39;numpy.ndarray&#39;&gt;
+(90, 96, 96, 1)
+[[[[0.01176471]
+   [0.01568627]
+   [0.01568627]
+   ...
+   [0.02352941]
+   [0.01960784]
+   [0.01960784]]
+
+  [[0.01568627]
+   [0.01960784]
+   [0.01568627]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.01176471]]
+
+  [[0.01960784]
+   [0.01960784]
+   [0.01568627]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01176471]]
+
+  ...
+
+  [[0.04313725]
+   [0.07058824]
+   [0.08627451]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01568627]]
+
+  [[0.04705882]
+   [0.07058824]
+   [0.07843137]
+   ...
+   [0.01960784]
+   [0.01960784]
+   [0.01568627]]
+
+  [[0.04705882]
+   [0.07058824]
+   [0.07843137]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.01568627]]]
+
+
+ [[[0.01960784]
+   [0.02352941]
+   [0.01960784]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.01568627]]
+
+  [[0.01568627]
+   [0.01568627]
+   [0.01960784]
+   ...
+   [0.01568627]
+   [0.01960784]
+   [0.01176471]]
+
+  [[0.01960784]
+   [0.01960784]
+   [0.02352941]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01568627]]
+
+  ...
+
+  [[0.01960784]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01960784]
+   [0.01960784]
+   [0.01960784]]
+
+  [[0.01568627]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01176471]
+   [0.01568627]
+   [0.01568627]]
+
+  [[0.01960784]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01960784]
+   [0.01960784]
+   [0.01568627]]]
+
+
+ [[[0.02352941]
+   [0.01960784]
+   [0.02352941]
+   ...
+   [0.02352941]
+   [0.02352941]
+   [0.02352941]]
+
+  [[0.02352941]
+   [0.02352941]
+   [0.02745098]
+   ...
+   [0.02352941]
+   [0.02352941]
+   [0.01568627]]
+
+  [[0.02352941]
+   [0.02352941]
+   [0.01960784]
+   ...
+   [0.01960784]
+   [0.01960784]
+   [0.02352941]]
+
+  ...
+
+  [[0.01960784]
+   [0.01960784]
+   [0.02352941]
+   ...
+   [0.02352941]
+   [0.01960784]
+   [0.01960784]]
+
+  [[0.01568627]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.02352941]
+   [0.02352941]
+   [0.02745098]]
+
+  [[0.02352941]
+   [0.02352941]
+   [0.02352941]
+   ...
+   [0.02352941]
+   [0.02352941]
+   [0.03137255]]]
+
+
+ [[[0.01568627]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01568627]
+   [0.01960784]
+   [0.01568627]]
+
+  [[0.01176471]
+   [0.01960784]
+   [0.01568627]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01176471]]
+
+  [[0.01960784]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01176471]
+   [0.01568627]
+   [0.01568627]]
+
+  ...
+
+  [[0.06666667]
+   [0.05882353]
+   [0.06666667]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.01568627]]
+
+  [[0.05882353]
+   [0.05490196]
+   [0.05882353]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01568627]]
+
+  [[0.05098039]
+   [0.05098039]
+   [0.0627451 ]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.02352941]]]
+
+
+ [[[0.02745098]
+   [0.01960784]
+   [0.02352941]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01568627]]
+
+  [[0.01960784]
+   [0.01960784]
+   [0.02352941]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.01960784]]
+
+  [[0.01568627]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01568627]
+   [0.01568627]
+   [0.01568627]]
+
+  ...
+
+  [[0.01568627]
+   [0.01568627]
+   [0.01960784]
+   ...
+   [0.01568627]
+   [0.01960784]
+   [0.01568627]]
+
+  [[0.02352941]
+   [0.01960784]
+   [0.01960784]
+   ...
+   [0.01568627]
+   [0.01960784]
+   [0.01568627]]
+
+  [[0.01960784]
+   [0.01568627]
+   [0.01568627]
+   ...
+   [0.01960784]
+   [0.01568627]
+   [0.02352941]]]]
+</code></pre>
+<h4 id="pickel路径有效性"><a href="#pickel路径有效性" class="headerlink" title="pickel路径有效性"></a>pickel路径有效性</h4><h5 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br><span class="hljs-comment"># 设置文件路径</span><br>pickle_file_path = <span class="hljs-string">&#x27;output/handrecognition_calib_params.pickle&#x27;</span><br><br><span class="hljs-comment"># 检查路径是否存在，不存在则创建</span><br>output_dir = os.path.dirname(pickle_file_path)<br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(output_dir):<br>    os.makedirs(output_dir)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Created directory: <span class="hljs-subst">&#123;output_dir&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 检查是否可写</span><br>is_writeable = os.access(output_dir, os.W_OK)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Writable:&quot;</span>, is_writeable)<br><br></code></pre></td></tr></table></figure>
+<h5 id="输出-4"><a href="#输出-4" class="headerlink" title="输出"></a>输出</h5><pre><code class="hljs">Writable: True
+</code></pre>
+<p>在第一次显示不可写并且创建了文件夹以后，仍然无法被esp-dl支持，因此也不是读写性的问题。</p>
+<h2 id="原作者代码运行证明失败"><a href="#原作者代码运行证明失败" class="headerlink" title="原作者代码运行证明失败"></a>原作者代码运行证明失败</h2><p>这部分我把原作者esp_dl_formate_conversion.py拆开到jupyter notebook中创建ipynb（当然前面模型训练部分也是直接使用model_development.ipynb），一步一步执行，最终同样卡在了同样的位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#import libraries </span><br><span class="hljs-keyword">from</span> optimizer <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> calibrator <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> evaluator <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> pickle<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#load ONNX model </span><br>onnx_model = onnx.load(<span class="hljs-string">&quot;handrecognition_model.onnx&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#optimize ONNX model </span><br>optimized_model_path = optimize_fp_model(<span class="hljs-string">&quot;handrecognition_model.onnx&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#load calibration dataset</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;X_cal.pkl&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    (test_images) = pickle.load(f)<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;y_cal.pkl&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    (test_labels) = pickle.load(f)<br><br>calib_dataset = test_images[<span class="hljs-number">0</span>:<span class="hljs-number">1800</span>:<span class="hljs-number">20</span>]<br>pickle_file_path = <span class="hljs-string">&#x27;handrecognition_calib.pickle&#x27;</span><br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#calibration </span><br>model_proto = onnx.load(optimized_model_path)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Generating the quantization table:&#x27;</span>)<br>calib = Calibrator(<span class="hljs-string">&#x27;int16&#x27;</span>, <span class="hljs-string">&#x27;per-tensor&#x27;</span>, <span class="hljs-string">&#x27;minmax&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<pre><code class="hljs">Generating the quantization table:
+</code></pre>
+<h3 id="出错位置"><a href="#出错位置" class="headerlink" title="出错位置"></a>出错位置</h3><h4 id="代码-6"><a href="#代码-6" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">###for in8 conversion </span><br><span class="hljs-comment">#calib = Calibrator(&#x27;int8&#x27;, &#x27;per-channel&#x27;, &#x27;minmax&#x27;) </span><br><br>calib.set_providers([<span class="hljs-string">&#x27;CPUExecutionProvider&#x27;</span>])<br><span class="hljs-comment"># Obtain the quantization parameter</span><br>calib.generate_quantization_table(model_proto,calib_dataset, pickle_file_path)<br><span class="hljs-comment"># Generate the coefficient files for esp32s3</span><br>calib.export_coefficient_to_cpp(model_proto,  pickle_file_path, <span class="hljs-string">&#x27;esp32s3&#x27;</span>, <span class="hljs-string">&#x27;.&#x27;</span>, <span class="hljs-string">&#x27;handrecognition_coefficient&#x27;</span>, <span class="hljs-literal">True</span>)<br><br></code></pre></td></tr></table></figure>
+<h4 id="输出-5"><a href="#输出-5" class="headerlink" title="输出"></a>输出</h4><pre><code class="hljs">MatMul is not supported on esp-dl yet
+
+
+
+---------------------------------------------------------------------------
+
+ValueError                                Traceback (most recent call last)
+
+/tmp/ipykernel_102222/2534009994.py in &lt;module&gt;
+      5 calib.set_providers([&#39;CPUExecutionProvider&#39;])
+      6 # Obtain the quantization parameter
+----&gt; 7 calib.generate_quantization_table(model_proto,calib_dataset, pickle_file_path)
+      8 # Generate the coefficient files for esp32s3
+      9 calib.export_coefficient_to_cpp(model_proto,  pickle_file_path, &#39;esp32s3&#39;, &#39;.&#39;, &#39;handrecognition_coefficient&#39;, True)
+
+
+~/code/Blogs/ESP-DL/esp_dl_formate_conversion/calibrator.so in calibrator.Calibrator.generate_quantization_table()
+
+
+~/code/Blogs/ESP-DL/esp_dl_formate_conversion/calibrator.so in calibrator.Calibrator.generate_output_model()
+
+
+~/code/Blogs/ESP-DL/esp_dl_formate_conversion/calibrator.so in calibrator.Calibrator.check_model()
+
+
+ValueError: current model is not supported by esp-dl
+</code></pre>
+<p>最终，感谢在薛兄的提醒下，发现有人给作者提过这个问题，但作者至今也并未解决：<a target="_blank" rel="noopener" href="https://github.com/alibukharai/Blogs/issues/9">https://github.com/alibukharai/Blogs/issues/9</a><br><img src="/img/learn/2024-11-05172636.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload></p>
+<h2 id="考虑可能成功的新方向"><a href="#考虑可能成功的新方向" class="headerlink" title="考虑可能成功的新方向"></a>考虑可能成功的新方向</h2><ul>
+<li>在windows中搭conda尝试，因为之前只在ubuntu 24.04中尝试过，有可能esp-dl官方库的.pyd能成功，只是.so文件有问题。</li>
+<li>更换esp-idf和esp-dl的branch和tag，因为目前使用的是v5.3的idf和release&#x2F;v1.1的dl，原作者采用的是v4.4的idf和idf4.4的idf。</li>
+<li>使用其他的优化和量化模型的工具，esp-dl确实不是很完善。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/fyp/" class="category-chain-item">fyp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>building_with_espdl-2-failure</div>
+      <div>https://blakehansen130.github.io/2024/11/05/model_quantization_and_optimization/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/05/generate_calibration_data/" title="building_with_espdl-1-supplement">
+                        <span class="hidden-mobile">building_with_espdl-1-supplement</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
