@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blakehansen130.github.io/img/fun/124126180_2764844_p0.jpg">
 <meta property="article:published_time" content="2024-11-11T11:35:54.957Z">
-<meta property="article:modified_time" content="2024-11-11T11:44:18.120Z">
+<meta property="article:modified_time" content="2024-11-11T12:41:43.346Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/124126180_2764844_p0.jpg">
   
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          3.3k 字
         
       </span>
     
@@ -246,7 +246,7 @@
         
         
         
-          27 分钟
+          28 分钟
         
       </span>
     
@@ -373,7 +373,7 @@
 </li>
 </ol>
 <h3 id="yml文件"><a href="#yml文件" class="headerlink" title="yml文件"></a>yml文件</h3><p><strong><code>idf_component.yml</code> 文件是用于模块化管理项目的组件和依赖</strong>，目的是为了使开发更加灵活和自动化。</p>
-<h2 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h2><h3 id="部署部分代码"><a href="#部署部分代码" class="headerlink" title="部署部分代码"></a>部署部分代码</h3><p>1、修改代码后先删除原来的build文件夹<br>2、运行esp-idf的cmd或powershell快捷方式<br>本人桌面上的powershell快捷方式不知为何打开变成了cmd命令行，因此可以先执行下列代码完成环境配置：<code>&amp; &quot;D:\language\Espressif\Initialize-Idf.ps1&quot; -IdfId esp-idf-c1b3982edf7b5833f785c865a3465866</code><br>若读者也出现类似问题可以尝试找到自己esp-idf安装位置的ps1脚本进行同样的跳转<br>3、<code>idf.py build</code>创建build文件夹<br>4、<code>idf.py flash</code>进行烧录<br>5、<code>idf.py monitor</code>监视esp32s3的输出；按<code>ctrl+]</code>退出监视终端<br>本人因为为了实现后续批注图片的编写性，因此这里执行<code>idf.py monitor | .\parse_face_detect.ps1</code>，后文会介绍功能</p>
+<h2 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h2><h3 id="部署部分代码"><a href="#部署部分代码" class="headerlink" title="部署部分代码"></a>部署部分代码</h3><p>1、修改代码后先删除原来的build文件夹<br>2、运行esp-idf的cmd或powershell快捷方式<br>本人桌面上的powershell快捷方式不知为何打开变成了cmd命令行，因此可以先执行下列代码完成环境配置：<br><code>&amp; &quot;D:\language\Espressif\Initialize-Idf.ps1&quot; -IdfId esp-idf-c1b3982edf7b5833f785c865a3465866</code><br>若读者也出现类似问题可以尝试找到自己esp-idf安装位置的ps1脚本进行同样的跳转<br>3、<code>idf.py build</code>创建build文件夹，也可同时选中esp32s3型号：<code>idf.py -D IDF_TARGET=esp32s3 build</code><br>4、<code>idf.py flash</code>进行烧录<br>5、<code>idf.py monitor</code>监视esp32s3的输出；按<code>ctrl+]</code>退出监视终端<br>本人因为为了实现后续批注图片的编写性，因此这里执行<code>idf.py monitor | .\parse_face_detect.ps1</code>，后文会介绍功能</p>
 <h3 id="master部分"><a href="#master部分" class="headerlink" title="master部分"></a>master部分</h3><p>master部分可以直接执行成功，但因为我还没有太搞懂在不引用include文件夹中的各种hpp头文件的过程是怎么运行的，并且这是一个pre-release版本后续可能还会有官方改动，因此我没有尝试采用其他的图片。烧录成功后即进行下一部分的release&#x2F;v1.1部分。</p>
 <h3 id="release-v1-1部分"><a href="#release-v1-1部分" class="headerlink" title="release&#x2F;v1.1部分"></a>release&#x2F;v1.1部分</h3><h4 id="hpp头文件问题："><a href="#hpp头文件问题：" class="headerlink" title="hpp头文件问题："></a>hpp头文件问题：</h4><p>执行遇到的第一个问题是如下图所示，可以看到是”\esp-dl\include\tool\dl_tool.hpp”出了问题：<br><img src="/img/learn/20241111171022.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br>因此将对应的hpp头文件中的对应行进行如下修改：<br>增加包含头文件：<code>#include &lt;inttypes.h&gt;</code><br>第399行改为：<code>printf(&quot;latency: %&quot; PRIu32 &quot; us\n&quot;, this-&gt;get_average_period());</code><br>第413行改为：<code>printf(&quot;%s: %&quot; PRIu32 &quot; us\n&quot;, message, this-&gt;get_average_period());</code><br>第428行改为：<code>printf(&quot;%s:%s: %&quot; PRIu32 &quot; us\n&quot;, prefix, key, this-&gt;get_average_period());</code><br>虽然397、411、426行也有对应的语法，但是并未报错因此不做修改，否则会报错。</p>
 <h4 id="PSRAM初始化失败"><a href="#PSRAM初始化失败" class="headerlink" title="PSRAM初始化失败"></a>PSRAM初始化失败</h4><p>错误信息：</p>
@@ -393,7 +393,7 @@
 <h4 id="第一种因为大小报错的情况：Flash-或分区表问题导致build过程报错"><a href="#第一种因为大小报错的情况：Flash-或分区表问题导致build过程报错" class="headerlink" title="第一种因为大小报错的情况：Flash 或分区表问题导致build过程报错"></a>第一种因为大小报错的情况：Flash 或分区表问题导致build过程报错</h4><p>报错图如下：<br><img src="/img/learn/20241111185548.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br>解决方法：</p>
 <h5 id="方法1：修改-Flash-大小配置"><a href="#方法1：修改-Flash-大小配置" class="headerlink" title="方法1：修改 Flash 大小配置"></a>方法1：修改 Flash 大小配置</h5><p><code>idf.py menuconfig</code><br><code>Serial Flasher Config -&gt; Flash size</code>，将其改为更大的值，esp32s3根据型号等不同有两种最大闪存16MB或32MB。<br>按<code>Esc</code>退出，按<code>y</code>保存更改。</p>
 <h5 id="方法-2：调整分区表大小"><a href="#方法-2：调整分区表大小" class="headerlink" title="方法 2：调整分区表大小"></a>方法 2：调整分区表大小</h5><p>如果按照方法1中，使用的硬件的 Flash 已经调整至<strong>最大值</strong>，则需要调整分区表以适配 Flash 容量。<br>将<code>partitions.csv</code>中的<code>factory</code>行（应用分区）最后一个值（其总大小）调整至至少比main文件夹大（因为占flash最大的部分是图片hpp文件）。</p>
-<h4 id="第二种因为大小报错的情况：能成功烧录但monitor循环报错"><a href="#第二种因为大小报错的情况：能成功烧录但monitor循环报错" class="headerlink" title="第二种因为大小报错的情况：能成功烧录但monitor循环报错"></a>第二种因为大小报错的情况：能成功烧录但monitor循环报错</h4><p>这种情况本人并未截图记录，但其前半部分绿色的参数部分输出是正常的，在该输出坐标的白色位置开始报错，结尾有大段关于build文件夹中路径的黄色报错，并且三部分反复循环，<code>ctrl+]</code>也无法关闭monitor界面，只能直接关闭终端。<br>这种情况是因为本人一开始本人弄错了图片<strong>清晰度</strong>和<strong>尺寸</strong>的关系，一开始我以为只要将网上下载的图片处理到和示例蒙娜丽莎的<strong>大小</strong>40KB左右即可（<em>这个处理实际上是降低清晰度的过程</em>），但总是出现这种情况的报错，后来在观察从<code>image.jpg</code>生成的<code>image.hpp</code>文件大小时，发现需要将图片处理成<strong>宽度和高度都在约600px以下</strong>的图片才能完成正常识别。</p>
+<h4 id="第二种因为大小报错的情况：能成功烧录但monitor循环报错"><a href="#第二种因为大小报错的情况：能成功烧录但monitor循环报错" class="headerlink" title="第二种因为大小报错的情况：能成功烧录但monitor循环报错"></a>第二种因为大小报错的情况：能成功烧录但monitor循环报错</h4><p>这种情况报错如下图所示，其前半部分绿色的参数部分输出是正常的，在该输出坐标的白色位置开始报错，结尾有大段关于build文件夹中路径的黄色报错，并且三部分反复循环，<code>ctrl+]</code>也无法关闭monitor界面，只能直接关闭终端。<br><img src="/img/learn/xunhuanbaocuo.jpg" srcset="/img/fun/123096189_42399563_0.gif" lazyload><br>这种情况是因为本人一开始本人弄错了图片<strong>清晰度</strong>和<strong>尺寸</strong>的关系，一开始我以为只要将网上下载的图片处理到和示例蒙娜丽莎的<strong>大小</strong>40KB左右即可（<em>这个处理实际上是降低清晰度的过程</em>），但总是出现这种情况的报错，后来在观察从<code>image.jpg</code>生成的<code>image.hpp</code>文件大小时，发现需要将图片处理成<strong>宽度和高度都在约600px以下</strong>的图片才能完成正常识别。<br>图片处理网站：<a target="_blank" rel="noopener" href="https://www.iloveimg.com/zh-cn/resize-image#resize-options,pixels">https://www.iloveimg.com/zh-cn/resize-image#resize-options,pixels</a><br>后续会自制离线能运行的cpp代码，方便编入esp32s3。</p>
 <h4 id="后续操作步骤简化"><a href="#后续操作步骤简化" class="headerlink" title="后续操作步骤简化"></a>后续操作步骤简化</h4><h5 id="提取python命令"><a href="#提取python命令" class="headerlink" title="提取python命令"></a>提取python命令</h5><p>原文说打印检测结果的分数值和坐标值为如下时：</p>
 <figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs smali">idf.py flash<span class="hljs-built_in"> monitor</span><br><span class="hljs-built_in"></span><br><span class="hljs-keyword">.</span>.. ...<br><br>[0] score: 0.987580, box: [137, 75, 246, 215]<br>    left eye: (157, 131), right eye: (199, 133)<br>     nose: (170, 163)<br>     mouth left: (158, 177), mouth right: (193, 180)<br></code></pre></td></tr></table></figure>
 <p>运行如下标注命令：</p>
