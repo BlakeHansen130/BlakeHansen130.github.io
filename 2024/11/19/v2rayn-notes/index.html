@@ -1,0 +1,763 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="v2rayN使用笔记1. 三种代理模式详解1.1 V3-绕过大陆 (Whitelist) 适用场景：主要访问国内网站，偶尔需要访问被屏蔽的网站 工作原理：只有特定目标（如被墙网站）走代理，其它走本地网络 优点：国内网站访问速度快，按需代理节省资源  1.2 V3-黑名单 (Blacklist) 适用场景：需要代理访问大部分网站 工作原理：默认全部代理，只有明确指定的走直连 实际体验：可能导致某些网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="v2rayN使用笔记">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/11/19/v2rayn-notes/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="v2rayN使用笔记1. 三种代理模式详解1.1 V3-绕过大陆 (Whitelist) 适用场景：主要访问国内网站，偶尔需要访问被屏蔽的网站 工作原理：只有特定目标（如被墙网站）走代理，其它走本地网络 优点：国内网站访问速度快，按需代理节省资源  1.2 V3-黑名单 (Blacklist) 适用场景：需要代理访问大部分网站 工作原理：默认全部代理，只有明确指定的走直连 实际体验：可能导致某些网">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/124374733_79182079_p0.jpg">
+<meta property="article:published_time" content="2024-11-19T09:15:11.420Z">
+<meta property="article:modified_time" content="2024-11-19T09:26:22.462Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/124374733_79182079_p0.jpg">
+  
+  
+  
+  <title>v2rayN使用笔记 - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4749377_2bbylnq94i9.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/124366807_1443093_p0.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="v2rayN使用笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-19 17:15" pubdate>
+          2024年11月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          860 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">v2rayN使用笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="v2rayN使用笔记"><a href="#v2rayN使用笔记" class="headerlink" title="v2rayN使用笔记"></a>v2rayN使用笔记</h1><h2 id="1-三种代理模式详解"><a href="#1-三种代理模式详解" class="headerlink" title="1. 三种代理模式详解"></a>1. 三种代理模式详解</h2><h3 id="1-1-V3-绕过大陆-Whitelist"><a href="#1-1-V3-绕过大陆-Whitelist" class="headerlink" title="1.1 V3-绕过大陆 (Whitelist)"></a>1.1 V3-绕过大陆 (Whitelist)</h3><ul>
+<li><strong>适用场景</strong>：主要访问国内网站，偶尔需要访问被屏蔽的网站</li>
+<li><strong>工作原理</strong>：只有特定目标（如被墙网站）走代理，其它走本地网络</li>
+<li><strong>优点</strong>：国内网站访问速度快，按需代理节省资源</li>
+</ul>
+<h3 id="1-2-V3-黑名单-Blacklist"><a href="#1-2-V3-黑名单-Blacklist" class="headerlink" title="1.2 V3-黑名单 (Blacklist)"></a>1.2 V3-黑名单 (Blacklist)</h3><ul>
+<li><strong>适用场景</strong>：需要代理访问大部分网站</li>
+<li><strong>工作原理</strong>：默认全部代理，只有明确指定的走直连</li>
+<li><strong>实际体验</strong>：可能导致某些网站无法访问<del>，如18comic.vip</del></li>
+</ul>
+<h3 id="1-3-V3-全局-Global"><a href="#1-3-V3-全局-Global" class="headerlink" title="1.3 V3-全局 (Global)"></a>1.3 V3-全局 (Global)</h3><ul>
+<li><strong>适用场景</strong>：需要全程加密或不想复杂配置</li>
+<li><strong>工作原理</strong>：所有流量都走代理服务器</li>
+<li><strong>注意事项</strong>：可能影响访问速度，消耗更多代理流量</li>
+</ul>
+<h2 id="2-规则配置详解"><a href="#2-规则配置详解" class="headerlink" title="2. 规则配置详解"></a>2. 规则配置详解</h2><h3 id="2-1-基础规则设置步骤"><a href="#2-1-基础规则设置步骤" class="headerlink" title="2.1 基础规则设置步骤"></a>2.1 基础规则设置步骤</h3><ol>
+<li>打开v2rayN主界面</li>
+<li>点击”规则”按钮</li>
+<li>点击”添加规则”</li>
+</ol>
+<h3 id="2-2-规则配置关键字段"><a href="#2-2-规则配置关键字段" class="headerlink" title="2.2 规则配置关键字段"></a>2.2 规则配置关键字段</h3><ul>
+<li><strong>outboundTag</strong>: <ul>
+<li><code>direct</code>: 直连</li>
+<li><code>proxy</code>: 代理</li>
+</ul>
+</li>
+<li><strong>Domain</strong>: 域名规则格式<ul>
+<li>单个域名：<code>domain:example.com</code></li>
+<li>多个域名：用逗号分隔</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-常用直连规则示例"><a href="#2-3-常用直连规则示例" class="headerlink" title="2.3 常用直连规则示例"></a>2.3 常用直连规则示例</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-meta"># AI相关域名</span><br><span class="hljs-symbol">domain:</span>dawuai.buzz<br><span class="hljs-symbol">domain:</span>dwai.world<br><span class="hljs-symbol">domain:</span>claudesvip.top<br><span class="hljs-symbol">domain:</span>fuclaude.com<br><span class="hljs-symbol">domain:</span>files.closeai.biz<br><br><span class="hljs-meta"># 常用CDN</span><br><span class="hljs-symbol">domain:</span>cdnjs.cloudflare.com<br><span class="hljs-symbol">domain:</span>code.jquery.com<br><span class="hljs-symbol">domain:</span>s-cdn.anthropic.com<br><br><span class="hljs-meta"># dwai相关</span><br><span class="hljs-symbol">domain:</span>france.dwai.work<br><span class="hljs-symbol">domain:</span>transfer.dwai.work<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-4-规则优先级"><a href="#2-4-规则优先级" class="headerlink" title="2.4 规则优先级"></a>2.4 规则优先级</h3><ul>
+<li>特定域名规则要放在”最终代理”规则之前</li>
+<li>规则从上往下匹配，第一个匹配的规则生效</li>
+</ul>
+<h2 id="3-代理状态检查方法"><a href="#3-代理状态检查方法" class="headerlink" title="3. 代理状态检查方法"></a>3. 代理状态检查方法</h2><h3 id="3-1-通过v2rayN日志查看"><a href="#3-1-通过v2rayN日志查看" class="headerlink" title="3.1 通过v2rayN日志查看"></a>3.1 通过v2rayN日志查看</h3><ol>
+<li><p><strong>查看日志步骤</strong>：</p>
+<ul>
+<li>打开v2rayN主界面</li>
+<li>点击”设置”（齿轮图标）</li>
+<li>确保日志级别选择info或warning</li>
+<li>点击主界面的”查看日志”按钮</li>
+</ul>
+</li>
+<li><p><strong>日志解读</strong>：</p>
+<ul>
+<li><code>[http -&gt; direct]</code> &#x3D; 直连访问</li>
+<li><code>[http -&gt; proxy]</code> &#x3D; 通过代理</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-2-通过IP查询网站验证"><a href="#3-2-通过IP查询网站验证" class="headerlink" title="3.2 通过IP查询网站验证"></a>3.2 通过IP查询网站验证</h3><p><strong>常用IP查询网站</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ipinfo.io/">https://ipinfo.io/</a></li>
+<li><a target="_blank" rel="noopener" href="https://whatismyipaddress.com/">https://whatismyipaddress.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://whoer.net/">https://whoer.net/</a></li>
+</ul>
+<h3 id="3-3-使用浏览器开发者工具"><a href="#3-3-使用浏览器开发者工具" class="headerlink" title="3.3 使用浏览器开发者工具"></a>3.3 使用浏览器开发者工具</h3><ol>
+<li>打开方式：F12或右键检查</li>
+<li>切换到Network标签</li>
+<li>刷新页面</li>
+<li>查看请求的Headers信息<ul>
+<li>可能包含代理相关信息如X-Forwarded-For</li>
+<li>响应头中可能显示服务器位置</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-常见问题与解决"><a href="#4-常见问题与解决" class="headerlink" title="4. 常见问题与解决"></a>4. 常见问题与解决</h2><h3 id="4-1-网站访问问题"><a href="#4-1-网站访问问题" class="headerlink" title="4.1 网站访问问题"></a>4.1 网站访问问题</h3><p><strong>问题</strong>：某些网站在黑名单模式下无法访问</p>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>检查并调整路由规则</li>
+<li>确认DNS设置是否正确</li>
+<li>尝试切换到其他代理模式</li>
+<li>检查域名是否被错误归类（如广告类）</li>
+</ol>
+<h3 id="4-2-直连设置注意事项"><a href="#4-2-直连设置注意事项" class="headerlink" title="4.2 直连设置注意事项"></a>4.2 直连设置注意事项</h3><ol>
+<li><p><strong>保存配置</strong>：</p>
+<ul>
+<li>添加规则后必须点击”确定”保存</li>
+<li>确保在主界面选择正确的模式</li>
+</ul>
+</li>
+<li><p><strong>DNS设置</strong>：</p>
+<ul>
+<li>可以尝试使用不同的DNS服务</li>
+<li>常用DNS：<ul>
+<li>Google: 8.8.8.8</li>
+<li>Cloudflare: 1.1.1.1</li>
+<li>阿里: 223.5.5.5</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>配置验证</strong>：</p>
+<ul>
+<li>添加规则后通过日志验证效果</li>
+<li>必要时清除浏览器DNS缓存</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-实用建议"><a href="#5-实用建议" class="headerlink" title="5. 实用建议"></a>5. 实用建议</h2><h3 id="5-1-模式选择"><a href="#5-1-模式选择" class="headerlink" title="5.1 模式选择"></a>5.1 模式选择</h3><ul>
+<li>推荐使用V3-绕过大陸模式</li>
+<li>按需配置直连规则</li>
+<li>避免使用全局模式以节省资源</li>
+</ul>
+<h3 id="5-2-故障排查"><a href="#5-2-故障排查" class="headerlink" title="5.2 故障排查"></a>5.2 故障排查</h3><ol>
+<li>先检查日志确认流量走向</li>
+<li>测试不同模式下的表现</li>
+<li>必要时可临时切换到全局模式测试</li>
+</ol>
+<h2 id="6-补充说明"><a href="#6-补充说明" class="headerlink" title="6. 补充说明"></a>6. 补充说明</h2><ul>
+<li>这些规则和设置可能需要根据实际使用情况和网络环境进行调整</li>
+<li>建议定期检查规则是否仍然有效</li>
+<li>在遇到问题时可以参考此文档快速排查</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ai-chat/" class="category-chain-item">ai chat</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>v2rayN使用笔记</div>
+      <div>https://blakehansen130.github.io/2024/11/19/v2rayn-notes/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/19/Summarizing%20AI%20Assistant%20Conversation%20for%20Notes%20and%20Troubleshooting_2024-11-19T08-38-12/" title="Ubuntu下深度学习环境配置历程和经验总结">
+                        <span class="hidden-mobile">Ubuntu下深度学习环境配置历程和经验总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

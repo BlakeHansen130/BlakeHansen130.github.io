@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Ubuntu下深度学习环境配置历程和经验总结一、CUDA安装和配置1.1 检查现有CUDA版本1nvcc -V 在我的系统中显示是CUDA 12.4，而最新版本是12.6，因此想要更新。 1.2 CUDA安装选项安装CUDA 12.6时遇到两个选项：  Open Kernel Module (nvidia-open)：  NVIDIA最近推出的开源驱动模块 适合较新的显卡(Ampere及以后架构)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu下深度学习环境配置历程和经验总结">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/11/19/Summarizing%20AI%20Assistant%20Conversation%20for%20Notes%20and%20Troubleshooting_2024-11-19T08-38-12/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="Ubuntu下深度学习环境配置历程和经验总结一、CUDA安装和配置1.1 检查现有CUDA版本1nvcc -V 在我的系统中显示是CUDA 12.4，而最新版本是12.6，因此想要更新。 1.2 CUDA安装选项安装CUDA 12.6时遇到两个选项：  Open Kernel Module (nvidia-open)：  NVIDIA最近推出的开源驱动模块 适合较新的显卡(Ampere及以后架构)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/124388597_71334597_p0.png">
+<meta property="article:published_time" content="2024-11-19T09:15:11.417Z">
+<meta property="article:modified_time" content="2024-11-19T09:33:29.839Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/124388597_71334597_p0.png">
+  
+  
+  
+  <title>Ubuntu下深度学习环境配置历程和经验总结 - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4749377_2bbylnq94i9.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/124384641_2874136_p0.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Ubuntu下深度学习环境配置历程和经验总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-19 17:15" pubdate>
+          2024年11月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Ubuntu下深度学习环境配置历程和经验总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Ubuntu下深度学习环境配置历程和经验总结"><a href="#Ubuntu下深度学习环境配置历程和经验总结" class="headerlink" title="Ubuntu下深度学习环境配置历程和经验总结"></a>Ubuntu下深度学习环境配置历程和经验总结</h1><h4 id="一、CUDA安装和配置"><a href="#一、CUDA安装和配置" class="headerlink" title="一、CUDA安装和配置"></a>一、CUDA安装和配置</h4><h5 id="1-1-检查现有CUDA版本"><a href="#1-1-检查现有CUDA版本" class="headerlink" title="1.1 检查现有CUDA版本"></a>1.1 检查现有CUDA版本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nvcc -V<br></code></pre></td></tr></table></figure>
+<p>在我的系统中显示是CUDA 12.4，而最新版本是12.6，因此想要更新。</p>
+<h5 id="1-2-CUDA安装选项"><a href="#1-2-CUDA安装选项" class="headerlink" title="1.2 CUDA安装选项"></a>1.2 CUDA安装选项</h5><p>安装CUDA 12.6时遇到两个选项：</p>
+<ol>
+<li><p>Open Kernel Module (<code>nvidia-open</code>)：</p>
+<ul>
+<li>NVIDIA最近推出的开源驱动模块</li>
+<li>适合较新的显卡(Ampere及以后架构)</li>
+<li>对开发人员友好，与新Linux内核兼容性好</li>
+</ul>
+</li>
+<li><p>Legacy Kernel Module (<code>cuda-drivers</code>)：</p>
+<ul>
+<li>NVIDIA传统的闭源驱动</li>
+<li>更加稳定和成熟</li>
+<li>与深度学习框架兼容性更好</li>
+</ul>
+</li>
+</ol>
+<p><strong>选择建议</strong>：对于深度学习应用，建议选择Legacy Kernel Module，因为兼容性更好。</p>
+<h5 id="1-3-CUDA路径问题"><a href="#1-3-CUDA路径问题" class="headerlink" title="1.3 CUDA路径问题"></a>1.3 CUDA路径问题</h5><p>安装完成后发现系统中存在多个CUDA相关目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">/usr/local/cuda -&gt; /etc/alternatives/cuda<br>/usr/local/cuda-12 -&gt; /etc/alternatives/cuda-12<br>/usr/local/cuda-12.6<br></code></pre></td></tr></table></figure>
+
+<p>每个目录占用约5.3G空间，通过检查发现这些是符号链接，都指向了alternatives系统。虽然链接正确指向了CUDA 12.6，但<code>nvcc -V</code>仍显示12.4版本，这是因为cuda的默认启动被设置成了conda的相关目录，需要移除并像下文中重新添加系统路径。</p>
+<h5 id="1-4-环境变量配置"><a href="#1-4-环境变量配置" class="headerlink" title="1.4 环境变量配置"></a>1.4 环境变量配置</h5><p>在<code>~/.bashrc</code>中添加CUDA路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> PATH=/usr/local/cuda-12.6/bin:<span class="hljs-variable">$PATH</span><br><span class="hljs-built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64:<span class="hljs-variable">$LD_LIBRARY_PATH</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="二、PyTorch配置问题"><a href="#二、PyTorch配置问题" class="headerlink" title="二、PyTorch配置问题"></a>二、PyTorch配置问题</h4><h5 id="2-1-初始问题"><a href="#2-1-初始问题" class="headerlink" title="2.1 初始问题"></a>2.1 初始问题</h5><p>安装PyTorch后，GPU检测失败：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.cuda.is_available()  <span class="hljs-comment"># 返回False</span><br></code></pre></td></tr></table></figure>
+
+<p>错误信息：</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs subunit">UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount()<br><span class="hljs-keyword">Error </span>804: forward compatibility was attempted on non supported HW<br></code></pre></td></tr></table></figure>
+
+<p>这表明CUDA和GPU驱动存在兼容性问题。</p>
+<h5 id="2-2-验证PyTorch-CUDA支持"><a href="#2-2-验证PyTorch-CUDA支持" class="headerlink" title="2.2 验证PyTorch CUDA支持"></a>2.2 验证PyTorch CUDA支持</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-built_in">print</span>(torch.cuda.is_available())<br><span class="hljs-built_in">print</span>(torch.version.cuda)<br></code></pre></td></tr></table></figure>
+
+<h4 id="三、TensorFlow配置问题"><a href="#三、TensorFlow配置问题" class="headerlink" title="三、TensorFlow配置问题"></a>三、TensorFlow配置问题</h4><h5 id="3-1-NumPy版本冲突"><a href="#3-1-NumPy版本冲突" class="headerlink" title="3.1 NumPy版本冲突"></a>3.1 NumPy版本冲突</h5><p>安装PyTorch成功后，安装TensorFlow后遇到NumPy版本冲突：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ImportError</span>: A module that was compiled using NumPy <span class="hljs-number">1</span>.x cannot be run in NumPy <span class="hljs-number">2</span>.<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p>尝试降级NumPy时又遇到新问题：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install numpy==1.22.4  <span class="hljs-comment"># 失败</span><br><span class="hljs-comment">### 错误：AttributeError: module pkgutil has no attribute &#x27;ImpImporter&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="3-2-验证TensorFlow-GPU支持"><a href="#3-2-验证TensorFlow-GPU支持" class="headerlink" title="3.2 验证TensorFlow GPU支持"></a>3.2 验证TensorFlow GPU支持</h5><p>两种验证方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">### 方法1：检查GPU设备</span><br><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-built_in">print</span>(tf.config.list_physical_devices(<span class="hljs-string">&#x27;GPU&#x27;</span>))<br><br><span class="hljs-comment">### 方法2：实际运行GPU计算（更可靠）</span><br><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">with</span> tf.device(<span class="hljs-string">&#x27;/GPU:0&#x27;</span>):<br>    a = tf.constant([[<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>], [<span class="hljs-number">4.0</span>, <span class="hljs-number">5.0</span>, <span class="hljs-number">6.0</span>]])<br>    b = tf.constant([[<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>], [<span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>], [<span class="hljs-number">5.0</span>, <span class="hljs-number">6.0</span>]])<br>    c = tf.matmul(a, b)<br>    <span class="hljs-built_in">print</span>(c)<br></code></pre></td></tr></table></figure>
+
+<h4 id="四、环境清理"><a href="#四、环境清理" class="headerlink" title="四、环境清理"></a>四、环境清理</h4><h5 id="4-1-遇到的问题"><a href="#4-1-遇到的问题" class="headerlink" title="4.1 遇到的问题"></a>4.1 遇到的问题</h5><ol>
+<li>base环境中的包依赖关系复杂</li>
+<li>Python 3.12版本过新，很多包不支持</li>
+<li>多个conda环境占用大量空间</li>
+</ol>
+<h5 id="4-2-清理步骤"><a href="#4-2-清理步骤" class="headerlink" title="4.2 清理步骤"></a>4.2 清理步骤</h5><ol>
+<li><p>删除conda环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda remove --name env_name --all<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>清理conda缓存：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda clean --all<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>对于无法识别的环境，需要手动删除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> -rf /path/to/env<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="五、经验教训"><a href="#五、经验教训" class="headerlink" title="五、经验教训"></a>五、经验教训</h4><h5 id="5-1-版本选择"><a href="#5-1-版本选择" class="headerlink" title="5.1 版本选择"></a>5.1 版本选择</h5><ol>
+<li><p>Python版本：</p>
+<ul>
+<li>深度学习环境建议使用Python 3.10-3.11</li>
+<li>避免使用最新的Python版本（如3.12）</li>
+</ul>
+</li>
+<li><p>CUDA版本：</p>
+<ul>
+<li>确保CUDA版本与GPU驱动兼容</li>
+<li>注意检查深度学习框架对CUDA版本的要求</li>
+</ul>
+</li>
+</ol>
+<h5 id="5-2-最佳实践"><a href="#5-2-最佳实践" class="headerlink" title="5.2 最佳实践"></a>5.2 最佳实践</h5><ol>
+<li><p>使用独立的conda环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">### 创建新环境</span><br>conda create -n dl_env python=3.10<br><br><span class="hljs-comment">### 激活环境</span><br>conda activate dl_env<br><br><span class="hljs-comment">### 安装框架</span><br>pip install torch torchvision torchaudio<br>pip install tensorflow<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>环境检查流程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">### 1. 检查CUDA版本</span><br>nvcc -V<br><br><span class="hljs-comment">### 2. 检查GPU驱动</span><br>nvidia-smi<br><br><span class="hljs-comment">### 3. 检查深度学习框架</span><br><span class="hljs-comment">#### PyTorch</span><br>import torch<br><span class="hljs-built_in">print</span>(torch.cuda.is_available())<br><br><span class="hljs-comment">#### TensorFlow</span><br>import tensorflow as tf<br>with tf.device(<span class="hljs-string">&#x27;/GPU:0&#x27;</span>):<br><span class="hljs-comment">##    # 运行测试计算</span><br>    ...<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="5-3-关键教训"><a href="#5-3-关键教训" class="headerlink" title="5.3 关键教训"></a>5.3 关键教训</h5><ol>
+<li>不要在base环境中安装深度学习框架</li>
+<li>安装前先检查各组件的版本兼容性</li>
+<li>遇到环境问题时，创建新环境比修复旧环境更高效</li>
+<li>保持良好的环境管理习惯，定期清理不用的环境和缓存</li>
+</ol>
+<h4 id="六、有用的命令汇总"><a href="#六、有用的命令汇总" class="headerlink" title="六、有用的命令汇总"></a>六、有用的命令汇总</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">### CUDA和驱动相关</span><br>nvidia-smi  <span class="hljs-comment"># 检查GPU状态和驱动版本</span><br>nvcc -V  <span class="hljs-comment"># 检查CUDA版本</span><br><span class="hljs-built_in">ls</span> -l /usr/local/cuda  <span class="hljs-comment"># 检查CUDA符号链接</span><br><br><span class="hljs-comment">### Conda环境管理</span><br>conda <span class="hljs-built_in">env</span> list  <span class="hljs-comment"># 列出所有环境</span><br>conda create -n env_name python=3.10  <span class="hljs-comment"># 创建新环境</span><br>conda activate env_name  <span class="hljs-comment"># 激活环境</span><br>conda remove --name env_name --all  <span class="hljs-comment"># 删除环境</span><br>conda clean --all  <span class="hljs-comment"># 清理缓存</span><br><br><span class="hljs-comment">### 系统检查</span><br><span class="hljs-built_in">du</span> -sh ~/anaconda3/  <span class="hljs-comment"># 检查Anaconda占用空间</span><br><span class="hljs-built_in">which</span> nvcc  <span class="hljs-comment"># 查找nvcc位置</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="七、特殊情况：ESP-IDF环境清理"><a href="#七、特殊情况：ESP-IDF环境清理" class="headerlink" title="七、特殊情况：ESP-IDF环境清理"></a>七、特殊情况：ESP-IDF环境清理</h4><h5 id="8-1-问题发现和清理尝试"><a href="#8-1-问题发现和清理尝试" class="headerlink" title="8.1 问题发现和清理尝试"></a>8.1 问题发现和清理尝试</h5><p>检查发现遗留的ESP-IDF环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">### 发现两个位置</span><br>/home/dahao/anaconda3/envs/esp-idf-env  <span class="hljs-comment"># conda环境</span><br>/home/dahao/esp/esp-idf                 <span class="hljs-comment"># ESP-IDF主程序</span><br></code></pre></td></tr></table></figure>
+
+<p>尝试使用conda删除但失败：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda remove --name esp-idf-env --all<br><span class="hljs-comment">### 错误：EnvironmentLocationNotFound: Not a conda environment: /home/dahao/anaconda3/envs/esp-idf-env</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="8-2-解决方案"><a href="#8-2-解决方案" class="headerlink" title="8.2 解决方案"></a>8.2 解决方案</h5><p>直接手动删除相关目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">### 删除conda环境</span><br><span class="hljs-built_in">rm</span> -rf /home/dahao/anaconda3/envs/esp-idf-env<br><br><span class="hljs-comment">### 删除ESP-IDF主程序</span><br><span class="hljs-built_in">rm</span> -rf /home/dahao/esp/esp-idf<br><br><span class="hljs-comment">### 删除工具链目录（如果存在）</span><br><span class="hljs-built_in">rm</span> -rf ~/.espressif<br></code></pre></td></tr></table></figure>
+
+<h5 id="8-3-额外清理"><a href="#8-3-额外清理" class="headerlink" title="8.3 额外清理"></a>8.3 额外清理</h5><p>检查并清理<code>.bashrc</code>中的ESP-IDF相关配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim ~/.bashrc<br><br><span class="hljs-comment">### 找到并删除类似的配置行</span><br><span class="hljs-comment">### export IDF_PATH=&quot;/home/dahao/esp/esp-idf&quot;</span><br><span class="hljs-comment">### export PATH=&quot;$IDF_PATH/tools:$PATH&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>配置深度学习环境是一个复杂的过程，需要注意多个组件之间的版本兼容性。通过合理的环境管理和版本选择，可以避免很多不必要的问题。建议在开始配置之前先做好规划，使用独立的conda环境，并保持良好的环境管理习惯。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ai-chat/" class="category-chain-item">ai chat</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Ubuntu下深度学习环境配置历程和经验总结</div>
+      <div>https://blakehansen130.github.io/2024/11/19/Summarizing AI Assistant Conversation for Notes and Troubleshooting_2024-11-19T08-38-12/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/11/19/v2rayn-notes/" title="v2rayN使用笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">v2rayN使用笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/11/human_face_detect-1.1/" title="human_face_detect-1.1">
+                        <span class="hidden-mobile">human_face_detect-1.1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
