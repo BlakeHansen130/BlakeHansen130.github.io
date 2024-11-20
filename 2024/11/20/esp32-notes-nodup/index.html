@@ -1,0 +1,725 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ESP32-S3环境配置完整记录1. ESP-IDF环境搭建1.1 基础安装123456789# 克隆ESP-IDF仓库v4.4版本git clone -b release&#x2F;v4.4 --recursive https:&#x2F;&#x2F;github.com&#x2F;espressif&#x2F;esp-idf.git# 安装工具链cd esp-idf.&#x2F;install.sh# 配置环境变量. .&#x2F;export.sh  1.2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESP32-S3环境配置完整记录">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/11/20/esp32-notes-nodup/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="ESP32-S3环境配置完整记录1. ESP-IDF环境搭建1.1 基础安装123456789# 克隆ESP-IDF仓库v4.4版本git clone -b release&#x2F;v4.4 --recursive https:&#x2F;&#x2F;github.com&#x2F;espressif&#x2F;esp-idf.git# 安装工具链cd esp-idf.&#x2F;install.sh# 配置环境变量. .&#x2F;export.sh  1.2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/124424083_23107374_p0.png">
+<meta property="article:published_time" content="2024-11-20T08:05:26.678Z">
+<meta property="article:modified_time" content="2024-11-20T16:16:17.574Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/124424083_23107374_p0.png">
+  
+  
+  
+  <title>ESP32-S3环境配置完整记录 - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4749377_2bbylnq94i9.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/124419065_14690746_p1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ESP32-S3环境配置完整记录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-20 16:05" pubdate>
+          2024年11月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          948 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ESP32-S3环境配置完整记录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ESP32-S3环境配置完整记录"><a href="#ESP32-S3环境配置完整记录" class="headerlink" title="ESP32-S3环境配置完整记录"></a>ESP32-S3环境配置完整记录</h1><h2 id="1-ESP-IDF环境搭建"><a href="#1-ESP-IDF环境搭建" class="headerlink" title="1. ESP-IDF环境搭建"></a>1. ESP-IDF环境搭建</h2><h3 id="1-1-基础安装"><a href="#1-1-基础安装" class="headerlink" title="1.1 基础安装"></a>1.1 基础安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 克隆ESP-IDF仓库v4.4版本</span><br>git <span class="hljs-built_in">clone</span> -b release/v4.4 --recursive https://github.com/espressif/esp-idf.git<br><br><span class="hljs-comment"># 安装工具链</span><br><span class="hljs-built_in">cd</span> esp-idf<br>./install.sh<br><br><span class="hljs-comment"># 配置环境变量</span><br>. ./export.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-2-自启动脚本配置"><a href="#1-2-自启动脚本配置" class="headerlink" title="1.2 自启动脚本配置"></a>1.2 自启动脚本配置</h3><p>最初尝试创建类似Windows下的快捷方式，但发现在Ubuntu中直接修改当前shell更合适。</p>
+<p>最终验证可用的脚本(hello_world.sh):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment"># 加载 conda 命令</span><br><span class="hljs-built_in">source</span> ~/anaconda3/etc/profile.d/conda.sh<br><br><span class="hljs-comment"># 激活环境</span><br>conda activate dl_env<br><br><span class="hljs-comment"># 配置 ESP-IDF 环境</span><br><span class="hljs-built_in">source</span> ~/esp/esp-idf/export.sh<br><br><span class="hljs-comment"># 设置开发板和端口</span><br>idf.py set-target esp32s3<br><span class="hljs-built_in">export</span> ESPPORT=/dev/ttyCH341USB0<br><br><span class="hljs-comment"># 切换目录</span><br><span class="hljs-built_in">cd</span> ~/esp/esp-idf/examples/get-started/hello_world<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Conda 环境已激活，ESP-IDF 已配置为 esp32s3，串口设备为 <span class="hljs-variable">$&#123;ESPPORT&#125;</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>重要说明</strong>: 必须使用 <code>source hello_world.sh</code> 运行脚本，而不是直接执行 <code>./hello_world.sh</code>，否则环境变量无法在当前shell中生效。</p>
+<h3 id="1-3-Python环境问题处理"><a href="#1-3-Python环境问题处理" class="headerlink" title="1.3 Python环境问题处理"></a>1.3 Python环境问题处理</h3><p>运行脚本时遇到的Python依赖错误:</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs subunit"><span class="hljs-keyword">Error: </span>The following Python requirements are not satisfied:<br>click&gt;=7.0<br>future&gt;=0.15.2<br>pyserial&gt;=3.3<br>pyparsing&gt;=2.0.3,&lt;2.4.0<br>pyelftools&gt;=0.22<br>...<br>construct 2.10.68 requires python&lt;3.11<br></code></pre></td></tr></table></figure>
+
+<p>解决步骤:</p>
+<ol>
+<li><p>确保Python版本正确（必须 &lt;&#x3D; 3.10）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建新的conda环境</span><br>conda create -n esp-idf-env python=3.10<br>conda activate esp-idf-env<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>安装所需依赖:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install -r ~/esp/esp-idf/requirements.txt<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="2-CH341串口驱动安装配置"><a href="#2-CH341串口驱动安装配置" class="headerlink" title="2. CH341串口驱动安装配置"></a>2. CH341串口驱动安装配置</h2><h3 id="2-1-驱动安装过程"><a href="#2-1-驱动安装过程" class="headerlink" title="2.1 驱动安装过程"></a>2.1 驱动安装过程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 卸载旧版本驱动</span><br><span class="hljs-built_in">rm</span> -rf /lib/modlues/$(<span class="hljs-built_in">uname</span> -r)/kernel/drivers/usb/serial/ch341.ko<br><br><span class="hljs-comment"># 2. 解压驱动</span><br>unzip driver.zip<br><span class="hljs-built_in">cd</span> CH341SER_LINUX/driver<br><br><span class="hljs-comment"># 3. 编译驱动</span><br>make<br><br><span class="hljs-comment"># 4. 首次加载尝试</span><br><span class="hljs-built_in">sudo</span> insmod ch341.ko<br>或<br><span class="hljs-built_in">sudo</span> make load<br><span class="hljs-comment"># 错误: ERROR: could not insert module ch341.ko: Key was rejected by service</span><br><br><span class="hljs-comment"># 5. 强制加载驱动（如果首次加载失败其实强制加载也会失败，最终通过关闭bios中的secure boot解决，成功安装）</span><br><span class="hljs-built_in">sudo</span> modprobe -f ch341<br><br><span class="hljs-comment"># 6. 开机自动加载驱动</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">cp</span> ch341.ko /lib/modules/$(<span class="hljs-built_in">uname</span> -r)/kernel/drivers/usb/serial/<br><span class="hljs-built_in">sudo</span> depmod<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-串口权限和验证"><a href="#2-2-串口权限和验证" class="headerlink" title="2.2 串口权限和验证"></a>2.2 串口权限和验证</h3><ol>
+<li><p>添加用户到dialout组（需要注销重新登录生效）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> usermod -a -G dialout <span class="hljs-variable">$USER</span><br><span class="hljs-built_in">groups</span>  <span class="hljs-comment"># 验证用户组</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>如果权限问题仍然存在：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查设备权限</span><br><span class="hljs-built_in">ls</span> -l /dev/ttyUSB0<br><span class="hljs-comment"># 输出: crw-rw---- 1 root dialout 188, 0 日期 时间 /dev/ttyUSB0</span><br><br><span class="hljs-comment"># 临时修改权限</span><br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">chmod</span> 666 /dev/ttyCH341USB0<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>验证驱动加载和设备识别：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查驱动状态</span><br>lsmod | grep ch341<br><br><span class="hljs-comment"># 检查设备文件</span><br><span class="hljs-built_in">ls</span> /dev/ttyCH341USB*<br><span class="hljs-comment"># 应显示: /dev/ttyCH341USB0</span><br><br><span class="hljs-comment"># 查看系统日志</span><br>dmesg | grep <span class="hljs-built_in">tty</span><br><span class="hljs-comment"># 应包含:</span><br><span class="hljs-comment"># ch341-uart converter now attached to ttyUSB0</span><br><span class="hljs-comment"># ttyCH341USB0: ch341 USB device</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="3-ESP32开发操作"><a href="#3-ESP32开发操作" class="headerlink" title="3. ESP32开发操作"></a>3. ESP32开发操作</h2><h3 id="3-1-编译和烧录"><a href="#3-1-编译和烧录" class="headerlink" title="3.1 编译和烧录"></a>3.1 编译和烧录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 不指定串口时会报错</span><br>idf.py flash<br><span class="hljs-comment"># 错误: No serial ports found. Connect a device, or use &#x27;-p PORT&#x27; option to set a specific port.</span><br><br><span class="hljs-comment"># 正确的串口指定方式：</span><br><span class="hljs-comment"># 方式1: 直接指定串口</span><br>idf.py -p /dev/ttyCH341USB0 flash<br><br><span class="hljs-comment"># 方式2: 设置环境变量(推荐，已包含在启动脚本中)</span><br><span class="hljs-built_in">export</span> ESPPORT=/dev/ttyCH341USB0<br>idf.py flash<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-串口监控操作"><a href="#3-2-串口监控操作" class="headerlink" title="3.2 串口监控操作"></a>3.2 串口监控操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 启动监控</span><br>idf.py monitor  <span class="hljs-comment"># 会使用ESPPORT环境变量</span><br><span class="hljs-comment"># 或</span><br>idf.py -p /dev/ttyCH341USB0 monitor<br><br><span class="hljs-comment"># 退出监控: Ctrl + ]</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-3-设备连接管理"><a href="#3-3-设备连接管理" class="headerlink" title="3.3 设备连接管理"></a>3.3 设备连接管理</h3><p>断开设备前的注意事项：</p>
+<ol>
+<li>使用 <code>Ctrl + ]</code> 退出监控状态</li>
+<li>确认没有正在进行的数据传输或固件烧录</li>
+<li>确认完成后可以直接拔出USB连接线</li>
+</ol>
+<p>重新连接后：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 检查设备是否被正确识别</span><br><span class="hljs-built_in">ls</span> /dev/ttyCH341USB*<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-常见问题和解决方案"><a href="#4-常见问题和解决方案" class="headerlink" title="4. 常见问题和解决方案"></a>4. 常见问题和解决方案</h2><h3 id="4-1-设备识别问题"><a href="#4-1-设备识别问题" class="headerlink" title="4.1 设备识别问题"></a>4.1 设备识别问题</h3><p>当设备无法被识别时：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> /dev/ttyUSB*<br><span class="hljs-comment"># 报错: ls: cannot access &#x27;/dev/ttyUSB*&#x27;: No such file or directory</span><br></code></pre></td></tr></table></figure>
+
+<p>解决步骤：</p>
+<ol>
+<li>重新插拔设备</li>
+<li>尝试其他USB端口</li>
+<li>使用<code>ls /dev/ttyCH341USB*</code></li>
+<li>按之前的步骤重新检查驱动状态</li>
+</ol>
+<h3 id="4-2-编译和烧录失败"><a href="#4-2-编译和烧录失败" class="headerlink" title="4.2 编译和烧录失败"></a>4.2 编译和烧录失败</h3><p>可能的原因和解决方案：</p>
+<ol>
+<li><p>目标板设置错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">idf.py set-target esp32s3<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>烧录失败：</p>
+</li>
+</ol>
+<ul>
+<li>检查ESPPORT环境变量是否正确</li>
+<li>验证串口权限</li>
+<li>确认USB连接稳定</li>
+</ul>
+<h3 id="4-3-监控问题处理"><a href="#4-3-监控问题处理" class="headerlink" title="4.3 监控问题处理"></a>4.3 监控问题处理</h3><ol>
+<li>如果无法启动监控：</li>
+</ol>
+<ul>
+<li>确认没有其他程序占用串口</li>
+<li>检查串口权限和设备状态</li>
+</ul>
+<ol start="2">
+<li>监控退出：</li>
+</ol>
+<ul>
+<li>始终使用 <code>Ctrl + ]</code> 正常退出</li>
+<li>避免直接关闭终端窗口</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ai-chat/" class="category-chain-item">ai chat</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ESP32-S3环境配置完整记录</div>
+      <div>https://blakehansen130.github.io/2024/11/20/esp32-notes-nodup/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/20/ubuntu-config-guide-final/" title="Ubuntu 系统配置指南">
+                        <span class="hidden-mobile">Ubuntu 系统配置指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
