@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="模型量化优化技术文档量化基础实现在边缘设备部署深度学习模型时，量化是一种重要的模型优化技术。本项目实现了三种不同的量化策略：基础8位量化、层间均衡量化和混合精度量化。 数据准备所有量化策略都需要校准数据集来确定量化参数。以下是通用的数据加载实现： 12345678910111213141516class CalibrationDataset(Dataset):    def __init__(se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型量化优化技术文档">
+<meta property="og:url" content="https://blakehansen130.github.io/2024/11/29/model-quantization-docs/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="模型量化优化技术文档量化基础实现在边缘设备部署深度学习模型时，量化是一种重要的模型优化技术。本项目实现了三种不同的量化策略：基础8位量化、层间均衡量化和混合精度量化。 数据准备所有量化策略都需要校准数据集来确定量化参数。以下是通用的数据加载实现： 12345678910111213141516class CalibrationDataset(Dataset):    def __init__(se">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/124691157_19731971_p0.png">
+<meta property="article:published_time" content="2024-11-29T13:33:12.659Z">
+<meta property="article:modified_time" content="2024-11-29T13:59:02.678Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/124691157_19731971_p0.png">
+  
+  
+  
+  <title>模型量化优化技术文档 - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4749377_2bbylnq94i9.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/124662784_14772638_p0.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="模型量化优化技术文档"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-29 21:33" pubdate>
+          2024年11月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">模型量化优化技术文档</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="模型量化优化技术文档"><a href="#模型量化优化技术文档" class="headerlink" title="模型量化优化技术文档"></a>模型量化优化技术文档</h1><h2 id="量化基础实现"><a href="#量化基础实现" class="headerlink" title="量化基础实现"></a>量化基础实现</h2><p>在边缘设备部署深度学习模型时，量化是一种重要的模型优化技术。本项目实现了三种不同的量化策略：基础8位量化、层间均衡量化和混合精度量化。</p>
+<h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><p>所有量化策略都需要校准数据集来确定量化参数。以下是通用的数据加载实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CalibrationDataset</span>(<span class="hljs-title class_ inherited__">Dataset</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-variable language_">self</span>.X = torch.FloatTensor(X).unsqueeze(<span class="hljs-number">1</span>)<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__len__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(<span class="hljs-variable language_">self</span>.X)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getitem__</span>(<span class="hljs-params">self, idx</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.X[idx]<br><br><span class="hljs-comment"># 加载校准数据</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;cal.pkl&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    X_cal, _ = pickle.load(f)<br><br>cal_dataset = CalibrationDataset(X_cal)<br>cal_loader = DataLoader(cal_dataset, batch_size=<span class="hljs-number">32</span>, shuffle=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这个实现的关键点在于：</p>
+<ol>
+<li>使用校准集而不是训练集进行量化参数确定</li>
+<li>保持数据格式与训练时一致（添加通道维度）</li>
+<li>使用固定的batch size以确保量化结果的稳定性</li>
+</ol>
+<h2 id="量化策略实现"><a href="#量化策略实现" class="headerlink" title="量化策略实现"></a>量化策略实现</h2><h3 id="基础8位量化"><a href="#基础8位量化" class="headerlink" title="基础8位量化"></a>基础8位量化</h3><p>最简单的量化策略，将模型参数和激活值量化为8位定点数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">graph = espdl_quantize_onnx(<br>    onnx_import_file=ONNX_MODEL_PATH,<br>    espdl_export_file=EXPORT_PATH,<br>    calib_dataloader=cal_loader,<br>    calib_steps=<span class="hljs-number">50</span>,<br>    input_shape=[input_shape],<br>    target=<span class="hljs-string">&quot;esp32s3&quot;</span>,<br>    num_of_bits=<span class="hljs-number">8</span>,<br>    device=<span class="hljs-string">&quot;cpu&quot;</span>,<br>    error_report=<span class="hljs-literal">True</span>,<br>    verbose=<span class="hljs-number">1</span><br>)<br></code></pre></td></tr></table></figure>
+
+<p>这种方法的特点：</p>
+<ol>
+<li>实现简单，整体压缩率固定在4倍左右</li>
+<li>所有层使用相同的量化位宽</li>
+<li>可能在某些关键层造成较大精度损失</li>
+</ol>
+<h3 id="层间均衡量化"><a href="#层间均衡量化" class="headerlink" title="层间均衡量化"></a>层间均衡量化</h3><p>通过调整相邻层的数值范围来减小量化误差：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建量化设置</span><br>quant_setting = QuantizationSettingFactory.espdl_setting()<br><br><span class="hljs-comment"># 启用层间均衡</span><br>quant_setting.equalization = <span class="hljs-literal">True</span><br>quant_setting.equalization_setting.iterations = <span class="hljs-number">4</span><br>quant_setting.equalization_setting.value_threshold = <span class="hljs-number">0.4</span><br>quant_setting.equalization_setting.opt_level = <span class="hljs-number">2</span><br><br><span class="hljs-comment"># 由于均衡优化，需要将ReLU6转换为ReLU</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">convert_relu6_to_relu</span>(<span class="hljs-params">model</span>):<br>    <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> model.graph.node:<br>        <span class="hljs-keyword">if</span> node.op_type == <span class="hljs-string">&#x27;Relu6&#x27;</span>:<br>            node.op_type = <span class="hljs-string">&#x27;Relu&#x27;</span><br>    <span class="hljs-keyword">return</span> model<br><br>model = convert_relu6_to_relu(model)<br></code></pre></td></tr></table></figure>
+
+<p>这种方法的优势：</p>
+<ol>
+<li>通过层间权重重平衡减小量化误差</li>
+<li>不增加模型大小的情况下提升精度</li>
+<li>特别适合相邻层数值范围差异大的网络</li>
+</ol>
+<h3 id="混合精度量化"><a href="#混合精度量化" class="headerlink" title="混合精度量化"></a>混合精度量化</h3><p>对不同层使用不同的量化位宽，平衡精度和效率：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置混合精度量化配置</span><br>setting = QuantizationSettingFactory.espdl_setting()<br><br><span class="hljs-comment"># 对高误差层使用16位量化</span><br>high_error_layers = [<br>    <span class="hljs-string">&quot;/layers/layers.3/conv/conv.3/Conv&quot;</span>,<br>    <span class="hljs-string">&quot;/layers/layers.3/conv/conv.6/Conv&quot;</span>,<br>    <span class="hljs-string">&quot;/layers/layers.3/conv/conv.0/Conv&quot;</span>,<br>    <span class="hljs-string">&quot;/layers/layers.3/conv/conv.3/Conv&quot;</span><br>]<br><br><span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> high_error_layers:<br>    setting.dispatching_table.append(<br>        layer, <br>        get_target_platform(<span class="hljs-string">&quot;esp32s3&quot;</span>, <span class="hljs-number">16</span>)<br>    )<br></code></pre></td></tr></table></figure>
+
+<p>这种方法的特点：</p>
+<ol>
+<li>精度敏感层保持高精度</li>
+<li>其他层进行8位量化压缩</li>
+<li>在模型大小和精度间取得更好的平衡</li>
+</ol>
+<h2 id="量化模型评估"><a href="#量化模型评估" class="headerlink" title="量化模型评估"></a>量化模型评估</h2><p>所有量化策略使用相同的评估方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate_quantized_model</span>(<span class="hljs-params">graph, test_loader, y_test</span>):<br>    executor = TorchExecutor(graph=graph, device=<span class="hljs-string">&#x27;cpu&#x27;</span>)<br>    total_time = <span class="hljs-number">0</span><br>    correct = <span class="hljs-number">0</span><br>    total = <span class="hljs-number">0</span><br>    <br>    <span class="hljs-keyword">with</span> torch.no_grad():<br>        <span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> tqdm(test_loader):<br>            start = time.time()<br>            outputs = executor.forward(inputs=batch)<br>            total_time += (time.time() - start)<br>            <br>            _, predicted = torch.<span class="hljs-built_in">max</span>(outputs[<span class="hljs-number">0</span>], <span class="hljs-number">1</span>)<br>            total += batch.size(<span class="hljs-number">0</span>)<br>            correct += (predicted == y_test[total-batch.size(<span class="hljs-number">0</span>):total]).<span class="hljs-built_in">sum</span>().item()<br><br>    avg_time = (total_time / <span class="hljs-built_in">len</span>(test_loader)) * <span class="hljs-number">1000</span><br>    accuracy = (correct / total) * <span class="hljs-number">100</span><br>    <span class="hljs-keyword">return</span> avg_time, accuracy<br></code></pre></td></tr></table></figure>
+
+<p>评估指标包含两个关键维度：</p>
+<ol>
+<li>推理时间：反映量化后模型的实际执行效率</li>
+<li>模型精度：验证量化对模型性能的影响</li>
+</ol>
+<h2 id="实际部署验证"><a href="#实际部署验证" class="headerlink" title="实际部署验证"></a>实际部署验证</h2><p>为验证量化效果，实现了单张图片的推理测试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">predict_image</span>(<span class="hljs-params">graph, image_tensor</span>):<br>    executor = TorchExecutor(graph=graph, device=<span class="hljs-string">&#x27;cpu&#x27;</span>)<br>    <span class="hljs-keyword">with</span> torch.no_grad():<br>        outputs = executor.forward(inputs=[image_tensor])<br>        confidences = torch.softmax(outputs[<span class="hljs-number">0</span>], dim=<span class="hljs-number">1</span>).numpy()<br>    <span class="hljs-keyword">return</span> confidences<br></code></pre></td></tr></table></figure>
+
+<p>图像预处理保持与训练时一致：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">preprocess_image</span>(<span class="hljs-params">image_path</span>):<br>    img = cv2.imread(image_path)<br>    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)<br>    resized = cv2.resize(gray, TARGET_SIZE)<br>    normalized = resized.astype(<span class="hljs-string">&#x27;float32&#x27;</span>) / <span class="hljs-number">255.0</span><br>    image_tensor = torch.FloatTensor(normalized).unsqueeze(<span class="hljs-number">0</span>).unsqueeze(<span class="hljs-number">0</span>)<br>    <span class="hljs-keyword">return</span> image_tensor, img<br></code></pre></td></tr></table></figure>
+
+<h2 id="量化策略对比"><a href="#量化策略对比" class="headerlink" title="量化策略对比"></a>量化策略对比</h2><h3 id="基础8位量化-1"><a href="#基础8位量化-1" class="headerlink" title="基础8位量化"></a>基础8位量化</h3><ul>
+<li>优点：实现简单，压缩率固定</li>
+<li>缺点：某些层可能精度损失较大</li>
+<li>适用场景：模型结构简单，精度要求不高的场景</li>
+</ul>
+<h3 id="层间均衡量化-1"><a href="#层间均衡量化-1" class="headerlink" title="层间均衡量化"></a>层间均衡量化</h3><ul>
+<li>优点：不增加模型大小的情况下提升精度</li>
+<li>缺点：需要修改激活函数，可能影响模型表达能力</li>
+<li>适用场景：相邻层数值分布差异大的网络</li>
+</ul>
+<h3 id="混合精度量化-1"><a href="#混合精度量化-1" class="headerlink" title="混合精度量化"></a>混合精度量化</h3><ul>
+<li>优点：精度和压缩率的最佳平衡</li>
+<li>缺点：需要针对网络结构进行层的量化位宽选择</li>
+<li>适用场景：对某些层的精度有特殊要求的场景</li>
+</ul>
+<h2 id="实施建议"><a href="#实施建议" class="headerlink" title="实施建议"></a>实施建议</h2><ol>
+<li><p>量化策略选择</p>
+<ul>
+<li>首先尝试基础8位量化</li>
+<li>如果精度下降明显，考虑层间均衡</li>
+<li>如果仍不满足要求，使用混合精度量化</li>
+</ul>
+</li>
+<li><p>校准数据选择</p>
+<ul>
+<li>使用能代表实际应用场景的数据</li>
+<li>数据量不需要太大，但要覆盖各种情况</li>
+<li>标注数据需要准确</li>
+</ul>
+</li>
+<li><p>评估验证</p>
+<ul>
+<li>在实际部署硬件上进行测试</li>
+<li>关注模型大小和推理延迟</li>
+<li>验证不同输入下的模型表现</li>
+</ul>
+</li>
+<li><p>优化改进</p>
+<ul>
+<li>记录精度损失较大的层</li>
+<li>针对性调整量化策略</li>
+<li>在精度和效率间寻找平衡点</li>
+</ul>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/fyp/" class="category-chain-item">fyp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>模型量化优化技术文档</div>
+      <div>https://blakehansen130.github.io/2024/11/29/model-quantization-docs/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/11/29/esp32-deployment-docs/" title="ESP32手势识别部署实现文档">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ESP32手势识别部署实现文档</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/29/gesture-recognition-code-docs/" title="手势识别数据集处理和模型训练文档">
+                        <span class="hidden-mobile">手势识别数据集处理和模型训练文档</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
