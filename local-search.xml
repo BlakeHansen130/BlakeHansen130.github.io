@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>黑马python三、四章</title>
+    <link href="/2025/01/16/%E9%BB%91%E9%A9%ACpython%E4%B8%89%E3%80%81%E5%9B%9B%E7%AB%A0/"/>
+    <url>/2025/01/16/%E9%BB%91%E9%A9%ACpython%E4%B8%89%E3%80%81%E5%9B%9B%E7%AB%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="黑马python三、四章"><a href="#黑马python三、四章" class="headerlink" title="黑马python三、四章"></a>黑马python三、四章</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">num = <span class="hljs-number">10</span> <span class="hljs-comment"># 定义一个变量num，用于后续的条件判断 </span><br><span class="hljs-keyword">if</span> num &gt; <span class="hljs-number">5</span>: <span class="hljs-comment"># 判断num是否大于5，这是要判断的条件，结果为布尔类型（True或False），这里num &gt; 5为True </span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;num大于5&quot;</span>) <span class="hljs-comment"># 如果条件成立（num &gt; 5为True），则执行打印操作，这是条件成立时要做的事情，注意这里的代码块相对于if语句缩进了4个空格</span><br></code></pre></td></tr></table></figure><p>if elif else要点： </p><ul><li>elif可多个 </li><li>判断互斥有序，前满足后不判 </li><li>条件判断可直写input省代码<br>print默认换行，加<code>end=&#39;&#39;</code>可输出不换行，如<code>print(&quot;Hello&quot;, end=&#39;&#39;)</code>与<code>print(&quot;World&quot;, end=&#39;&#39;)</code>，结果<code>HelloWorld</code>同显一行，<code>end=&#39;&#39;</code>乃传参用法。<br>字符串中<code>\t</code>同<code>tab</code>键，可对齐多行字符串。如<code>print(&quot;Hello World&quot;)</code>等用空格难对齐，<code>print(&quot;Hello\tWorld&quot;)</code>等用<code>\t</code>可对齐。<br><code>print()</code>空内容九四输出一个换行。</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">i = <span class="hljs-number">0</span> <br><span class="hljs-keyword">while</span> i &lt; <span class="hljs-number">5</span>: <br><span class="hljs-built_in">print</span>(i) <br>i += <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure><p><code>range(start, stop, step)</code>：生成从<code>start</code>开始，以<code>step</code>为步长，到<code>stop - 1</code>的整数序列（<code>step</code>可为正或负）。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2</span>): <br><span class="hljs-built_in">print</span>(i)<br></code></pre></td></tr></table></figure><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">1 <br>3<br>5 <br>7 <br>9<br></code></pre></td></tr></table></figure><p>continue临时中断，break永久中断</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>黑马python一、二章</title>
     <link href="/2025/01/15/%E9%BB%91%E9%A9%ACpython%E4%B8%80%E3%80%81%E4%BA%8C%E7%AB%A0/"/>
     <url>/2025/01/15/%E9%BB%91%E9%A9%ACpython%E4%B8%80%E3%80%81%E4%BA%8C%E7%AB%A0/</url>
