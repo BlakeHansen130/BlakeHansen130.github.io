@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>黑马python十一、十二章</title>
+    <link href="/2025/01/20/%E9%BB%91%E9%A9%ACpython%E5%8D%81%E4%B8%80%E3%80%81%E5%8D%81%E4%BA%8C%E7%AB%A0/"/>
+    <url>/2025/01/20/%E9%BB%91%E9%A9%ACpython%E5%8D%81%E4%B8%80%E3%80%81%E5%8D%81%E4%BA%8C%E7%AB%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="黑马python十一、十二章"><a href="#黑马python十一、十二章" class="headerlink" title="黑马python十一、十二章"></a>黑马python十一、十二章</h1><p>推荐网站：<a href="http://www.ab173.com/">www.ab173.com</a></p><p><strong><code>sort</code> 函数</strong>：</p><ul><li><p>是列表对象的方法，只能对列表进行操作。</p></li><li><p>会直接修改原始列表，而不会返回一个新的列表。</p></li><li><p>语法为 <code>list.sort(key=None, reverse=False)</code>，其中：</p></li></ul><p>    - <code>key</code> 是一个函数，用于指定排序的依据，默认为 <code>None</code>。</p><p>    - <code>reverse</code> 是一个布尔值，用于指定排序的顺序，默认为 <code>False</code>，表示升序排序，设置为 <code>True</code> 时为降序排序。</p><p><strong><code>sorted</code> 函数</strong>：</p><ul><li><p>是 Python 的内置函数，可以对任何可迭代对象进行操作，如列表、元组、集合等。</p></li><li><p>会返回一个新的已排序列表，不会修改原始的可迭代对象。</p></li><li><p>语法为 <code>sorted(iterable, key=None, reverse=False)</code>，其中：</p></li></ul><p>    - <code>iterable</code> 是要排序的可迭代对象。</p><p>    - <code>key</code> 和 <code>reverse</code> 参数的含义与 <code>sort</code> 方法中的相同。</p><p>以下是使用 <code>sort</code> 和 <code>sorted</code> 的示例代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-comment"># 使用 sorted 函数</span><br><br>students = [&#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Alice&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>: <span class="hljs-number">20</span>&#125;, &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Bob&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>: <span class="hljs-number">18</span>&#125;, &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Charlie&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>: <span class="hljs-number">22</span>&#125;]<br><br>sorted_students = <span class="hljs-built_in">sorted</span>(students, key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-string">&#x27;age&#x27;</span>])<br><br><span class="hljs-built_in">print</span>(sorted_students)<br><br><span class="hljs-built_in">print</span>(students)  <span class="hljs-comment"># 原始列表 students 不变</span><br><br>  <br>  <br><br><span class="hljs-comment"># 使用 sort 方法</span><br><br>students = [&#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Alice&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>: <span class="hljs-number">20</span>&#125;, &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Bob&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>: <span class="hljs-number">18</span>&#125;, &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Charlie&#x27;</span>, <span class="hljs-string">&#x27;age&#x27;</span>: <span class="hljs-number">22</span>&#125;]<br><br>students.sort(key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-string">&#x27;age&#x27;</span>])<br><br><span class="hljs-built_in">print</span>(students)  <span class="hljs-comment"># 原始列表 students 已被修改</span><br><br></code></pre></td></tr></table></figure><p>在使用时的注意事项：</p><ul><li><p>如果需要保留原始列表的顺序，使用 <code>sorted</code> 函数。</p></li><li><p>如果不需要保留原始列表，并且想要节省内存，使用 <code>sort</code> 方法。</p></li><li><p>对于其他可迭代对象（如元组、集合），只能使用 <code>sorted</code> 函数，因为它们没有 <code>sort</code> 方法。</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>黑马python九、十章</title>
     <link href="/2025/01/19/%E9%BB%91%E9%A9%ACpython%E4%B9%9D%E3%80%81%E5%8D%81%E7%AB%A0/"/>
     <url>/2025/01/19/%E9%BB%91%E9%A9%ACpython%E4%B9%9D%E3%80%81%E5%8D%81%E7%AB%A0/</url>
