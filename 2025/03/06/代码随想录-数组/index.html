@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="代码随想录-数组数组理论基础数组是存放在连续内存空间上的相同类型数据的集合。  数组下标都是从0开始的。 数组内存空间的地址是连续的  为什么删除元素需要移动？假设我们有一个数组 [a, b, c, d]，存储在地址 1000、1004、1008、1012。现在我们要删除第 2 个元素 b（地址 1004）。删除后，如果什么都不做，内存里会变成 [a, (空), c, d]，地址是 1000、10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码随想录-数组">
+<meta property="og:url" content="https://blakehansen130.github.io/2025/03/06/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="代码随想录-数组数组理论基础数组是存放在连续内存空间上的相同类型数据的集合。  数组下标都是从0开始的。 数组内存空间的地址是连续的  为什么删除元素需要移动？假设我们有一个数组 [a, b, c, d]，存储在地址 1000、1004、1008、1012。现在我们要删除第 2 个元素 b（地址 1004）。删除后，如果什么都不做，内存里会变成 [a, (空), c, d]，地址是 1000、10">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blakehansen130.github.io/img/fun/127839272_1589657_p0.jpg">
+<meta property="article:published_time" content="2025-03-06T15:54:02.896Z">
+<meta property="article:modified_time" content="2025-03-06T15:58:23.830Z">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blakehansen130.github.io/img/fun/127839272_1589657_p0.jpg">
+  
+  
+  
+  <title>代码随想录-数组 - </title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4749377_2bbylnq94i9.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blakehansen130.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/fun/123096189_42399563_0.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Gao&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/fun/127851280_33740731_p0.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="代码随想录-数组"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-06 23:54" pubdate>
+          2025年3月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">代码随想录-数组</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="代码随想录-数组"><a href="#代码随想录-数组" class="headerlink" title="代码随想录-数组"></a>代码随想录-数组</h1><h2 id="数组理论基础"><a href="#数组理论基础" class="headerlink" title="数组理论基础"></a>数组理论基础</h2><p><strong>数组是存放在连续内存空间上的相同类型数据的集合。</strong></p>
+<ul>
+<li><strong>数组下标都是从0开始的。</strong></li>
+<li><strong>数组内存空间的地址是连续的</strong></li>
+</ul>
+<h3 id="为什么删除元素需要移动？"><a href="#为什么删除元素需要移动？" class="headerlink" title="为什么删除元素需要移动？"></a>为什么删除元素需要移动？</h3><p>假设我们有一个数组 <code>[a, b, c, d]</code>，存储在地址 1000、1004、1008、1012。现在我们要删除第 2 个元素 <code>b</code>（地址 1004）。删除后，如果什么都不做，内存里会变成 <code>[a, (空), c, d]</code>，地址是 1000、1004（空）、1008、1012。这样就出现了一个空隙，地址不再连续，数组的结构就被破坏了。</p>
+<p>为了保持数组的连续性，我们需要：</p>
+<ul>
+<li>将 <code>c</code> 从地址 1008 移动到 1004（填补 <code>b</code> 删除后的空位）。</li>
+<li>将 <code>d</code> 从地址 1012 移动到 1008。</li>
+<li>最终数组变成 <code>[a, c, d]</code>，地址是 1000、1004、1008，仍然是连续的。</li>
+</ul>
+<p><strong>原因总结</strong>：如果不移动元素，删除后会留下空隙，导致数组不再连续。而数组的定义要求元素必须连续存储，所以必须通过移动后续元素来填补空隙。</p>
+<hr>
+<h3 id="为什么增添元素需要移动？"><a href="#为什么增添元素需要移动？" class="headerlink" title="为什么增添元素需要移动？"></a>为什么增添元素需要移动？</h3><p>现在假设我们想在第 2 个位置插入一个新元素 <code>e</code>，原来的数组是 <code>[a, c, d]</code>，地址是 1000、1004、1008。我们希望结果变成 <code>[a, e, c, d]</code>。</p>
+<p>但问题在于，地址 1004 已经被 <code>c</code> 占用，后面也都是连续的，没有空隙直接放入 <code>e</code>。为了给 <code>e</code> 腾出空间，我们需要：</p>
+<ul>
+<li>先将 <code>d</code> 从 1008 移动到 1012。</li>
+<li>然后将 <code>c</code> 从 1004 移动到 1008。</li>
+<li>最后将 <code>e</code> 放入 1004。</li>
+<li>结果是 <code>[a, e, c, d]</code>，地址变成 1000、1004、1008、1012，仍然是连续的。</li>
+</ul>
+<p><strong>原因总结</strong>：因为数组是连续的，没有多余的空间直接插入新元素，必须通过移动已有元素来腾出位置，同时保持所有元素地址的连续性。</p>
+<hr>
+<h3 id="1-vector-和-array-的区别"><a href="#1-vector-和-array-的区别" class="headerlink" title="1. vector 和 array 的区别"></a><strong>1. vector 和 array 的区别</strong></h3><ul>
+<li><p>**<code>vector</code>**：</p>
+<ul>
+<li>是 C++ 标准模板库（STL）中的一种容器。</li>
+<li>它是一个动态数组的封装，意思是它的大小可以根据需要自动调整。</li>
+<li>当你添加或删除元素时，<code>vector</code> 会自动管理内存，比如在容量不足时重新分配更大的内存块。</li>
+<li>使用场景：需要动态调整大小的序列数据。</li>
+</ul>
+</li>
+<li><p>**<code>array</code>**（这里指的是 <code>std::array</code>）：</p>
+<ul>
+<li>是 C++11 引入的一种固定大小数组的封装。</li>
+<li>大小在编译时就必须确定，运行时无法改变。</li>
+<li>它是对传统 C 风格数组（如 <code>int arr[10]</code>）的改进，提供了更好的接口，但依然是固定长度的。</li>
+<li>使用场景：需要固定大小且已知元素数量的数据。</li>
+</ul>
+</li>
+</ul>
+<p>两者的核心区别在于：**<code>vector</code> 是动态的，而 <code>std::array</code> 是静态的**。</p>
+<hr>
+<h3 id="2-“严格来讲-vector-是容器，不是数组”"><a href="#2-“严格来讲-vector-是容器，不是数组”" class="headerlink" title="2. “严格来讲 vector 是容器，不是数组”"></a><strong>2. “严格来讲 vector 是容器，不是数组”</strong></h3><ul>
+<li><strong>容器</strong>：<ul>
+<li>在 C++ 中，“容器”是一个更广义的概念，指的是 STL 中用于存储和管理元素的数据结构，比如 <code>vector</code>、<code>list</code>、<code>map</code> 等。</li>
+<li><code>vector</code> 作为一个容器，不仅提供了数据存储，还封装了许多操作（如 <code>push_back</code>、<code>resize</code> 等）和自动内存管理。</li>
+</ul>
+</li>
+<li><strong>数组</strong>：<ul>
+<li>通常指的是一块连续的内存，用于存储相同类型的元素，比如 C 风格数组（<code>int arr[10]</code>）或 <code>std::array</code>。</li>
+<li>数组本身没有动态调整大小的能力，也没有像容器那样的丰富接口。</li>
+</ul>
+</li>
+<li><strong>区别</strong>：<ul>
+<li><code>vector</code> 虽然表现得像一个数组（连续内存、可通过索引访问），但它本质上是一个容器，提供了比普通数组更多的功能和灵活性。</li>
+</ul>
+</li>
+</ul>
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>写二分法，区间的定义一般为两种，左闭右闭即[left, right]，或者左闭右开即[left, right)。<br><strong>区间的定义就是不变量</strong><br><strong>前提是数组为有序数组</strong>，<strong>数组中无重复元素</strong></p>
+<ul>
+<li><p>时间复杂度：O(log n)</p>
+<ul>
+<li><p><strong>最坏情况</strong>：</p>
+<ul>
+<li>最坏情况发生在目标值不在数组中，或者位于区间的边界。此时，循环会一直执行，直到 <code>left &gt; right</code> 时退出。</li>
+<li>每次循环将区间大小从当前值（假设为 <code>k</code>）缩小到大约 <code>k/2</code>：<ul>
+<li>初始区间大小：<code>n</code>。</li>
+<li>第 1 次循环后：<code>n/2</code>。</li>
+<li>第 2 次循环后：<code>n/4</code>。</li>
+<li>第 3 次循环后：<code>n/8</code>。</li>
+<li>…</li>
+<li>第 k 次循环后：<code>n / 2^k</code>。</li>
+</ul>
+</li>
+<li>循环终止条件是区间大小小于 1，即 <code>n / 2^k &lt; 1</code>，也就是 <code>2^k &gt; n</code>。</li>
+<li>因此，循环次数 <code>k</code> 满足 <code>k ≈ log₂(n)</code>（对数以 2 为底），实际中需要向上取整，但渐进分析中忽略常数。</li>
+</ul>
+</li>
+<li><p><strong>时间复杂度结论</strong>：</p>
+<ul>
+<li>每次循环的计算（中点计算和比较）是 O(1)。</li>
+<li>循环执行 O(log n) 次。</li>
+<li>总时间复杂度 &#x3D; O(1) × O(log n) &#x3D; **O(log n)**。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>空间复杂度：O(1)</p>
+<ul>
+<li><strong>空间使用特点</strong><ul>
+<li>这些变量都是基本数据类型（<code>int</code>），每个占用固定大小的内存（通常是 4 或 8 字节，取决于系统架构）。</li>
+<li>变量数量固定为 3 个，与输入数组的大小 <code>n</code> 无关。</li>
+<li>没有递归调用（如果是递归实现，可能会有栈空间开销，但这里是迭代实现）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">search</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> target)</span> </span>&#123;<br>        <span class="hljs-type">int</span> left = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> right = nums.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (left &lt;= right) &#123;<br>            <span class="hljs-type">int</span> middle = left + ((right - left) / <span class="hljs-number">2</span>);<br>            <span class="hljs-keyword">if</span> (nums[middle] &gt; target) &#123;<br>                right = middle - <span class="hljs-number">1</span>;<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[middle] &lt; target) &#123;<br>                left = middle + <span class="hljs-number">1</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">return</span> middle;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="语法关键点总结"><a href="#语法关键点总结" class="headerlink" title="语法关键点总结"></a><strong>语法关键点总结</strong></h3><ul>
+<li><strong>类型声明</strong>：C++ 需要显式声明变量和函数的类型（如 <code>int</code>、<code>vector&lt;int&gt;</code>），Python 不需要。</li>
+<li><strong>代码块</strong>：C++ 用 <code>&#123;&#125;</code> 定义代码块，Python 用缩进。</li>
+<li><strong>动态数组</strong>：<code>vector&lt;int&gt;</code> 类似 Python 的 <code>list</code>，<code>nums.size()</code> 类似 <code>len(nums)</code>。</li>
+<li>**引用 <code>&amp;</code>**：表示传递数据的引用，类似 Python 中列表的默认行为。</li>
+<li><strong>访问控制</strong>：<code>public:</code> 是 C++ 特有，Python 没有。</li>
+<li><strong>整除</strong>：C++ 的 <code>/</code> 对整数自动向下取整，Python 用 <code>//</code>。<br><code>((right - left) &gt;&gt; 1)</code> 中的 <code>&gt;&gt;</code> 是 C++ 中的右移运算符。右移 1 位相当于将一个数除以 2 并向下取整（对于正数而言）。<br>因此，<code>((right - left) &gt;&gt; 1)</code> 等价于 <code>(right - left) / 2</code>，表示区间长度的一半。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], target: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        left, right = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(nums)  <span class="hljs-comment"># 定义target在左闭右开的区间里，即：[left, right)</span><br><br>        <span class="hljs-keyword">while</span> left &lt; right:  <span class="hljs-comment"># 因为left == right的时候，在[left, right)是无效的空间，所以使用 &lt;</span><br>            middle = left + (right - left) // <span class="hljs-number">2</span><br><br>            <span class="hljs-keyword">if</span> nums[middle] &gt; target:<br>                right = middle  <span class="hljs-comment"># target 在左区间，在[left, middle)中</span><br>            <span class="hljs-keyword">elif</span> nums[middle] &lt; target:<br>                left = middle + <span class="hljs-number">1</span>  <span class="hljs-comment"># target 在右区间，在[middle + 1, right)中</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">return</span> middle  <span class="hljs-comment"># 数组中找到目标值，直接返回下标</span><br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>  <span class="hljs-comment"># 未找到目标值</span><br></code></pre></td></tr></table></figure>
+<h3 id="语法关键点总结-1"><a href="#语法关键点总结-1" class="headerlink" title="语法关键点总结."></a><strong>语法关键点总结</strong>.</h3><p><code>def search(self, nums: List[int], target: int) -&gt; int:</code>**</p>
+<ul>
+<li><strong>语法含义</strong>：<ul>
+<li><code>def</code>：定义函数的关键字。</li>
+<li><code>search</code>：函数名。</li>
+<li><code>self</code>：类的实例参数，必须显式写出，表示调用该方法的对象本身。</li>
+<li><code>nums: List[int]</code>：参数 <code>nums</code> 的类型提示，<code>List[int]</code> 表示 <code>nums</code> 是一个包含整数的列表（来自 <code>typing</code> 模块）。</li>
+<li><code>target: int</code>：参数 <code>target</code> 的类型提示，表示它是一个整数。</li>
+<li><code>-&gt; int</code>：返回类型提示，表示函数返回一个整数。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：类型提示（如 <code>List[int]</code> 和 <code>-&gt; int</code>）是 Python 3.5+ 的特性，用于提高代码可读性，但不强制执行。</li>
+<li><strong>作用</strong>：定义了一个实例方法 <code>search</code>，接受列表 <code>nums</code> 和整数 <code>target</code>，并返回一个整数。</li>
+</ul>
+<h2 id="移除元素"><a href="#移除元素" class="headerlink" title="移除元素"></a>移除元素</h2><h3 id="“超出新长度后面的元素”是什么意思？"><a href="#“超出新长度后面的元素”是什么意思？" class="headerlink" title="“超出新长度后面的元素”是什么意思？"></a>“超出新长度后面的元素”是什么意思？</h3><p>这个说法指的是：数组在移除指定元素后，会有一个新的“有效长度”（即剩下的元素个数）。而数组的实际长度（内存中分配的空间）可能比这个有效长度大。题目告诉你，<strong>不需要关心或处理那些超出有效长度后面的部分</strong>。<br>简单来说：</p>
+<ul>
+<li>你只需要保证数组的前 <code>k</code> 个元素（<code>k</code> 是新长度）是移除 <code>val</code> 后的结果。</li>
+<li>数组后面剩下的部分（从第 <code>k</code> 个位置到末尾）可能还有一些原来的元素，但这些元素不会被认为是结果的一部分，所以不用管它们。</li>
+</ul>
+<p>双指针法（快慢指针法）： <strong>通过一个快指针和慢指针在一个for循环下完成两个for循环的工作。</strong></p>
+<ul>
+<li>快指针：寻找新数组的元素 ，新数组就是不含有目标元素的数组</li>
+<li>慢指针：指向更新 新数组下标的位置<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs perl"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<br>public:<br>    <span class="hljs-keyword">int</span> removeElement(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> val) &#123;<br>        <span class="hljs-keyword">int</span> slowIndex = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> fastIndex = <span class="hljs-number">0</span>; fastIndex &lt; nums.size(); fastIndex++) &#123;<br>            <span class="hljs-keyword">if</span> (val != nums[fastIndex]) &#123;<br>                nums[slowIndex++] = nums[fastIndex];<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> slowIndex;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="执行顺序总结"><a href="#执行顺序总结" class="headerlink" title="执行顺序总结"></a>执行顺序总结</h3><ol>
+<li><strong><code>for</code> 循环初始化</strong>：<code>fastIndex = 0</code>。</li>
+<li><strong>条件检查</strong>：<code>fastIndex &lt; nums.size()</code>，决定是否进入循环。</li>
+<li><strong>循环体</strong>：<ul>
+<li><strong>判断</strong>：<code>if (val != nums[fastIndex])</code>，检查当前元素是否需要保留。</li>
+<li><strong>赋值和自增</strong>：如果条件为真，执行 <code>nums[slowIndex++] = nums[fastIndex]</code>：<ul>
+<li>先用当前 <code>slowIndex</code> 的值作为下标，把 <code>nums[fastIndex]</code> 赋值过去。</li>
+<li>然后 <code>slowIndex</code> 自增 1。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>fastIndex</code> 自增</strong>：每次循环结束，<code>fastIndex++</code>。</li>
+<li>重复 2-4，直到 <code>fastIndex &lt; nums.size()</code> 为假。</li>
+</ol>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">（版本二）暴力法<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">removeElement</span>(<span class="hljs-params">self, nums: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>], val: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:<br>        i, l = <span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(nums)<br>        <span class="hljs-keyword">while</span> i &lt; l:<br>            <span class="hljs-keyword">if</span> nums[i] == val: <span class="hljs-comment"># 找到等于目标值的节点</span><br>                <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i+<span class="hljs-number">1</span>, l): <span class="hljs-comment"># 移除该元素，并将后面元素向前平移</span><br>                    nums[j - <span class="hljs-number">1</span>] = nums[j]<br>                l -= <span class="hljs-number">1</span><br>                i -= <span class="hljs-number">1</span><br>            i += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> l<br></code></pre></td></tr></table></figure>
+<code>i -= 1</code> 的作用是<strong>让指针 <code>i</code> 回退一步</strong>，以便在移除元素并调整数组后重新检查当前位置。这是必要的，因为平移操作可能会引入一个新的需要检查的元素到 <code>nums[i]</code> 的位置。<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs vim">class Solution:<br>    def removeElement(self, nums: List[<span class="hljs-keyword">int</span>], val: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>:<br>        n = <span class="hljs-built_in">len</span>(nums)<br>        <span class="hljs-keyword">left</span>, <span class="hljs-keyword">right</span>  = <span class="hljs-number">0</span>, n - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span>:<br>            <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> <span class="hljs-built_in">and</span> nums[<span class="hljs-keyword">left</span>] != val:<br>                <span class="hljs-keyword">left</span> += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> <span class="hljs-built_in">and</span> nums[<span class="hljs-keyword">right</span>] == val:<br>                <span class="hljs-keyword">right</span> -= <span class="hljs-number">1</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span>:<br>                nums[<span class="hljs-keyword">left</span>] = nums[<span class="hljs-keyword">right</span>]<br>                <span class="hljs-keyword">left</span> += <span class="hljs-number">1</span><br>                <span class="hljs-keyword">right</span> -= <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">left</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="result-A-size-0"><a href="#result-A-size-0" class="headerlink" title="result(A.size(), 0)**"></a><code>result(A.size(), 0)</code>**</h4><ul>
+<li>这是 <code>vector</code> 类的一个构造函数调用。</li>
+<li><strong>语法</strong>：<code>vector&lt;T&gt;(size_t n, const T&amp; val)</code>。<ul>
+<li>第一个参数 <code>n</code>：指定向量的大小（元素个数）。</li>
+<li>第二个参数 <code>val</code>：指定初始化的值，所有元素都被初始化为这个值。</li>
+</ul>
+</li>
+<li><strong>具体含义</strong>：<ul>
+<li><code>A.size()</code>：返回输入向量 <code>A</code> 的元素个数（假设为 <code>n</code>）。</li>
+<li><code>0</code>：每个元素初始化为 0。<br><strong>平方的大小比较直接相加与0进行比较即可</strong><br><strong>逆序遍历</strong>：</li>
+</ul>
+</li>
+<li><code>range(len(nums)-1, -1, -1)</code> 是 Python 中逆序遍历列表索引的标准方式。</li>
+<li>从最后一个元素到第一个元素，适合需要从尾部开始处理的场景。</li>
+<li><code>range</code> 的 <code>stop</code> 是独占的（不包含），所以 -1 表示停止在 0 之前。</li>
+</ul>
+<h2 id="长度最小的子数组"><a href="#长度最小的子数组" class="headerlink" title="长度最小的子数组"></a>长度最小的子数组</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs vim">lass Solution:<br>    def minSubArrayLen(self, s: <span class="hljs-keyword">int</span>, nums: List[<span class="hljs-keyword">int</span>]) -&gt; <span class="hljs-keyword">int</span>:<br>        <span class="hljs-keyword">l</span> = <span class="hljs-built_in">len</span>(nums)<br>        <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">right</span> = <span class="hljs-number">0</span><br>        min_len = float(<span class="hljs-string">&#x27;inf&#x27;</span>)<br>        cur_sum = <span class="hljs-number">0</span> #当前的累加值<br>        <br>        <span class="hljs-keyword">while</span> <span class="hljs-keyword">right</span> &lt; <span class="hljs-keyword">l</span>:<br>            cur_sum += nums[<span class="hljs-keyword">right</span>]<br>            <br>            <span class="hljs-keyword">while</span> cur_sum &gt;= s: # 当前累加值大于目标值<br>                min_len = <span class="hljs-built_in">min</span>(min_len, <span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span> + <span class="hljs-number">1</span>)<br>                cur_sum -= nums[<span class="hljs-keyword">left</span>]<br>                <span class="hljs-keyword">left</span> += <span class="hljs-number">1</span><br>            <br>            <span class="hljs-keyword">right</span> += <span class="hljs-number">1</span><br>        <br>        <span class="hljs-keyword">return</span> min_len <span class="hljs-keyword">if</span> min_len != float(<span class="hljs-string">&#x27;inf&#x27;</span>) <span class="hljs-keyword">else</span> <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>C++ 中有 INT_MAX 吗？</strong> 有，来自 <climits>。</p>
+</li>
+<li><p><strong>区别</strong>：INT_MAX 依赖 int 大小，INT32_MAX 固定为 32 位最大值。</p>
+</li>
+<li><p><strong>建议</strong>：现代 C++ 中，推荐用 <cstdint> 的固定宽度常量（如 INT32_MAX），以提高代码的可移植性和清晰度。</p>
+</li>
+<li><p><strong>C 中的 INT_MAX 来自什么库？</strong></p>
+<ul>
+<li>来自 &lt;limits.h&gt;，表示 int 类型的最大值。</li>
+</ul>
+</li>
+<li><p><strong>C 中有 INT32_MAX 吗？</strong></p>
+<ul>
+<li>在 C99 及之后有，来自 &lt;stdint.h&gt;，表示 32 位有符号整数的最大值。</li>
+<li>在 C89 中没有。<br><strong>在 C 中使用建议</strong>：</li>
+</ul>
+</li>
+<li><p>如果只需要基本的 int 限制，用 &lt;limits.h&gt; 的 INT_MAX。</p>
+</li>
+<li><p>如果需要固定 32 位整数，用 &lt;stdint.h&gt; 的 INT32_MAX（确保编译器支持 C99）。</p>
+</li>
+</ul>
+<h2 id="螺旋矩阵"><a href="#螺旋矩阵" class="headerlink" title="螺旋矩阵"></a>螺旋矩阵</h2><p><code>vector&lt;vector&lt;int&gt;&gt;</code> 是一个二维动态数组。<br>坚持一致的左闭右开，或者左开右闭的原则，这样这一圈才能按照统一的规则画下来。</p>
+<h3 id="两种写法的对比"><a href="#两种写法的对比" class="headerlink" title="两种写法的对比"></a><strong>两种写法的对比</strong></h3><h4 id="1-nums-0-n-for-in-range-n"><a href="#1-nums-0-n-for-in-range-n" class="headerlink" title="1. nums = [[0] * n for _ in range(n)]"></a><strong>1. <code>nums = [[0] * n for _ in range(n)]</code></strong></h4><ul>
+<li><strong>含义</strong>：<ul>
+<li>使用列表推导式，循环 <code>n</code> 次，每次创建一个独立的 <code>[0] * n</code> 列表。</li>
+<li>结果是一个 <code>n x n</code> 的二维列表，每个内层列表是独立的。</li>
+</ul>
+</li>
+<li><strong>内存结构</strong>：<ul>
+<li>外层列表包含 <code>n</code> 个不同的内层列表对象。</li>
+</ul>
+</li>
+<li><strong>示例（<code>n = 3</code>）</strong>：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = [[<span class="hljs-number">0</span>] * <span class="hljs-number">3</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br><span class="hljs-comment"># nums = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>行为</strong>：<ul>
+<li>修改某一行不会影响其他行。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nums[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span><br><span class="hljs-built_in">print</span>(nums)  <span class="hljs-comment"># [[1, 0, 0], [0, 0, 0], [0, 0, 0]]</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-nums-0-n-n"><a href="#2-nums-0-n-n" class="headerlink" title="2. nums = [[0] * n] * n"></a><strong>2. <code>nums = [[0] * n] * n</code></strong></h4><ul>
+<li><strong>含义</strong>：<ul>
+<li>先创建单个 <code>[0] * n</code> 列表（长度为 <code>n</code> 的全零列表）。</li>
+<li>然后用 <code>* n</code> 将这个列表重复 <code>n</code> 次，形成一个二维列表。</li>
+</ul>
+</li>
+<li><strong>内存结构</strong>：<ul>
+<li>外层列表包含 <code>n</code> 个元素，但它们<strong>全都引用同一个内层列表对象</strong>（浅拷贝）。</li>
+</ul>
+</li>
+<li><strong>示例（<code>n = 3</code>）</strong>：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = [[<span class="hljs-number">0</span>] * <span class="hljs-number">3</span>] * <span class="hljs-number">3</span><br><span class="hljs-comment"># nums = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]（表面上看一样）</span><br></code></pre></td></tr></table></figure></li>
+<li><strong>行为</strong>：<ul>
+<li>修改某一行会影响所有行，因为它们是同一个对象。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nums[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span><br><span class="hljs-built_in">print</span>(nums)  <span class="hljs-comment"># [[1, 0, 0], [1, 0, 0], [1, 0, 0]]（所有行都变）</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="关键区别：引用问题"><a href="#关键区别：引用问题" class="headerlink" title="关键区别：引用问题"></a><strong>关键区别：引用问题</strong></h3><h4 id="引用-vs-独立对象"><a href="#引用-vs-独立对象" class="headerlink" title="引用 vs 独立对象"></a><strong>引用 vs 独立对象</strong></h4><ul>
+<li>**<code>[[0] * n for _ in range(n)]</code>**：<ul>
+<li>每次循环调用 <code>[0] * n</code>，创建新的独立列表。</li>
+<li>外层列表的每个元素是不同的对象，内存地址不同。</li>
+<li>检查内存地址：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = [[<span class="hljs-number">0</span>] * <span class="hljs-number">3</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br><span class="hljs-built_in">print</span>([<span class="hljs-built_in">id</span>(row) <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> nums])  <span class="hljs-comment"># [不同地址1, 不同地址2, 不同地址3]</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>**<code>[[0] * n] * n</code>**：<ul>
+<li>只创建一次 <code>[0] * n</code>，然后通过 <code>*</code> 重复引用这个对象。</li>
+<li>外层列表的每个元素指向同一个内层列表，内存地址相同。</li>
+<li>检查内存地址：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">nums = [[<span class="hljs-number">0</span>] * <span class="hljs-number">3</span>] * <span class="hljs-number">3</span><br><span class="hljs-built_in">print</span>([<span class="hljs-built_in">id</span>(row) <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> nums])  <span class="hljs-comment"># [同一地址, 同一地址, 同一地址]</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="浅拷贝效应"><a href="#浅拷贝效应" class="headerlink" title="浅拷贝效应"></a><strong>浅拷贝效应</strong></h4><ul>
+<li>在 Python 中，<code>*</code> 操作对列表是<strong>浅拷贝</strong>：<ul>
+<li>它复制引用，而不是创建新对象。</li>
+<li>对于不可变对象（如整数 <code>0</code>），<code>*</code> 没有问题。</li>
+<li>对于可变对象（如列表 <code>[0]</code>），会导致所有引用指向同一个对象。<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-built_in">int</span>** generateMatrix(<span class="hljs-built_in">int</span> n, <span class="hljs-built_in">int</span>* returnSize, <span class="hljs-built_in">int</span>** returnColumnSizes)&#123;<br>    <span class="hljs-comment">//初始化返回的结果数组的大小</span><br>    *returnSize = n;<br>    *returnColumnSizes = (<span class="hljs-built_in">int</span>*)malloc(sizeof(<span class="hljs-built_in">int</span>) * n);<br>    <span class="hljs-comment">//初始化返回结果数组ans</span><br>    <span class="hljs-built_in">int</span>** ans = (<span class="hljs-built_in">int</span>**)malloc(sizeof(<span class="hljs-built_in">int</span>*) * n);<br>    <span class="hljs-built_in">int</span> i;<br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        ans[i] = (<span class="hljs-built_in">int</span>*)malloc(sizeof(<span class="hljs-built_in">int</span>) * n);<br>        (*returnColumnSizes)[i] = n;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><strong>语法</strong>：<ul>
+<li>**for(i &#x3D; 0; i &lt; n; i++)**：<ul>
+<li>i &#x3D; 0：初始化循环变量 i 为 0。</li>
+<li>i &lt; n：条件，当 i &lt; n 时执行循环体。</li>
+<li>i++：每次迭代后 i 增加 1。</li>
+<li>循环范围：i &#x3D; 0, 1, …, n-1。</li>
+</ul>
+</li>
+<li>*<em>ans[i] &#x3D; (int</em>)malloc(sizeof(int) * n);**：<ul>
+<li>ans[i]：访问 ans 的第 i 个元素（一个 int*）。</li>
+<li>(int*)：将 malloc 的 void* 转换为 int*。</li>
+<li>malloc(sizeof(int) * n)：为一行分配 n 个整数的内存。</li>
+<li>&#x3D;：将分配的内存地址赋给 ans[i]。</li>
+</ul>
+</li>
+<li>**(*returnColumnSizes)[i] &#x3D; n;**：<ul>
+<li>*returnColumnSizes：解引用得到列大小数组的指针。</li>
+<li>(*returnColumnSizes)[i]：访问第 i 个元素。</li>
+<li>&#x3D; n：将 n 赋给该元素，表示第 i 行的列数是 n。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>意义</strong>：<ul>
+<li>循环 n 次，为矩阵的每一行分配内存，并设置列大小。</li>
+<li>示例（n &#x3D; 3）：<ul>
+<li>ans[0] &#x3D; malloc(12)：第 0 行，分配 3 个整数。</li>
+<li>ans[1] &#x3D; malloc(12)：第 1 行。</li>
+<li>ans[2] &#x3D; malloc(12)：第 2 行。</li>
+<li>(*returnColumnSizes)[0] &#x3D; 3, [1] &#x3D; 3, [2] &#x3D; 3：每行有 3 列。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>解引用顺序</strong>：</li>
+<li>(*returnColumnSizes)[i]：先解引用再索引，等价于 returnColumnSizes[0][i]。</li>
+</ul>
+<h2 id="区间和"><a href="#区间和" class="headerlink" title="区间和"></a>区间和</h2><p>前缀和的思想是重复利用计算过的子数组之和，从而降低区间查询需要累加计算的次数。<br><strong>前缀和 在涉及计算区间和的问题时非常有用</strong>！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span> n, a, b;<br>    cin &gt;&gt; n;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">vec</span><span class="hljs-params">(n)</span></span>;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">p</span><span class="hljs-params">(n)</span></span>;<br>    <span class="hljs-type">int</span> presum = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;vec[i]);<br>        presum += vec[i];<br>        p[i] = presum;<br>    &#125;<br><br>    <span class="hljs-keyword">while</span> (~<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>, &amp;a, &amp;b)) &#123;<br>        <span class="hljs-type">int</span> sum;<br>        <span class="hljs-keyword">if</span> (a == <span class="hljs-number">0</span>) sum = p[b];<br>        <span class="hljs-keyword">else</span> sum = p[b] - p[a - <span class="hljs-number">1</span>];<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, sum);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在 C++ 中，使用 <code>std::cin</code> 和 <code>std::cout</code> 时，默认会与 C 语言的标准 I&#x2F;O（<code>stdio</code>）进行同步，以保证混用时的数据正确性。但这种同步机制会带来额外的开销，尤其在处理大量数据时，这部分开销就显得尤为明显。相比之下，<code>scanf</code> 和 <code>printf</code> 直接调用 C 标准库的函数，不存在这种同步过程，因此在大量数据的读写操作中，它们通常会快得多。<br>在 <code>scanf</code> 函数中，<code>&quot;%d&quot;</code> 是一个格式控制符，表示期望输入的是一个十进制整数。<br>在二进制补码表示法中，-1 的二进制形式是所有位都是 1。取反（<code>~</code> 操作符）会把每一位都变成相反的值，所以 <code>~(-1)</code> 就会变成所有位为 0，也就是整数 0。<br>对于 <code>scanf</code>，当成功读取数据时，它返回读取成功的项数（例如，读取两个整数则返回 2），这些数值在二进制补码中并不全是 1，取反后肯定不会得到 0。因此，只有当 <code>scanf</code> 遇到文件结束（EOF）返回 -1 时，<code>~(-1)</code> 才会等于 0，从而结束循环。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs vim">import sys<br><span class="hljs-built_in">input</span> = sys.stdin.<span class="hljs-keyword">read</span><br><br>def main():<br>    data = <span class="hljs-built_in">input</span>().<span class="hljs-keyword">split</span>()<br>    <span class="hljs-built_in">index</span> = <span class="hljs-number">0</span><br>    n = <span class="hljs-keyword">int</span>(data[<span class="hljs-built_in">index</span>])<br>    <span class="hljs-built_in">index</span> += <span class="hljs-number">1</span><br>    vec = []<br>    <span class="hljs-keyword">for</span> i in <span class="hljs-built_in">range</span>(n):<br>        vec.<span class="hljs-keyword">append</span>(<span class="hljs-keyword">int</span>(data[<span class="hljs-built_in">index</span> + i]))<br>    <span class="hljs-built_in">index</span> += n<br><br>    <span class="hljs-keyword">p</span> = [<span class="hljs-number">0</span>] * n<br>    presum = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i in <span class="hljs-built_in">range</span>(n):<br>        presum += vec[i]<br>        <span class="hljs-keyword">p</span>[i] = presum<br><br>    results = []<br>    <span class="hljs-keyword">while</span> <span class="hljs-built_in">index</span> &lt; <span class="hljs-built_in">len</span>(data):<br>        <span class="hljs-keyword">a</span> = <span class="hljs-keyword">int</span>(data[<span class="hljs-built_in">index</span>])<br>        <span class="hljs-keyword">b</span> = <span class="hljs-keyword">int</span>(data[<span class="hljs-built_in">index</span> + <span class="hljs-number">1</span>])<br>        <span class="hljs-built_in">index</span> += <span class="hljs-number">2</span><br><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">a</span> == <span class="hljs-number">0</span>:<br>            sum_value = <span class="hljs-keyword">p</span>[<span class="hljs-keyword">b</span>]<br>        <span class="hljs-keyword">else</span>:<br>            sum_value = <span class="hljs-keyword">p</span>[<span class="hljs-keyword">b</span>] - <span class="hljs-keyword">p</span>[<span class="hljs-keyword">a</span> - <span class="hljs-number">1</span>]<br><br>        results.<span class="hljs-keyword">append</span>(sum_value)<br><br>    <span class="hljs-keyword">for</span> result in results:<br>        <span class="hljs-keyword">print</span>(result)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<p>在 Python 中，<code>sys.stdin.read</code> 是一个方法，用于一次性读取标准输入（通常是从键盘输入或重定向的文件）的所有内容。将它赋值给 <code>input</code> 意味着你用 <code>input()</code> 调用时，就会执行 <code>sys.stdin.read()</code> 方法，返回整个输入字符串。<br><strong>查询输入：</strong><br><code>while index &lt; len(data):</code> 表示只要还有未处理的数据，就继续循环。每次循环从 <code>data</code> 中取出两个数字，分别赋值给 <code>a</code> 和 <code>b</code>，这两个数字代表一个查询区间的起始和结束下标。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> num;<br>    <span class="hljs-comment">// 读取数组长度</span><br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;num);<br><br>    <span class="hljs-comment">// 使用动态内存分配而不是静态数组，以适应不同的输入大小</span><br>    <span class="hljs-type">int</span> *a = (<span class="hljs-type">int</span> *)<span class="hljs-built_in">malloc</span>((num + <span class="hljs-number">1</span>) * <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>));<br><br>    <span class="hljs-comment">// 初始化前缀和数组的第一个元素为0</span><br>    a[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">// 读取数组元素并计算前缀和</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= num; i++)<br>    &#123;<br>        <span class="hljs-type">int</span> mm;<br>        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;mm);<br>        <span class="hljs-comment">// 累加前缀和</span><br>        a[i] = a[i - <span class="hljs-number">1</span>] + mm;<br>    &#125;<br><br>    <span class="hljs-type">int</span> m, n;<br>    <span class="hljs-comment">// 循环读取区间并计算区间和，直到输入结束</span><br>    <span class="hljs-comment">// scanf()返回成功匹配和赋值的个数,到达文件末尾则返回 EOF</span><br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>, &amp;m, &amp;n) == <span class="hljs-number">2</span>)<br>    &#123;<br>        <span class="hljs-comment">// 输出区间和，注意区间是左闭右开，因此a[n+1]是包含n的元素的前缀和</span><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a[n<span class="hljs-number">+1</span>] - a[m]);<br>    &#125;<br><br>    <span class="hljs-comment">// 释放之前分配的内存</span><br>    <span class="hljs-built_in">free</span>(a);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong><code>scanf</code> 返回值：</strong><br><code>scanf</code> 函数在读取输入时，会返回成功读入的变量个数。<br>在这个代码中：</p>
+<ul>
+<li>a[i] &#x3D; 从0到i-1的元素和，所以：<ul>
+<li>a[n+1] &#x3D; 从0到n的元素和，</li>
+<li>a[m] &#x3D; 从0到m-1的元素和。<br>a[n+1] - a[m] &#x3D; (从0到n的和) - (从0到m-1的和) &#x3D; 从m到n的元素和</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/learn/%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93.png" srcset="/img/fun/123096189_42399563_0.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>代码随想录-数组</div>
+      <div>https://blakehansen130.github.io/2025/03/06/代码随想录-数组/</div>
+    </div>
+    <div class="license-meta">
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/25/%E9%BB%91%E9%A9%ACpython%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%E7%AC%AC%E4%B8%80%E7%AB%A0/" title="黑马python第二阶段第一章">
+                        <span class="hidden-mobile">黑马python第二阶段第一章</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
